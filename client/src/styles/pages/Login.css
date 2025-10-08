@@ -1,0 +1,113 @@
+.login-container {
+    position: relative;
+    height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Círculo azul en la esquina superior derecha */
+.login-container::before {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background-color: #c6e4f8;
+    border-radius: 50%;
+    top: -150px;
+    right: -150px;
+    z-index: -1;
+  }
+  
+/* Círculo verde en la esquina inferior izquierda */
+.login-container::after {
+    content: "";
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background-color: #c6f8d6;
+    border-radius: 50%;
+    bottom: -125px;
+    left: -125px;
+    z-index: -1;
+  }
+
+.login-title {
+    position: absolute;
+    border-radius: 50%;
+    background-color: #dc8cf5;
+    color: white;
+    padding: 12px 12px;
+    width: 250px;
+    height: 250px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -2;
+}
+
+.login-form {
+    margin-top: 150px;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid black;
+    input{
+        padding: 6px 6px;
+        border-radius: 12px;
+        border: 1px solid black;
+        margin-bottom: 12px;
+        background-color: white;
+    }
+    label{
+        font-size: 15px;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+    span{
+        font-size: 12px;
+        cursor: pointer;
+        text-align: end;
+    }
+}
+
+.button {
+    width: 100%;
+    max-width: 350px;
+    padding: 12px 12px;
+    border-radius: 24px;
+    border: none;
+    cursor: pointer;
+    margin: 12px 0;
+}
+
+.button-paciente {
+    background-color: #1565c0;;
+    color: white;
+}
+
+.button-profesional {
+    background-color: white;
+    color: #1565c0;
+    border: 2px solid #1565c0;
+}
+
+.button-login {
+    background-color: #dc8cf5;
+    color: white;
+}
+
+.button-back {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: white;
+    color: #1565c0;
+    border: 2px solid #1565c0;
+}
