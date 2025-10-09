@@ -1,9 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import '@/styles/pages/Login.css'
-import blob from '@/assets/login.png'
-import logo from '@/assets/logo.png'
+import '@styles/pages/Login.css'
 import PacienteLogin from './PacienteLogin'
 import ProfesionalLogin from './ProfesionalLogin'
 import { useState } from 'react'
@@ -31,14 +29,19 @@ export default function Login() {
     } else {
         return (
             <div className="login-container">
-                <Image src={blob} alt="Logo" width={300} height={300} />
-                <button className="button button-paciente" onClick={handlePacienteLogin}>
+                <div className="login-title">
+                    <Image src="/assets/login.png" alt="Logo" width={287} height={245} priority/>
+                </div>
+                <div className="login-options">
+                <button className="button-paciente" onClick={handlePacienteLogin}>
                     Soy Paciente
                 </button>
-                <button className="button button-profesional" onClick={handleProfesionalLogin}>
+                <button className="button-profesional" onClick={handleProfesionalLogin}>
                     Soy Profesional
                 </button>
-                <Image src={logo} alt="Logo" width={50} height={50} />
+                <Image className="logo" src="/assets/icons/logo-icon.svg" alt="Logo" width={40} height={44} priority/>
+                </div>
+
             </div>
         )
     }
