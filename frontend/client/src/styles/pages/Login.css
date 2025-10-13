@@ -1,4 +1,3 @@
-
 button{
     width: 100%;
     padding: 12px 12px;
@@ -8,6 +7,7 @@ button{
     margin: 12px 0;
 }
 
+/* Contenedor principal */
 .login-container {
     position: relative;
     height: 100dvh;
@@ -44,6 +44,7 @@ button{
     z-index: -1;
   }
 
+  /* Titulo */
 .login-title {
     position: absolute;
     margin-bottom: 125px;
@@ -61,43 +62,38 @@ button{
     z-index: -2;
 }
 
-.login-options{
-    position: absolute;
-    margin-top: 400px;
-    max-width: 380px;
+/* Opciones */
+.options{
     width: 100%;
+    max-width: 380px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 420px;
 }
 
-.login-options .button-paciente {
-    background-color: #1565c0;;
+.button-login{
+    background-color: #00579B;
     color: white;
 }
 
-.login-options .button-profesional {
-    background-color: white;
-    color: #1565c0;
-    border: 2px solid #1565c0;
+.button-register{
+    background-color: #FAFAFA;
+    color: #00579B;
+    border: 1px solid #00579B;
 }
 
-.login-body {
-    font-size: 12px;
+/* Formulario de inicio de sesion */
+.login-form{
+    width: 380px;
+    margin-top: 260px;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid rgb(68, 55, 240);
     font-weight: bold;
-    margin-top: 270px;
-    width: 350px;
-    display: flex;
-    flex-direction: column;
 }
 
-.login-body form{
-    display: flex;
-    flex-direction: column;
-    border-bottom: 1px solid black;
-}
-
-.login-body input{
+.login-form input{
     padding: 6px 6px;
     border-radius: 12px;
     border: 1px solid black;
@@ -105,40 +101,61 @@ button{
     background-color: white;
 }
 
-.login-body label{
+.login-form label{
     margin-bottom: 8px;
 }
 
-.login-body .register{
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-}
-
-.login-body .register a{
-    color: #1565c0;
-}
-
-.login-body .forgot-password{
+.login-form span{
     text-align: end;
 }
 
-.register-options{
-    padding-top: 16px;
+.login-form button {
+    background-color: #979797;
+    color: white;
+}
+
+/* Opciones de inicio de sesion */
+.login-options{
     display: flex;
-    justify-content: center;
+    padding-top: 16px;
     gap: 16px;
 }
 
-.button-login {
-    background-color: #6e6d6e;
+
+/* Formulario de registro */
+.register-form{
+    width: 380px;
+    margin-top: 260px;
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+}
+
+.register-form input{
+    padding: 6px 6px;
+    border-radius: 12px;
+    border: 1px solid black;
+    margin-bottom: 12px;
+    background-color: white;
+}
+
+.register-form label{
+    margin-bottom: 8px;
+}
+
+.register-form span{
+    text-align: end;
+}
+
+.register-form button {
+    background-color: #979797;
     color: white;
 }
 
 .button-back {
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     top: 10px;
     left: 10px;
     background-color: white;

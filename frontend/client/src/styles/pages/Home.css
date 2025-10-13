@@ -3,14 +3,13 @@ main {
   display: flex;
   flex-direction: column;
   align-content: center;
-  padding: 24px 16px;
 }
 
 /* Barra de búsqueda */
 .search-bar {
   display: flex;
-  width: 100%;
   gap: 6px;
+  padding: 24px 12px;
 }
 
 .search-bar input {
@@ -39,7 +38,8 @@ main {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding: 24px 0px;
+  padding: 6px 12px;
+  
 }
 
 .category-cards article {
@@ -59,11 +59,13 @@ main {
     0 5px 10px 0 rgba(0, 0, 0, 0.19);
 }
 
+
 /* Lista de turnos */
 .appointments-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  padding: 12px 12px;
 }
 
 .appointments-list article {

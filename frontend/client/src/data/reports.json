@@ -1,0 +1,47 @@
+
+{
+  "reports": [
+    {
+      "id": "1",
+      "title": "Análisis de Sangre",
+      "date": "02/03/25",
+      "doctor": "Dr. Martín Rivera",
+      "status": "Disponibles"
+    },
+    {
+      "id": "2",
+      "title": "Prueba de Esfuerzo",
+      "date": "15/02/25",
+      "doctor": "Dr. Martín Rivera",
+      "status": "Pendientes"
+    },
+    {
+      "id": "3",
+      "title": "Radiografía de Tórax",
+      "date": "22/02/25",
+      "doctor": "Dr. Martín Rivera",
+      "status": "Disponibles"
+    },
+    {
+      "id": "4",
+      "title": "Ultrasonido Abdominal",
+      "date": "05/03/25",
+      "doctor": "Dr. Martín Rivera",
+      "status": "Pendientes"
+    },
+    {
+      "id": "5",
+      "title": "Control Prenatal",
+      "date": "28/02/25",
+      "doctor": "Dr. Martín Rivera",
+      "status": "Disponibles"
+    },
+    {
+      "id": "6",
+      "title": "Prueba de Embarazo",
+      "date": "10/03/25",
+      "doctor": "Dr. Martín Rivera",
+      "status": "Pendientes"
+    }
+  ]
+}

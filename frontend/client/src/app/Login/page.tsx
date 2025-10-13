@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import "@styles/pages/Login.css";
-import PacienteLogin from "./PacienteLogin";
-import ProfesionalLogin from "./ProfesionalLogin";
+import PacienteLogin from "./components/SignIn";
+import ProfesionalLogin from "./components/SignUp";
 import { useState } from "react";
 
 export default function Login() {
@@ -38,23 +38,19 @@ export default function Login() {
             priority
           />
         </div>
-        <div className="login-options">
-          <button className="button-paciente" onClick={handlePacienteLogin}>
-            Soy Paciente
+        <div className="options">
+          <button className="button-login" onClick={handlePacienteLogin}>
+            Iniciar Sesion
           </button>
-          <button
-            className="button-profesional"
-            onClick={handleProfesionalLogin}
-          >
-            Soy Profesional
+          <button className="button-register" onClick={handleProfesionalLogin}>
+            Registrarse
           </button>
-          <Image
+          <img  
             className="logo"
             src="/assets/icons/logo-icon.svg"
             alt="Logo"
             width={40}
             height={44}
-            priority
           />
         </div>
       </div>
