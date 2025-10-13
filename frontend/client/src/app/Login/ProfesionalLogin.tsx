@@ -12,17 +12,17 @@ export default function ProfesionalLogin({ onBack }: ProfesionalLoginProps) {
             </button>
             <div className="login-title">Soy Profesional</div>
             <div className="login-body">
-                <form action="">
-                    <label htmlFor="">Correo electronico</label>
-                    <input type="text" placeholder="Correo electronico" />
-                    <label htmlFor="">Contraseña</label>
-                    <input type="password" placeholder="Contraseña" />
+                <form className="login-form" action="">
+                    <label htmlFor="profesional-email">Correo electronico</label>
+                    <input id="profesional-email" type="email" placeholder="Correo electronico" />
+                    <label htmlFor="profesional-password">Contraseña</label>
+                    <input id="profesional-password" type="password" placeholder="Contraseña" />
                     <span className="forgot-password">Olvide mi contraseña</span>
-                    <button className="button-login" type="submit">Iniciar Sesión</button>
+                    <button className="button button-login" type="submit">Iniciar Sesión</button>
                 </form>
                 <div className="register">
                     <span>¿No tienes cuenta?  </span>
-                    <a href="" >Registrarse</a>
+                    <button type="button" className="register-link">Registrarse</button>
                 </div>
                 <div className="register-options">
                     <Image src="/assets/icons/google-icon.svg" alt="google" width={40} height={40} />

@@ -12,22 +12,23 @@ export default function PacienteLogin({ onBack }: PacienteLoginProps) {
             </button>
             <div className="login-title">Soy Paciente</div>
             <div className="login-body">
-                <form action="">
-                    <label htmlFor="">Correo electronico</label>
-                    <input type="text" placeholder="Correo electronico" />
-                    <label htmlFor="">Contraseña</label>
-                    <input type="password" placeholder="Contraseña" />
+                <form className="login-form" action="">
+                    <label htmlFor="paciente-email">Correo electronico</label>
+                    <input id="paciente-email" type="email" placeholder="Correo electronico" />
+                    <label htmlFor="paciente-password">Contraseña</label>
+                    <input id="paciente-password" type="password" placeholder="Contraseña" />
                     <span className="forgot-password">Olvide mi contraseña</span>
-                    <button className="button-login" type="submit">Iniciar Sesión</button>
+                    <button className="button button-login" type="submit">Iniciar Sesión</button>
                 </form>
                 <div className="register">
                     <span>¿No tienes cuenta?  </span>
-                    <a href="" >Registrarse</a>
+                    <button type="button" className="register-link">Registrarse</button>
                 </div>
                 <div className="register-options">
                     <Image src="/assets/icons/google-icon.svg" alt="google" width={40} height={40} />
                     <Image src="/assets/icons/facebook-icon.svg" alt=" facebook" width={40} height={40} />
                 </div>
+                
             </div>
         </div>
     )

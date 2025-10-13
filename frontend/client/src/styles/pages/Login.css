@@ -69,20 +69,18 @@ button{
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    .button-paciente {
-        background-color: #1565c0;;
-        color: white;
-    }
-    
-    .button-profesional {
-        background-color: white;
-        color: #1565c0;
-        border: 2px solid #1565c0;
-    }
-    
 }
 
+.login-options .button-paciente {
+    background-color: #1565c0;;
+    color: white;
+}
+
+.login-options .button-profesional {
+    background-color: white;
+    color: #1565c0;
+    border: 2px solid #1565c0;
+}
 
 .login-body {
     font-size: 12px;
@@ -91,34 +89,38 @@ button{
     width: 350px;
     display: flex;
     flex-direction: column;
-    form{
-        display: flex;
-        flex-direction: column;
-        border-bottom: 1px solid black;
-    }
-    input{
-        padding: 6px 6px;
-        border-radius: 12px;
-        border: 1px solid black;
-        margin-bottom: 12px;
-        background-color: white;
-    }
-    label{
-        margin-bottom: 8px;
-    }
+}
 
-    .register{
-        display: flex;
-        justify-content: center;
-        gap: 6px;
-        a{
-            color: #1565c0;
-        }
-    }
+.login-body form{
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid black;
+}
 
-    .forgot-password{
-        text-align: end;
-    }
+.login-body input{
+    padding: 6px 6px;
+    border-radius: 12px;
+    border: 1px solid black;
+    margin-bottom: 12px;
+    background-color: white;
+}
+
+.login-body label{
+    margin-bottom: 8px;
+}
+
+.login-body .register{
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.login-body .register a{
+    color: #1565c0;
+}
+
+.login-body .forgot-password{
+    text-align: end;
 }
 
 .register-options{
@@ -127,8 +129,6 @@ button{
     justify-content: center;
     gap: 16px;
 }
-
-
 
 .button-login {
     background-color: #6e6d6e;
