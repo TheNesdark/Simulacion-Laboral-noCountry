@@ -6,6 +6,8 @@ import SearchBar from "./components/SearchBar";
 import CategoryCards from "./components/CategoryCards";
 import AppointmentList from "@/components/ui/AppointmentsList";
 import NavBar from "@/components/layout/NavBar";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
+import ErrorMessage from "@/components/common/ErrorMessage";
 import { useQuery } from '@tanstack/react-query';
 import { getTodaysAppointments } from '@/api/appointmentsApi';
 
@@ -15,13 +17,17 @@ export default function Index() {
     queryFn: getTodaysAppointments,
   });
 
+  if (isLoading) return <LoadingSpinner />;
+
+  if (error) return <ErrorMessage error={error} />;
+
   return (
     <>
       <Header />
       <main>
         <SearchBar />
         <CategoryCards />
-        <AppointmentList appointments={todaysAppointments || []} isLoading={isLoading} error={error} />
+        <AppointmentList appointments={todaysAppointments || []} />
       </main>
       <NavBar />
     </>

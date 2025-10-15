@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import "@styles/pages/Login.css";
+import "@/styles/pages/Login.css";
 import PacienteLogin from "./components/SignIn";
 import ProfesionalLogin from "./components/SignUp";
 import { useState } from "react";
@@ -44,7 +44,7 @@ export default function LoginPage() {
       </div>
       <div className="options">
         <button className="button-login" onClick={handleLoginView}>
-          Iniciar Sesion
+          Iniciar Sesión
         </button>
         <button className="button-register" onClick={handleRegisterView}>
           Registrarse

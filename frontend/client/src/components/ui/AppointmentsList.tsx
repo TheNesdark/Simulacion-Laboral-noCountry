@@ -1,5 +1,5 @@
 import { formatDate } from "@/utils/dateUtils";
-import { appointment } from "@/types/appointments";
+import { Appointment } from "@/types/appointments";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 
@@ -13,20 +13,10 @@ const backgroundColors = [
 ];
 
 interface AppointmentsListProps {
-    appointments: appointment[];
-    isLoading: boolean;
-    error: Error | null;
+    appointments: Appointment[];
 }
 
-export default function AppointmentsList({ appointments, isLoading, error }: AppointmentsListProps) {
-
-    if (isLoading) {
-        return <LoadingSpinner />;
-    }
-
-    if (error) {
-        return <ErrorMessage error={error} />;
-    }
+export default function AppointmentsList({ appointments }: AppointmentsListProps) {
 
     return (
         <>

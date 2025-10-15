@@ -2,6 +2,8 @@
 
 import Header from "@/components/layout/Header";
 import NavBar from "@/components/layout/NavBar";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
+import ErrorMessage from "@/components/common/ErrorMessage";
 import AppointmentList from "@/components/ui/AppointmentsList";
 import Calendar from "react-calendar";
 import useCalendar from "@/hook/useCalendar";
@@ -12,11 +14,12 @@ import "@/styles/pages/Calendar.css";
 
 
 export default function CalendarPage() {
- 
 
   const { activeDate, monthAppointments, handleActiveStartDateChange, isDateHasAppointment, isLoading, error } = useCalendar()
 
+  if(isLoading) return <LoadingSpinner />
 
+  if(error) return <ErrorMessage error={error} />
 
   return (
     <>
@@ -33,9 +36,10 @@ export default function CalendarPage() {
           <h2>
             {activeDate
               .toLocaleString("es-CO", { month: "long", year: "numeric" })
-              .toUpperCase()}
+              .toUpperCase()
+            }
           </h2>
-          <AppointmentList appointments={monthAppointments} isLoading={isLoading} error={error} />
+          <AppointmentList appointments={monthAppointments} />
         </section>
       </main>
       <NavBar />

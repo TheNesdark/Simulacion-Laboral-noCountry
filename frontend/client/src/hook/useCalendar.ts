@@ -37,6 +37,7 @@ export default function useCalendar() {
                        appointmentDate.getFullYear() === activeDate.getFullYear();
             });
             setMonthAppointments(filteredAppointments);
+            console.log(filteredAppointments);
         }
     }, [activeDate, allAppointments]);
 

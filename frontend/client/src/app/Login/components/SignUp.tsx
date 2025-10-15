@@ -12,9 +12,9 @@ export default function SignUp({ onBack }: SignUpProps) {
             <div className="login-title">Registrarse</div>
                 <form className="register-form" action="">
                     <label htmlFor="paciente-name">Nombre y Apellido</label>
-                    <input id="paciente-name" type="text" placeholder="Nombre" />
-                    <label htmlFor="paciente-email">Correo electronico</label>
-                    <input id="paciente-email" type="email" placeholder="Correo electronico" />
+                    <input id="paciente-name" type="text" placeholder="Nombre y Apellido" />
+                    <label htmlFor="paciente-email">Correo electrónico</label>
+                    <input id="paciente-email" type="email" placeholder="Correo electrónico" />
                     <label htmlFor="paciente-password">Contraseña</label>
                     <input id="paciente-password" type="password" placeholder="Contraseña" />
                     <button type="submit">Registrarse</button>
