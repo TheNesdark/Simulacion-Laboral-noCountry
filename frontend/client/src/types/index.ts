@@ -1,11 +1,11 @@
-export interface Report {
-    id: string;
-    title: string;
-    date: string;
-    doctor: string;
-    status: "Disponibles" | "Pendientes";
+export interface MedicalExam {
+  id: string;
+  title: string;
+  date: string;
+  doctor: string;
+  status: "Disponibles" | "Pendientes";
 }
 
-export type Reports = Report[];
+export type MedicalExams = MedicalExam[];
 
-export type ReportFilter = "Disponibles" | "Pendientes";
+export type MedicalExamFilter = "Disponibles" | "Pendientes";

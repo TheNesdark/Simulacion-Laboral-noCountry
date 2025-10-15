@@ -1,31 +1,31 @@
 /* Barra de navegación inferior */
 .bottom-navbar {
-  position: fixed;
-  bottom: 0;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100dvw;
+    position: fixed;
+    bottom: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100dvw;
 }
 
 .bottom-navbar a {
-  display: flex;
-  width: 25dvw;
-  flex-direction: column;
-  align-items: center;
-  font-size: 12px;
-  padding: 3px 0px;
-  text-align: center;
-  color: white;
-  background-color: #00579B;
+    display: flex;
+    width: 25dvw;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+    padding: 3px 0px;
+    text-align: center;
+    color: white;
+    background-color: #00579b;
 }
 
 .bottom-navbar svg {
-  fill: currentColor;
+    fill: currentColor;
 }
 
 .bottom-navbar .active {
-  color: #03acf2;
-  background-color: white;
+    color: #03acf2;
+    background-color: white;
 }

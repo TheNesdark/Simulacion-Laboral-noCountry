@@ -1,10 +1,19 @@
 "use client";
 
-import useReports from "@/hook/useReports";
+import useMedicalExams from "@/hook/useMedicalExams";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
-export default function ReportsList() {
-  const { filter, setFilter, filteredReports, disponiblesCount, pendientesCount, isLoading, error } = useReports();
+
+export default function MedicalExamsList() {
+  const {
+    filter,
+    setFilter,
+    filteredExams,
+    disponiblesCount,
+    pendientesCount,
+    isLoading,
+    error,
+  } = useMedicalExams();
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -16,7 +25,7 @@ export default function ReportsList() {
 
   return (
     <>
-      <div className="filter" role="tablist" aria-label="Reportes">
+      <div className="filter" role="tablist" aria-label="Exámenes Médicos">
         <button
           type="button"
           role="tab"
@@ -36,21 +45,17 @@ export default function ReportsList() {
           Pendientes ({pendientesCount})
         </button>
       </div>
-      <section className="reports-list">
-        {filteredReports.map((report) => (
-          <article key={report.id}>
-              <h2>{report.title}</h2>
-              <time dateTime={report.date}>
-                { report.date }  -  { report.doctor }
-              </time>
-              <div className="report-actions">
-                <button className="view-button">
-                  Ver Detalles
-                </button>
-                <button className="download-button">
-                  Descargar
-                </button>
-              </div>
+      <section className="medical-exams-list">
+        {filteredExams.map((exam) => (
+          <article key={exam.id}>
+            <h2>{exam.title}</h2>
+            <time dateTime={exam.date}>
+              {exam.date} - {exam.doctor}
+            </time>
+            <div className="exam-actions">
+              <button className="view-button">Ver Detalles</button>
+              <button className="download-button">Descargar</button>
+            </div>
           </article>
         ))}
       </section>

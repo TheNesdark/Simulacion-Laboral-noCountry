@@ -1,6 +1,5 @@
-
 {
-  "reports": [
+  "medicalExams": [
     {
       "id": "1",
       "title": "Análisis de Sangre",
