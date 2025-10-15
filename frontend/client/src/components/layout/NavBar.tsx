@@ -19,10 +19,10 @@ export default function NavBar() {
       active: pathname === "/Reports",
     },
     {
-      href: "/Appointments",
+      href: "/Calendar",
       icon: "calendario-icon",
       label: "Mis citas",
-      active: pathname === "/Appointments",
+      active: pathname === "/Calendar",
     },
     {
       href: "/Chat",
@@ -38,7 +38,7 @@ export default function NavBar() {
         <a key={index} href={item.href} className={item.active ? "active" : ""}>
           <svg width={30} height={30}>
             <use
-              href={`/assets/icons/Home/navbarIcon-sprites.svg#${item.icon}`}
+              href={`/assets/icons/navbarIcon-sprites.svg#${item.icon}`}
             />
           </svg>
           {item.label}

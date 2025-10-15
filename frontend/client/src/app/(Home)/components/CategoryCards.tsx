@@ -1,35 +1,34 @@
-import Image from "next/image";
+"use client";
+
+const categories = [
+  {
+    icon: "medicos-icon",
+    alt: "Medicos",
+    label: "Medicos",
+  },
+  {
+    icon: "hospital-icon",
+    alt: "Hospital",
+    label: "Clinicas y Hospitales",
+  },
+  {
+    icon: "especialidades-icon",
+    alt: "Especialidades",
+    label: "Especialidades",
+  },
+];
 
 export default function CategoryCards() {
-  const categories = [
-    {
-      icon: "/assets/icons/Home/medicos-icon.svg",
-      alt: "Medicos",
-      label: "Medicos",
-    },
-    {
-      icon: "/assets/icons/Home/hospital-icon.svg",
-      alt: "Hospital",
-      label: "Clinicas y Hospitales",
-    },
-    {
-      icon: "/assets/icons/Home/especialidades-icon.svg",
-      alt: "Especialidades",
-      label: "Especialidades",
-    },
-  ];
 
   return (
     <section className="category-cards">
       {categories.map((category, index) => (
         <article key={index} >
-          <Image
-            src={category.icon}
-            alt={category.alt}
-            width={50}
-            height={50}
-            priority
-          />
+          <svg width={50} height={50}>
+            <use 
+              href={`/assets/icons/homeIcons-sprites.svg#${category.icon}`} 
+            />
+          </svg>
           {category.label}
         </article>
       ))}
