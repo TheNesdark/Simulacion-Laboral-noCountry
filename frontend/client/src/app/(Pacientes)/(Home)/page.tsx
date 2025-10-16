@@ -9,7 +9,7 @@ import ErrorMessage from "@/components/common/ErrorMessage";
 import { useQuery } from "@tanstack/react-query";
 import { getTodaysAppointments } from "@/api/appointmentsApi";
 
-export default function Home() {
+export default function HomePage() {
   const {
     data: todaysAppointments,
     isLoading,

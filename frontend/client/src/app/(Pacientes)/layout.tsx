@@ -8,6 +8,8 @@ const roboto = Roboto({
   weight: ["400", "700"],
   subsets: ["latin"],
   display: "swap",
+  preload: true,
+  fallback: ["system-ui", "arial"],
 });
 
 export const metadata = {

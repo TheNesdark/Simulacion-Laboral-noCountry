@@ -1,5 +1,5 @@
 import { formatDate } from "@/utils/dateUtils";
-import { Appointment } from "@/types/appointments";
+import { Appointment } from "@/types";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 

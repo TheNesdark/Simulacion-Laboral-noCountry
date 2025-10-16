@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { OnArgs } from "react-calendar";
-import { Appointment } from "@/types/appointments";
+import { Appointment } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { getAllAppointments } from "@/api/appointmentsApi";
 

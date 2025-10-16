@@ -36,7 +36,7 @@ export default function NavBar() {
     <nav className="bottom-navbar">
       {navItems.map((item, index) => (
         <a key={index} href={item.href} className={item.active ? "active" : ""}>
-          <svg width={30} height={30}>
+          <svg  width={30} height={30}>
             <use href={`/assets/icons/navbarIcon-sprites.svg#${item.icon}`} />
           </svg>
           {item.label}

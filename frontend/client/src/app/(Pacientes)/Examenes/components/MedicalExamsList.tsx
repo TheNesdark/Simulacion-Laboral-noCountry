@@ -1,28 +1,21 @@
 "use client";
+import { MedicalExam, MedicalExamFilter } from "@/types";
 
-import useMedicalExams from "@/hook/useMedicalExams";
-import ErrorMessage from "@/components/common/ErrorMessage";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
+interface MedicalExamsListProps {
+  filter: MedicalExamFilter;
+  setFilter: React.Dispatch<React.SetStateAction<MedicalExamFilter>>;
+  filteredExams: MedicalExam[];
+  disponiblesCount: number;
+  pendientesCount: number;
+}
 
-export default function MedicalExamsList() {
-  const {
-    filter,
-    setFilter,
-    filteredExams,
-    disponiblesCount,
-    pendientesCount,
-    isLoading,
-    error,
-  } = useMedicalExams();
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-
-  if (error) {
-    return <ErrorMessage error={error} />;
-  }
-
+export default function MedicalExamsList({
+  filter,
+  setFilter,
+  filteredExams,
+  disponiblesCount,
+  pendientesCount,
+}: MedicalExamsListProps) {
   return (
     <>
       <div className="filter" role="tablist" aria-label="Exámenes Médicos">

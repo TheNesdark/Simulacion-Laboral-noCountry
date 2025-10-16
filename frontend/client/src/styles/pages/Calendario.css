@@ -12,9 +12,14 @@ main {
     border-radius: 12px;
 }
 
-.appointment-date {
-    background-color: #00579b !important;
+.react-calendar__tile--now {
+    background: none !important;
+}
+
+.appointment-date abbr {
+    background-color: #03acf2 !important;
     color: white !important;
+    padding: 6px;
     border-radius: 100px;
 }
 

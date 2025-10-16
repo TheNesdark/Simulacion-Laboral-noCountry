@@ -5,9 +5,9 @@ import Calendar from "react-calendar";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import AppointmentList from "@/components/ui/AppointmentsList";
-import useCalendar from "@/hook/useCalendar";
+import useCalendar from "@/hooks/useCalendar";
 
-export default function Calendario() {
+export default function CalendarPage() {
   const {
     activeDate,
     monthAppointments,
