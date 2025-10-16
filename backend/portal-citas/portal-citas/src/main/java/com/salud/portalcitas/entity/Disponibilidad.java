@@ -24,21 +24,15 @@ public class Disponibilidad {
     private Long id;
 
     @Column(name = "dia_semana", nullable = false)
-    @Min(0)
-    @Max(6)
     private int diaSemana;
 
-    @Column(name = "hora_inicio")
-    @NotNull(message = "La hora de inicio es obligatoria")
+    @Column(name = "hora_inicio", nullable = false)
     private LocalTime horaInicio;
 
-    @Column(name = "hora_fin")
-    @NotNull(message = "La hora de fin es obligatoria")
+    @Column(name = "hora_fin", nullable = false)
     private LocalTime horaFin;
 
     @Column(name ="minutos_cupo", nullable = false)
-    @Min(value = 10, message = "El cupo mínimo debe ser de 10 minutos")
-    @Max(value = 30, message = "El cupo máximo debe ser de 30 minutos")
     private int minutosCupo;
 
     @Column(nullable = false)

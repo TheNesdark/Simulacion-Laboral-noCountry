@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class PortalCitasApplication {
 
 	public static void main(String[] args) {
-        System.out.println("Hola Mundo");
+		SpringApplication.run(PortalCitasApplication.class, args);
 	}
 
 }
