@@ -4,8 +4,6 @@ import "@styles/pages/Home.css";
 import SearchBar from "./components/SearchBar";
 import CategoryCards from "./components/CategoryCards";
 import AppointmentList from "@/components/ui/AppointmentsList";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
-import ErrorMessage from "@/components/common/ErrorMessage";
 import { useQuery } from "@tanstack/react-query";
 import { getTodaysAppointments } from "@/api/appointmentsApi";
 
@@ -24,7 +22,7 @@ export default function HomePage() {
       <SearchBar />
       <CategoryCards />
       <AppointmentList
-        title="Citas de hoy"
+        title="Turnos Programados para hoy"
         appointments={todaysAppointments || []}
         isLoading={isLoading}
         error={error}

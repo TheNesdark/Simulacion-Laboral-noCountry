@@ -19,14 +19,13 @@ const categories = [
 ];
 
 export default function CategoryCards() {
-
   return (
     <section className="category-cards">
       {categories.map((category, index) => (
-        <article key={index} >
+        <article key={index}>
           <svg width={50} height={50}>
-            <use 
-              href={`/assets/icons/homeIcons-sprites.svg#${category.icon}`} 
+            <use
+              href={`/assets/icons/homeIcons-sprites.svg#${category.icon}`}
             />
           </svg>
           {category.label}

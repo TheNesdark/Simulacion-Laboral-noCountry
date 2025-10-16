@@ -34,7 +34,7 @@ export default function ChatsList() {
   };
 
   return (
-    <div className="chats-list">
+    <section className="chats-list">
       <ul>
         {chats.map((chat) => (
           <li key={chat.id} onClick={() => handleChatClick(chat.id)}>
@@ -57,6 +57,6 @@ export default function ChatsList() {
           </li>
         ))}
       </ul>
-    </div>
+    </section>
   );
 }
