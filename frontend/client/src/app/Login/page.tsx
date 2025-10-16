@@ -32,7 +32,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="login-container">
+    <>
       <div className="login-title">
         <Image
           src="/assets/Login.png"
@@ -57,6 +57,6 @@ export default function LoginPage() {
           height={44}
         />
       </div>
-    </div>
+    </>
   );
 }
