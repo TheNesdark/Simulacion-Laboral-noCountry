@@ -1,6 +1,9 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 export default function ChatsList() {
+  const router = useRouter();
   const chats = [
     {
       id: 1,
@@ -31,6 +34,7 @@ export default function ChatsList() {
   const handleChatClick = (chatId: number) => {
     console.log(`Abrir chat ${chatId}`);
     // Aquí iría la navegación al chat individual
+    router.push(`/${chatId}`);
   };
 
   return (
