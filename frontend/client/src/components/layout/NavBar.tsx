@@ -1,7 +1,8 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import "@/styles/components/layout/NavBar.css";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export default function NavBar() {
   const pathname = usePathname();
@@ -35,12 +36,16 @@ export default function NavBar() {
   return (
     <nav className="bottom-navbar">
       {navItems.map((item, index) => (
-        <a key={index} href={item.href} className={item.active ? "active" : ""}>
-          <svg  width={30} height={30}>
+        <Link
+          key={index}
+          href={item.href}
+          className={item.active ? "active" : ""}
+        >
+          <svg width={30} height={30}>
             <use href={`/assets/icons/navbarIcon-sprites.svg#${item.icon}`} />
           </svg>
           {item.label}
-        </a>
+        </Link>
       ))}
     </nav>
   );
