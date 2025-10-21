@@ -7,7 +7,7 @@ import React, { useState } from "react";
 export default function ChatView() {
   const params = useParams();
   const router = useRouter();
-  const chatId = Number(params.ChatId); //borrar
+  const chatId = Number(params.ChatId); // TODO: remove
   const chats = [
     {
       id: 1,

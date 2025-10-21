@@ -17,7 +17,7 @@ export default function Register({ onBack, onChange }: SignUpProps) {
 
       {/* Circulo Rosa */}
       <div className="circle-pink">
-        <span>Iniciar Sesión</span>
+        <span>Registrarse</span>
         <img src="/assets/Login-computer.png" alt="user" />
       </div>
 
@@ -67,7 +67,7 @@ export default function Register({ onBack, onChange }: SignUpProps) {
           </div>
 
           {/* Botón de inicio de sesión */}
-          <button type="submit">Iniciar Sesión</button>
+          <button type="submit">Registrarse</button>
 
           {/* Sección de proveedores */}
           <div className="login-providers">
