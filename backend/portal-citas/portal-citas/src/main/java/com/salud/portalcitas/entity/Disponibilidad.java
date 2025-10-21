@@ -33,8 +33,12 @@ public class Disponibilidad {
     private LocalTime horaFin;
 
     @Column(name ="minutos_cupo", nullable = false)
-    private int minutosCupo;
+    private Integer minutosCupo;
 
     @Column(nullable = false)
-    private boolean activa = true;
+    private Boolean activa = true;
+
+    @ManyToOne()
+    @JoinColumn(name = "medico_id", nullable = false)
+    private Medico medico;
 }

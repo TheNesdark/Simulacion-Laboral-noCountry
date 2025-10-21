@@ -9,4 +9,8 @@ import java.util.List;
 @Repository
 public interface DisponibilidadRepository extends JpaRepository<Disponibilidad, Long> {
 
+    List<Disponibilidad> findByMedicoId(Long medicoId);
+
+    List<Disponibilidad> findByMedicoIdAndDiaSemana(Long medicoId, int diaSemana);
+
 }
