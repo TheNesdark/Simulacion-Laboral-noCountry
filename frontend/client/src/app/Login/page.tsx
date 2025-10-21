@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import "@/styles/pages/Login.css";
-import PacienteLogin from "./components/SignIn";
-import ProfesionalLogin from "./components/SignUp";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Initial from "./components/Initial";
 import { useState } from "react";
 
 type AuthView = "initial" | "login" | "register";
@@ -24,39 +25,16 @@ export default function LoginPage() {
   };
 
   if (view === "login") {
-    return <PacienteLogin onBack={handleBack} />;
+    return <Login onBack={handleBack} onChange={handleRegisterView} />;
   }
 
   if (view === "register") {
-    return <ProfesionalLogin onBack={handleBack} />;
+    return <Register onBack={handleBack} onChange={handleLoginView} />;
   }
 
-  return (
-    <>
-      <div className="login-title">
-        <Image
-          src="/assets/Login.png"
-          alt="Logo"
-          width={287}
-          height={245}
-          priority
-        />
-      </div>
-      <div className="options">
-        <button className="button-login" onClick={handleLoginView}>
-          Iniciar Sesión
-        </button>
-        <button className="button-register" onClick={handleRegisterView}>
-          Registrarse
-        </button>
-        <img
-          className="logo"
-          src="/assets/icons/logo-icon.svg"
-          alt="Logo"
-          width={40}
-          height={44}
-        />
-      </div>
-    </>
-  );
+  if (view === "initial") {
+    return (
+      <Initial onLogin={handleLoginView} onRegister={handleRegisterView} />
+    );
+  }
 }

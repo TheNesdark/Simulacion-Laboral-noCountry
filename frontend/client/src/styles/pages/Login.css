@@ -1,21 +1,10 @@
-button {
-    width: 100%;
-    padding: 12px 12px;
-    border-radius: 24px;
-    border: none;
-    cursor: pointer;
-    margin: 12px 0;
-}
-
 main {
     position: relative;
+    display: flex;
+    justify-content: center;
     height: 100dvh;
     width: 100dvw;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 /* Círculo azul en la esquina superior derecha */
@@ -44,120 +33,333 @@ main::after {
     z-index: -1;
 }
 
-/* Titulo */
-.login-title {
+/* Circulo Rosa */
+.circle-pink {
     position: absolute;
-    margin-bottom: 125px;
+    display: grid;
+    place-items: center;
+    width: 300px;
+    height: 300px;
     border-radius: 50%;
     background-color: #f8bbd0;
     color: #00579b;
-    width: 300px;
-    height: 300px;
     text-align: center;
     font-size: 32px;
     font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: -2;
 }
 
-/* Opciones */
-.options {
+/* Ocultar la imagen en mobile */
+.circle-pink img {
+    display: none;
+}
+
+.circle-pink .initial-image {
+    display: block;
+}
+
+/* Seccion de login */
+.login {
+    display: flex;
+    width: 90%;
+    margin-top: 300px;
+    align-content: center;
+}
+
+.initial-options {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 90dvw;
-    max-width: 350px;
-    margin-top: 420px;
+    justify-content: center;
+    width: 100%;
+    gap: 1rem;
 }
 
 .button-login {
+    width: 100%;
+    padding: 0.7rem;
+    border-radius: 20px;
     background-color: #00579b;
     color: white;
 }
 
 .button-register {
+    width: 100%;
+    padding: 0.7rem;
+    border-radius: 20px;
     background-color: #fafafa;
     color: #00579b;
     border: 1px solid #00579b;
 }
 
-/* Formulario de inicio de sesion */
+/* Ocultar panel de navegacion */
+.options {
+    display: none;
+}
+
+/* Seccion de Formulario de Login */
 .login-form {
-    width: 90dvw;
-    max-width: 350px;
-    margin-top: 260px;
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid rgb(68, 55, 240);
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    color: black;
+    font-size: 1rem;
+}
+
+/* Ocultar Logo en mobile */
+.login-logo {
+    display: none;
+}
+
+/* Seccion de inputs */
+.login-inputs {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-inputs label {
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    text-align: start;
     font-weight: bold;
 }
 
-.login-form input {
-    padding: 6px 6px;
-    border-radius: 12px;
-    border: 1px solid black;
-    margin-bottom: 12px;
-    background-color: white;
+.login-inputs input {
+    width: 100%;
+    padding: 0.3rem;
+    border-radius: 10px;
+    border: 1px solid #000000;
+    background-color: #f2f2f2;
+    color: #000000;
 }
 
-.login-form label {
-    margin-bottom: 8px;
-}
-
-.login-form span {
-    text-align: end;
-}
-
-.login-form button {
-    background-color: #979797;
-    color: white;
-}
-
-/* Opciones de inicio de sesion */
+/* Seccion de opciones */
 .login-options {
     display: flex;
-    padding-top: 16px;
-    gap: 16px;
+    justify-content: space-between;
+    margin-top: 0.5rem;
 }
 
-/* Formulario de registro */
-.register-form {
-    width: 90dvw;
-    max-width: 350px;
-    margin-top: 260px;
-    display: flex;
-    flex-direction: column;
-    font-weight: bold;
+.login-options input {
+    margin-right: 1rem;
 }
 
-.register-form input {
-    padding: 6px 6px;
-    border-radius: 12px;
-    border: 1px solid black;
-    margin-bottom: 12px;
-    background-color: white;
-}
-
-.register-form label {
-    margin-bottom: 8px;
-}
-
-.register-form span {
-    text-align: end;
-}
-
-.register-form button {
+/* Boton de inicio de sesion */
+button[type="submit"] {
+    width: 100%;
+    margin: 1rem 0;
+    padding: 0.8rem;
+    border-radius: 30px;
+    border: 1px solid #fafafa;
     background-color: #979797;
-    color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    color: #ffffff;
 }
 
+/* Seccion de proveedores */
+.login-providers {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-top: 1px solid #00579b;
+}
+
+.login-providers svg {
+    color: blue;
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Boton de regreso */
 .button-back {
     position: absolute;
+    display: grid;
+    place-items: center;
     width: 50px;
     height: 50px;
     top: 10px;
     left: 10px;
     background-color: white;
+}
+
+/* Estilos responsivos en computador */
+@media (min-width: 768px) {
+    main {
+        display: block;
+    }
+    /* Círculo azul */
+    main::before {
+        top: auto;
+        bottom: 0;
+        left: 30%;
+        width: 200px;
+        height: 200px;
+    }
+
+    /* Círculo azul */
+    main::after {
+        left: 40%;
+        bottom: auto;
+        top: 0;
+        width: 200px;
+        height: 200px;
+    }
+
+    /* Circulo Rosa */
+    .circle-pink {
+        position: absolute;
+        left: 0%;
+        top: 60%;
+        width: 200px;
+        height: 200px;
+        transform: translateY(-50%);
+    }
+
+    /* Quitar texto de circulo */
+    .circle-pink span {
+        display: none;
+    }
+
+    /* Mostrar imagen en circulo rosa */
+    .circle-pink img {
+        display: block;
+        position: absolute;
+        bottom: 30%;
+        left: 50%;
+        max-width: 300px;
+        width: 300px;
+        height: 300px;
+        object-fit: contain;
+        z-index: 1;
+    }
+
+    /* Quitar el boton en pc */
+    .button-back {
+        display: none;
+    }
+
+    /* Seccion de Login y registro */
+    .login {
+        display: flex;
+        width: 50%;
+        height: 90%;
+        float: right;
+        align-content: center;
+        margin: 32px 16px;
+    }
+
+    /* Barra de navegacion */
+    .options {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        color: #00579b;
+        width: 10rem;
+    }
+
+    .options button {
+        border-radius: 10px 0px 0px 10px;
+        padding: 0.5rem;
+    }
+
+    .options .active {
+        color: white;
+        background-color: #00579b;
+    }
+
+    /* Seccion de Formulario de Login */
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
+        padding: 1.5rem;
+        background-color: #00579b;
+        color: white;
+        font-size: 0.8rem;
+    }
+
+    /* Seccion de Logo */
+    .login-logo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        font-size: 1.5rem;
+    }
+
+    .login-logo .Logo {
+        padding: 0.4rem 0.5rem;
+        background-color: white;
+        border-radius: 50%;
+    }
+
+    /* Seccion de inputs */
+    .login-inputs {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .login-inputs label {
+        width: 100%;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+        text-align: start;
+    }
+
+    .register-inputs,
+    .login-inputs input {
+        width: 100%;
+        padding: 0.3rem;
+        border-radius: 10px;
+        border: none;
+        background-color: #f2f2f2;
+        color: #000000;
+    }
+
+    /* Seccion de opciones */
+    .login-options {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 0.5rem;
+    }
+
+    .login-options input {
+        margin-right: 1rem;
+    }
+
+    /* Boton de inicio de sesion */
+    button[type="submit"] {
+        width: 100%;
+        margin: 2.5rem 0;
+        padding: 0.3rem;
+        border-radius: 10px;
+        border: 1px solid #fafafa;
+        background-color: #03acf2;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        color: #ffffff;
+    }
+
+    /* Seccion de proveedores */
+    .login-providers {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        padding: 1.5rem;
+        border-top: 1px solid #fafafa;
+    }
+
+    .login-providers svg {
+        color: white;
+    }
 }
