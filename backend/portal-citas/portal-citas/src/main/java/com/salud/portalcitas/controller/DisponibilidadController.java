@@ -1,7 +1,7 @@
 package com.salud.portalcitas.controller;
 
-import com.salud.portalcitas.dto.DisponibilidadRequest;
-import com.salud.portalcitas.dto.DisponibilidadResponse;
+import com.salud.portalcitas.dto.disponibilidad.DisponibilidadRequest;
+import com.salud.portalcitas.dto.disponibilidad.DisponibilidadResponse;
 import com.salud.portalcitas.service.disponibilidad.DisponibilidadService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

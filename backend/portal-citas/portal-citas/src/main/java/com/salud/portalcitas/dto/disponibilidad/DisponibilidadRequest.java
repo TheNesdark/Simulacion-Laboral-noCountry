@@ -1,4 +1,4 @@
-package com.salud.portalcitas.dto;
+package com.salud.portalcitas.dto.disponibilidad;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Max;

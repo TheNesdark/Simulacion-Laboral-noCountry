@@ -32,4 +32,8 @@ public class Cupo {
     private LocalTime horaFin;
 
     private Boolean reservado = false;
+
+    @ManyToOne
+    @JoinColumn(name = "disponibilidad_id")
+    private Disponibilidad disponibilidad;
 }

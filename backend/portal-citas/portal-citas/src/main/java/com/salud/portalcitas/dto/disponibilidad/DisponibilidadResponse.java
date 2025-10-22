@@ -1,4 +1,4 @@
-package com.salud.portalcitas.dto;
+package com.salud.portalcitas.dto.disponibilidad;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

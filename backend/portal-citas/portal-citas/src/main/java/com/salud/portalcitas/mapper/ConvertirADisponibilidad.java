@@ -1,6 +1,6 @@
 package com.salud.portalcitas.mapper;
 
-import com.salud.portalcitas.dto.DisponibilidadRequest;
+import com.salud.portalcitas.dto.disponibilidad.DisponibilidadRequest;
 import com.salud.portalcitas.entity.Disponibilidad;
 import org.springframework.stereotype.Component;
 

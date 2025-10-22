@@ -1,12 +1,11 @@
 package com.salud.portalcitas.service.disponibilidad;
 
-import com.salud.portalcitas.dto.DisponibilidadRequest;
-import com.salud.portalcitas.dto.DisponibilidadResponse;
+import com.salud.portalcitas.dto.disponibilidad.DisponibilidadRequest;
+import com.salud.portalcitas.dto.disponibilidad.DisponibilidadResponse;
 import com.salud.portalcitas.entity.Disponibilidad;
 import com.salud.portalcitas.mapper.ConvertirADisponibilidad;
 import com.salud.portalcitas.mapper.ConvertirADisponibilidadResponse;
 import com.salud.portalcitas.repository.DisponibilidadRepository;
-import com.salud.portalcitas.service.disponibilidad.DisponibilidadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
