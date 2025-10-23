@@ -10,7 +10,7 @@ const roboto = Roboto({
 });
 
 export const metadata = {
-  title: "CoordiSalud",
+  title: "CoordiSalud - Inicio de Sesion",
   description: "Sistema de gestión médica y coordinación de salud",
 };
 

@@ -4,6 +4,7 @@ import "@/styles/components/layout/Header.css";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import DropdownUser from "@components/ui/DropdownUser"
 
 export default function Header() {
   const pathname = usePathname();
@@ -55,17 +56,8 @@ export default function Header() {
 
   return (
     <header className="header">
-      <Image
-        src="/assets/icons/logo-icon.svg"
-        alt="Logo"
-        width={40}
-        height={40}
-        priority
-        fetchPriority="high"
-        loading="eager"
-        sizes="40px"
-      />
       <h1>Medical Salud</h1>
+      <DropdownUser/>
     </header>
   );
 }

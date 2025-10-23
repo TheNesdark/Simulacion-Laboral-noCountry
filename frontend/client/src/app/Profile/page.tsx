@@ -7,6 +7,7 @@ import MonitorIcon from "@/components/icons/MonitorIcon";
 import LockIcon from "@/components/icons/LockIcon";
 import HelpIcon from "@/components/icons/HelpIcon";
 
+
 const profileOptions = [
   {
     id: 'edit-profile',
