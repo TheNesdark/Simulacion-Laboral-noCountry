@@ -239,10 +239,6 @@ button[type="submit"] {
         z-index: 1;
     }
 
-    /* Quitar el boton en pc */
-    .button-back {
-        display: none;
-    }
 
     /* Seccion de Login y registro */
     .login {
