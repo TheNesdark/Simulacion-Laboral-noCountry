@@ -1,7 +1,6 @@
 main {
     display: flex;
     flex-direction: column;
-    align-items: center;
     margin-bottom: 54px;
     padding: 24px;
     gap: 24px;
@@ -10,6 +9,7 @@ main {
 .calendar {
     border: 1px solid #00579b;
     border-radius: 12px;
+    margin: auto 0;
 }
 
 .react-calendar__tile--now {

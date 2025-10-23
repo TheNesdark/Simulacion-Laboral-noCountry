@@ -1,7 +1,6 @@
 main {
     display: flex;
     flex-direction: column;
-    align-content: center;
     margin-bottom: 54px;
     gap: 24px;
     padding: 24px;
@@ -115,6 +114,7 @@ main {
     display: inline-block;
     width: 18px;
     height: 18px;
+    margin-right: 0.2rem;
     background: url("/assets/icons/Reports/view.icon.svg") no-repeat center/18px
         18px;
 }
@@ -133,6 +133,7 @@ main {
     display: inline-block;
     width: 18px;
     height: 18px;
+    margin-right: 0.2rem;
     background: url("/assets/icons/Reports/download-icon.svg") no-repeat
         center/18px 18px;
 }

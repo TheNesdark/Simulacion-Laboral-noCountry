@@ -69,15 +69,13 @@ export default function ChatView() {
   return (
     <div className="h-screen bg-gray-100 relative">
       {/* header */}
-      <div className="fixed top-0 left-0 right-0 flex items-center justify-between p-3 bg-sky-200 text-black shadow-md z-10">
+      <div className="sticky top-0 left-0 right-0 flex items-center justify-between p-3 bg-sky-200 text-black shadow-md z-10">
         <div className="flex items-center gap-2">
           <button
             className="rounded-full cursor-pointer"
             onClick={() => router.back()}
           >
-            <svg width={22} height={22}>
-              <use href={`/assets/icons/back-icon.svg`} />
-            </svg>
+             <img src="/assets/icons/back-icon.svg" alt="Volver al historia del chats" />
           </button>
           <Image
             src={data?.avatar || "/assets/Login.png"}
@@ -92,14 +90,16 @@ export default function ChatView() {
           <h2 className="font-semibold">Dr. López</h2>
         </div>
         <div className="flex gap-2">
-          <button className="text-[#00579b]">☐</button>
+          <button className="text-[#00579b]">
+            <img src="/assets/icons/call-icon.svg" alt="Llamar al doctor" />
+          </button>
           <button className="text-3xl hover:bg-[#00579b] rounded-full">
             ⋮
           </button>
         </div>
       </div>
       {/* message */}
-      <div className="pt-16 px-3 overflow-y-auto h-full">
+      <div className="pt-6 px-3 overflow-y-auto h-full">
         <div className="flex justify-center text-gray-500 text-sm">Hoy</div>
         {messages.map((msg) => (
           <div
