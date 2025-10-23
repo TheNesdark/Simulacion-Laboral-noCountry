@@ -22,7 +22,7 @@ const doctors: Doctor[] = [
     rating: 94,
     image:
       "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%23d4a5a5' width='100' height='100'/%3E%3Ccircle cx='50' cy='35' r='15' fill='%23c8a882'/%3E%3Cellipse cx='50' cy='70' rx='20' ry='25' fill='%23c8a882'/%3E%3C/svg%3E",
-    category: "recent",
+    category: "favorites",
     colorClass: "bg-pink-400",
   },
   {
@@ -50,6 +50,15 @@ const doctors: Doctor[] = [
 export default function MedicosPage() {
   const [activeFilter, setActiveFilter] = useState("Recientes");
 
+  let filteredDoctors = doctors;
+  if (activeFilter === "A-Z") {
+    filteredDoctors = [...doctors].sort((a, b) => a.name.localeCompare(b.name));
+  } else if (activeFilter === "Favoritos") {
+    filteredDoctors = doctors.filter((doctor) => doctor.category == "favorites");
+  } else if (activeFilter === "Recientes") {
+    filteredDoctors = doctors.filter((doctor) => doctor.category === "recent");
+  }
+
   return (
     <>
       <div className="filter-bar">
@@ -67,8 +76,8 @@ export default function MedicosPage() {
       </div>
 
       <div className="medicos-content">
-        {doctors.length > 0 ? (
-          doctors.map((doctor) => (
+        {filteredDoctors.length > 0 ? (
+          filteredDoctors.map((doctor) => (
             <DoctorCard key={doctor.id} {...doctor} />
           ))
         ) : (

@@ -1,3 +1,11 @@
+body{
+  height: 100dvh;
+}
+
+main{
+  height: 100%;
+}
+
 .filter-bar {
   position: relative;
   z-index: 100;
@@ -36,6 +44,7 @@
 
 .medicos-content {
   background-color: rgba(0, 0, 0, 0.2);
+  height: 100%;
   position: relative;
   padding: 1rem;
 }

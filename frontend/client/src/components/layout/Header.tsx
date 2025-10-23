@@ -24,7 +24,7 @@ export default function Header() {
     return (
       <header className="header">
         <Link href="/" className="back-link">
-          <img src="/assets/icons/back-icon.svg" alt="Volver al inicio" />
+          <img src="/assets/icons/back-icon.svg" alt="Volver al inicio"/>
         </Link>
         <h1>Clínicas</h1>
       </header>

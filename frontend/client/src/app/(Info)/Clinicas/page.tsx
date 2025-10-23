@@ -46,6 +46,10 @@ const clinics: Clinic[] = [
 export default function MedicosPage() {
   const [activeFilter, setActiveFilter] = useState("Recientes");
 
+  let filteredClinics = clinics;
+  if (activeFilter === "A-Z") {
+    filteredClinics = [...clinics].sort((a, b) => a.name.localeCompare(b.name));
+  }
   return (
     <>
       <div className="filter-bar">
@@ -63,7 +67,7 @@ export default function MedicosPage() {
       </div>
 
       <div className="clinicas-content">
-        {clinics.map((clinic) => (
+        {filteredClinics.map((clinic) => (
           <ClinicCard key={clinic.id} {...clinic} />
         ))}
       </div>
