@@ -1,0 +1,87 @@
+.doctor-card {
+  position: relative;
+  margin-bottom: 4rem;
+}
+
+.doctor-card-content {
+  position: relative;
+  background-color: white;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  margin-left: 2rem;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.doctor-card-flex {
+  display: flex;
+  gap: 1rem;
+}
+
+.doctor-card-image-container {
+  flex-shrink: 0;
+  position: absolute;
+  inset: 0;
+  left: -2rem;
+  top: -2rem;
+}
+
+.doctor-card-image {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  border-top-left-radius: 0;
+  object-fit: cover;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.doctor-card-info {
+  flex-grow: 1;
+  text-align: center;
+
+  p {
+    color: #979797;
+  }
+}
+
+.doctor-card-name {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: hsl(var(--foreground));
+}
+
+.doctor-card-specialty {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 0.75rem;
+}
+
+
+
+.doctor-card-rating {
+  color: #979797;
+}
+
+.doctor-card-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.doctor-card-rating-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.doctor-card-button {
+  background-color: #00579B;
+  color: white;
+  border-radius: 100px;
+  padding: 0.5rem 2rem;
+}

@@ -3,6 +3,8 @@
 import "@/styles/components/layout/Header.css";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import ArrowLeftIcon from "../icons/ArrowLeftIcon";
+import Link from "next/link";
 export default function Header() {
   const pathname = usePathname();
   const user = "Valentina";
@@ -14,6 +16,39 @@ export default function Header() {
       <header className="header">
         <img src={userImage} alt="Logo" width={40} height={40} />
         <h1>¡Bienvenida, {user}!</h1>
+      </header>
+    );
+  }
+
+  if (pathname === "/Medicos") {
+    return (
+      <header className="header">
+        <Link href="/">
+          <ArrowLeftIcon />
+        </Link>
+        <h1>Médicos</h1>
+      </header>
+    );
+  }
+
+  if (pathname === "/Clinicas") {
+    return (
+      <header className="header">
+        <Link href="/">
+          <ArrowLeftIcon />
+        </Link>
+        <h1>Clinicas</h1>
+      </header>
+    );
+  }
+
+  if (pathname === "/Especialidades") {
+    return (
+      <header className="header">
+        <Link href="/">
+          <ArrowLeftIcon />
+        </Link>
+        <h1>Especialidades</h1>
       </header>
     );
   }
