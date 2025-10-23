@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -38,7 +40,13 @@ public class Disponibilidad {
     @Column(nullable = false)
     private Boolean activa = true;
 
+    @Column(nullable = false)
+    private Boolean eliminada = false;
+
     @ManyToOne()
     @JoinColumn(name = "medico_id", nullable = false)
     private Medico medico;
+
+    @OneToMany(mappedBy = "disponibilidad", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Cupo> cupos = new ArrayList<>();
 }

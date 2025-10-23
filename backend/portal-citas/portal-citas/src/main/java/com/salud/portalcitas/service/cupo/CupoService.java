@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface CupoService {
 
-    void generarCuposParaDisponibilidad(Disponibilidad disponibilidad, int diasAdelante);
-    List<CupoResponse> obtenerCuposDisponiblesPorMedicoYFecha(Long medicoId, LocalDate fecha);
+    public void generarCuposParaDisponibilidad(Disponibilidad disponibilidad, int diasAdelante);
+    public void eliminarCuposLibresFuturos(Long disponibilidadId);
+    public List<CupoResponse> obtenerCuposDisponiblesPorMedicoYFecha(Long medicoId, LocalDate fecha);
 }

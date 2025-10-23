@@ -56,6 +56,11 @@ public class CupoServiceImpl implements CupoService{
         }
     }
 
+    public void eliminarCuposLibresFuturos(Long disponibilidadId) {
+        LocalDate desde = LocalDate.now();
+        cupoRepository.deleteFreeFutureCupos(disponibilidadId, desde);
+    }
+
     @Override
     public List<CupoResponse> obtenerCuposDisponiblesPorMedicoYFecha(Long medicoId, LocalDate fecha) {
         List<Cupo> cupos = cupoRepository.findAvailableByMedicoAndFecha(medicoId, fecha);

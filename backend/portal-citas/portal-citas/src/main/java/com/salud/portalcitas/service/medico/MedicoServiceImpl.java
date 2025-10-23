@@ -22,24 +22,27 @@ public class MedicoServiceImpl implements MedicoService{
     private final MedicoMapper medicoMapper;
 
 
+    @Override
     public MedicoResponse crear(MedicoRequest request) {
         Medico medico = medicoMapper.toEntity(request);
         Medico guardado = medicoRepository.save(medico);
         return medicoMapper.toResponse(guardado);
     }
 
+    @Override
     @Transactional(readOnly = true)
     public MedicoResponse obtenerPorIdResponse(Long medicoId) {
         Medico medico = this.obtenerPorId(medicoId);
         return medicoMapper.toResponse(medico);
     }
-
+    @Override
     @Transactional(readOnly = true)
     public Medico obtenerPorId(Long medicoId) {
         return medicoRepository.findById(medicoId)
                 .orElseThrow(() -> new EntityNotFoundException("El médico no existe"));
     }
 
+    @Override
     @Transactional(readOnly = true)
     public List<MedicoResponse> listarTodos() {
         return medicoRepository.findAll().stream()
@@ -47,6 +50,7 @@ public class MedicoServiceImpl implements MedicoService{
                 .collect(Collectors.toList());
     }
 
+    @Override
     public MedicoResponse actualizar(Long medicoId, MedicoUpdate updateDto) {
         Medico existente = obtenerPorId(medicoId);
 
@@ -55,6 +59,7 @@ public class MedicoServiceImpl implements MedicoService{
         return medicoMapper.toResponse(saved);
     }
 
+    @Override
     public void eliminar(Long medicoId) {
         Medico medico = obtenerPorId(medicoId);
         medicoRepository.delete(medico);

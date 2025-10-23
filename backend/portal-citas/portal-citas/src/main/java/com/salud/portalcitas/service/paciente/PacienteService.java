@@ -1,0 +1,15 @@
+package com.salud.portalcitas.service.paciente;
+
+import com.salud.portalcitas.dto.paciente.PacienteRequest;
+import com.salud.portalcitas.dto.paciente.PacienteResponse;
+
+import java.util.List;
+
+public interface PacienteService {
+
+    PacienteResponse crear(PacienteRequest pacienteRequest);
+    PacienteResponse obtenerPorIdResponse(Long pacienteId);
+    List<PacienteResponse> listarTodos();
+    PacienteResponse actualizar(Long pacienteId, PacienteRequest pacienteRequest);
+    void eliminarLogico(Long pacienteId);
+}
