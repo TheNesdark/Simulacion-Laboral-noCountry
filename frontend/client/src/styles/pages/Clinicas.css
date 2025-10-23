@@ -1,0 +1,41 @@
+.filter-bar {
+  position: relative;
+  z-index: 100;
+  background-color: #f3f4f6;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-start;
+}
+
+.filter-button {
+  padding: 0.5rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 500;
+  transition: all 0.2s;
+  white-space: nowrap;
+  background-color: transparent;
+  color: #6b7280;
+  border: none;
+  cursor: pointer;
+}
+
+.filter-button:hover {
+  background-color: white;
+}
+
+.filter-button-active {
+  background-color: white;
+  color: #00579B;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.clinicas-content {
+  background-color: rgba(0, 0, 0, 0.2);
+  position: relative;
+  padding: 1.5rem;
+}
