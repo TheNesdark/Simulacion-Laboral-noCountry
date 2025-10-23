@@ -93,7 +93,7 @@ export default function ChatView() {
           <button className="text-[#00579b]">
             <img src="/assets/icons/call-icon.svg" alt="Llamar al doctor"  width="30" height="30" />
           </button>
-          <button className="text-3xl hover:bg-[#00579b] rounded-full">
+          <button className="text-3xl hover:bg-[#00579b] rounded-full w-8">
             ⋮
           </button>
         </div>

@@ -38,8 +38,8 @@ export default function DropdownUser() {
                 <img
                     src="/assets/example-photos/fadbb3fb1c636000b153327245aafd5c73dccc90.png"
                     alt="Usuario"
-                    width={36}
-                    height={36}
+                    width={40}
+                    height={40}
                     className="dropdown-avatar"
                 />
             </button>
