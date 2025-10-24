@@ -68,4 +68,16 @@ public class CupoServiceImpl implements CupoService{
                 .map(c -> new CupoResponse(c.getId(), c.getDisponibilidad().getId(), c.getFecha(), c.getHoraInicio().toString(), c.getHoraFin().toString(), c.getReservado()))
                 .toList();
     }
+
+    @Override
+    public Cupo obtenerPorId(Long cupoId) {
+        return cupoRepository.findById(cupoId).orElseThrow(() -> new RuntimeException("Cupo no encontrado"));
+    }
+
+    @Override
+    public void marcarReservado(Long cupoId) {
+        Cupo cupo = cupoRepository.findById(cupoId).orElseThrow(() -> new RuntimeException("Cupo no encontrado"));
+        cupo.setReservado(true);
+        cupoRepository.save(cupo);
+    }
 }

@@ -1,12 +1,18 @@
 package com.salud.portalcitas.repository;
 
-import com.salud.portalcitas.entity.Citas;
+import com.salud.portalcitas.entity.Cita;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-public interface CitaRepository extends JpaRepository<Citas, Long> {
+public interface CitaRepository extends JpaRepository<Cita, Long> {
+
+    List<Cita> findByPacienteId(Long pacienteId);
+
+    List<Cita> findByMedicoId(Long medicoId);
 
     boolean existsByCupoDisponibilidadId(Long disponibilidadId);
 

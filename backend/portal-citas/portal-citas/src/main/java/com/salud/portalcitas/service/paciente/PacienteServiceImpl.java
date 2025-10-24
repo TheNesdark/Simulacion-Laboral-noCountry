@@ -30,7 +30,7 @@ public class PacienteServiceImpl implements PacienteService{
     }
 
     @Transactional(readOnly = true)
-    private Paciente obtenerPorId(Long pacienteId) {
+    public Paciente obtenerEntidadPorId(Long pacienteId) {
         return pacienteRepository.findById(pacienteId)
                 .orElseThrow(() -> new EntityNotFoundException("El paciente no existe"));
     }
@@ -38,7 +38,7 @@ public class PacienteServiceImpl implements PacienteService{
     @Override
     @Transactional(readOnly = true)
     public PacienteResponse obtenerPorIdResponse(Long pacienteId) {
-        Paciente paciente = this.obtenerPorId(pacienteId);
+        Paciente paciente = this.obtenerEntidadPorId(pacienteId);
         return pacienteMapper.toResponse(paciente);
     }
 
@@ -52,7 +52,7 @@ public class PacienteServiceImpl implements PacienteService{
 
     @Override
     public PacienteResponse actualizar(Long pacienteId, PacienteRequest pacienteRequest) {
-        Paciente paciente = this.obtenerPorId(pacienteId);
+        Paciente paciente = this.obtenerEntidadPorId(pacienteId);
 
         paciente.setNombre(pacienteRequest.getNombre());
         paciente.setApellido(pacienteRequest.getApellido());
@@ -66,7 +66,7 @@ public class PacienteServiceImpl implements PacienteService{
 
     @Override
     public void eliminarLogico(Long pacienteId) {
-        Paciente paciente = this.obtenerPorId(pacienteId);
+        Paciente paciente = this.obtenerEntidadPorId(pacienteId);
         paciente.setActivo(false);
         pacienteRepository.save(paciente);
     }
