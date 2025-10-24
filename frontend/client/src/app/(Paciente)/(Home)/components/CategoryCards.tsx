@@ -1,10 +1,11 @@
 "use client";
 
 import Link from 'next/link';
+import ClinicsIcon from '@/components/icons/ClinicsIcon';
 
 const categories = [
   {
-    icon: "medicos-icon",
+    icon: ClinicsIcon,
     alt: "Medicos",
     label: "Medicos",
     path: "/Medicos"
@@ -29,11 +30,7 @@ export default function CategoryCards() {
       {categories.map((category, index) => (
         <Link href={category.path} key={index} className="category-card">
           <article>
-            <svg width={50} height={50}>
-              <use
-                href={`/assets/icons/homeIcons-sprites.svg#${category.icon}`}
-              />
-            </svg>
+            <category.icon />
             {category.label}
           </article>
         </Link>

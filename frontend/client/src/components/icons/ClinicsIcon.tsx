@@ -1,0 +1,33 @@
+import React from 'react';
+
+interface ArrowRightIconProps {
+  width?: number;
+  height?: number;
+  className?: string;
+}
+
+export default function ClinicsIcon({ width = 40, height = 40, className }: ArrowRightIconProps) {
+return (
+    <svg
+        width={width}
+        height={height}
+        viewBox="0 0 44 44"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className={className}
+    >
+        <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M22 5.2381L3.66663 20.0045V44H16.5V29.2336H27.5V44H40.3333V20.0045L22 5.2381ZM38.762 41.9048H29.5953V27.1302H14.9286V41.9048H5.76196V20.6305L22.262 7.33333L38.762 20.6305V41.9048Z"
+            fill="#03ACF2"
+        />
+        <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M22 0L11 8.78337V3.65974H3.66667V14.6388L0 17.5551L1.31885 18.857L22 2.34338L42.6811 18.8571L44 17.5551L22 0ZM9.42863 10.102L5.76196 13.0952V5.23809H9.42863V10.102Z"
+            fill="#03ACF2"
+        />
+    </svg>
+);
+}
