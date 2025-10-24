@@ -1,11 +1,3 @@
-body{
-  height: 100dvh;
-}
-
-main{
-  height: 100%;
-}
-
 .especialidades-container {
   position: relative;
   overflow: hidden;
