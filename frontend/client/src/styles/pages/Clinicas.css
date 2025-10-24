@@ -1,3 +1,7 @@
+main{
+  height: 100vh;
+}
+
 .filter-bar {
   position: relative;
   z-index: 100;

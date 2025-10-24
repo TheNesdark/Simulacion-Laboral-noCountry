@@ -2,7 +2,6 @@
 
 import "@/styles/components/layout/Header.css";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
 import ArrowLeftIcon from "../icons/ArrowLeftIcon";
 import Link from "next/link";
 import DropdownUser from "../ui/DropdownUser";
@@ -23,7 +22,7 @@ export default function Header() {
     return (
       <header className="header">
         <Link href="/" className="back-link">
-          <img src="/assets/icons/back-icon.svg" alt="Volver al inicio" />
+          <ArrowLeftIcon />
         </Link>
         <h1>Clínicas</h1>
       </header>
@@ -34,7 +33,7 @@ export default function Header() {
     return (
       <header className="header">
         <Link href="/" className="back-link">
-          <img src="/assets/icons/back-icon.svg" alt="Volver al inicio" />
+          <ArrowLeftIcon />
         </Link>
         <h1>Medicos</h1>
       </header>
@@ -45,7 +44,7 @@ export default function Header() {
     return (
       <header className="header">
         <Link href="/" className="back-link">
-          <img src="/assets/icons/back-icon.svg" alt="Volver al inicio" />
+          <ArrowLeftIcon />
         </Link>
         <h1>Especialidades</h1>
       </header>
