@@ -10,7 +10,7 @@ const roboto = Roboto({
 });
 
 export const metadata = {
-  title: "CoordiSalud - Inicio de Sesion",
+  title: "CoordiSalud - Chats",
   description: "Sistema de gestión médica y coordinación de salud",
 };
 
@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={roboto.className}>
-        <main>{children}</main>
+          <main>{children}</main>
       </body>
     </html>
   );

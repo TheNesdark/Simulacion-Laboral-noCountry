@@ -1,7 +1,6 @@
 main {
     display: flex;
     flex-direction: column;
-    align-content: center;
     padding: 24px;
     margin-bottom: 54px;
     gap: 24px;
