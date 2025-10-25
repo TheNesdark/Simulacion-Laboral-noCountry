@@ -1,6 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import {
+  LogoIcon,
+  GoogleIcon,
+  FacebookIcon,
+  BackIcon,
+} from "@/components/icons";
 
 interface SignInProps {
   onBack: () => void;
@@ -12,7 +18,7 @@ export default function Login({ onBack, onChange }: SignInProps) {
     <>
       {/* Boton de regreso */}
       <button className="button-back" onClick={onBack}>
-        <img src="/assets/icons/back-icon.svg" alt="back" />
+        <BackIcon />
       </button>
 
       {/* Circulo Rosa */}
@@ -23,7 +29,7 @@ export default function Login({ onBack, onChange }: SignInProps) {
 
       {/* Sección de inicio de sesión */}
       <section className="login">
-        {/* Panel de navegacion */}
+        {/* Panel navegacion */}
         <div className="options">
           <button className="active">Iniciar Sesión</button>
           <button onClick={onChange}>Registrarse</button>
@@ -34,12 +40,7 @@ export default function Login({ onBack, onChange }: SignInProps) {
           {/* Logo */}
           <div className="login-logo">
             <div className="Logo">
-              <Image
-                src="/assets/icons/logo-icon.svg"
-                alt="user"
-                width={40}
-                height={40}
-              />
+              <LogoIcon />
             </div>
             <span>Medical Salud</span>
           </div>
@@ -74,12 +75,8 @@ export default function Login({ onBack, onChange }: SignInProps) {
 
           {/* Sección de proveedores */}
           <div className="login-providers">
-            <svg width={50} height={50}>
-              <use href="/assets/icons/Providers.svg#google" />
-            </svg>
-            <svg width={50} height={50}>
-              <use href="/assets/icons/Providers.svg#facebook" />
-            </svg>
+            <GoogleIcon width={50} height={50} />
+            <FacebookIcon width={50} height={50} />
           </div>
         </form>
       </section>

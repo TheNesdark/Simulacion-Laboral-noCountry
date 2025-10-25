@@ -23,8 +23,8 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={roboto.className}>
-          <Header />
-          <main>{children}</main>
+        <Header />
+        <main>{children}</main>
       </body>
     </html>
   );

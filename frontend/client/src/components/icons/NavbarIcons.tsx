@@ -1,0 +1,79 @@
+import React from 'react';
+
+interface IconProps {
+  width?: number;
+  height?: number;
+  className?: string;
+}
+
+export function HomeIcon({ width = 25, height = 25, className }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 25 25"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <path
+        d="M12.5 6.19L17.5 10.69V18.5H15.5V12.5H9.5V18.5H7.5V10.69L12.5 6.19ZM12.5 3.5L2.5 12.5H5.5V20.5H11.5V14.5H13.5V20.5H19.5V12.5H22.5L12.5 3.5Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+export function EstudiosIcon({ width = 25, height = 25, className }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 25 25"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <path
+        d="M19.5 2.5H15.32C14.9 1.34 13.8 0.5 12.5 0.5C11.2 0.5 10.1 1.34 9.68 2.5H5.5C4.4 2.5 3.5 3.4 3.5 4.5V20.5C3.5 21.6 4.4 22.5 5.5 22.5H19.5C20.6 22.5 21.5 21.6 21.5 20.5V4.5C21.5 3.4 20.6 2.5 19.5 2.5ZM12.5 2.5C13.05 2.5 13.5 2.95 13.5 3.5C13.5 4.05 13.05 4.5 12.5 4.5C11.95 4.5 11.5 4.05 11.5 3.5C11.5 2.95 11.95 2.5 12.5 2.5ZM19.5 20.5H5.5V4.5H7.5V7.5H17.5V4.5H19.5V20.5Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+export function CalendarioIcon({ width = 25, height = 25, className }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 25 25"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <path
+        d="M19.5 4.5H18.5V2.5H16.5V4.5H8.5V2.5H6.5V4.5H5.5C4.39 4.5 3.51 5.4 3.51 6.5L3.5 20.5C3.5 21.6 4.39 22.5 5.5 22.5H19.5C20.6 22.5 21.5 21.6 21.5 20.5V6.5C21.5 5.4 20.6 4.5 19.5 4.5ZM19.5 20.5H5.5V10.5H19.5V20.5ZM19.5 8.5H5.5V6.5H19.5V8.5ZM12.5 13.5H17.5V18.5H12.5V13.5Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+export function ChatIcon({ width = 25, height = 25, className }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 25 25"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <path
+        d="M4.5 4.5H20.5V16.5H5.67L4.5 17.67V4.5ZM4.5 2.5C3.4 2.5 2.51 3.4 2.51 4.5L2.5 22.5L6.5 18.5H20.5C21.6 18.5 22.5 17.6 22.5 16.5V4.5C22.5 3.4 21.6 2.5 20.5 2.5H4.5ZM6.5 12.5H14.5V14.5H6.5V12.5ZM6.5 9.5H18.5V11.5H6.5V9.5ZM6.5 6.5H18.5V8.5H6.5V6.5Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}

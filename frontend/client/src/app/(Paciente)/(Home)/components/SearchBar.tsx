@@ -1,5 +1,4 @@
-import Image from "next/image";
-
+import { FilterIcon } from "@/components/icons";
 export default function SearchBar() {
   return (
     <form className="search-bar">
@@ -10,13 +9,7 @@ export default function SearchBar() {
         aria-label="Buscar"
       />
       <button type="button">
-        <Image
-          src="/assets/icons/filter-icon.svg"
-          alt="filter"
-          width={24}
-          height={24}
-          priority
-        />
+        <FilterIcon />
       </button>
     </form>
   );

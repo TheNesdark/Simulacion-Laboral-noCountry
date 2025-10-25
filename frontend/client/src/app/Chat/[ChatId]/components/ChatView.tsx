@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { BackIcon, CallIcon } from "@components/icons";
 
 export default function ChatView() {
   const params = useParams();
@@ -75,7 +76,7 @@ export default function ChatView() {
             className="rounded-full cursor-pointer"
             onClick={() => router.back()}
           >
-             <img src="/assets/icons/back-icon.svg" alt="Volver al historia del chats" />
+            <BackIcon width={20} height={21} />
           </button>
           <Image
             src={data?.avatar || "/assets/Login.png"}
@@ -91,7 +92,7 @@ export default function ChatView() {
         </div>
         <div className="flex gap-2">
           <button className="text-[#00579b]">
-            <img src="/assets/icons/call-icon.svg" alt="Llamar al doctor"  width="30" height="30" />
+            <CallIcon width={30} height={30} />
           </button>
           <button className="text-3xl hover:bg-[#00579b] rounded-full w-8">
             ⋮

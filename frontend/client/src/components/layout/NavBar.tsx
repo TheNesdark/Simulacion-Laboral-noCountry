@@ -3,31 +3,37 @@
 import "@/styles/components/layout/NavBar.css";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import {
+  HomeIcon,
+  EstudiosIcon,
+  CalendarioIcon,
+  ChatIcon,
+} from "@/components/icons";
 
 export default function NavBar() {
   const pathname = usePathname();
   const navItems = [
     {
       href: "/",
-      icon: "home-icon",
+      icon: HomeIcon,
       label: "inicio",
       active: pathname === "/",
     },
     {
       href: "/Examenes",
-      icon: "estudios-icon",
+      icon: EstudiosIcon,
       label: "Estudio",
       active: pathname === "/Examenes",
     },
     {
       href: "/Calendario",
-      icon: "calendario-icon",
+      icon: CalendarioIcon,
       label: "Mis citas",
       active: pathname === "/Calendario",
     },
     {
       href: "/Chat",
-      icon: "chat-icon",
+      icon: ChatIcon,
       label: "Chat",
       active: pathname === "/Chat",
     },
@@ -41,9 +47,7 @@ export default function NavBar() {
           href={item.href}
           className={item.active ? "active" : ""}
         >
-          <svg width={30} height={30}>
-            <use href={`/assets/icons/navbarIcon-sprites.svg#${item.icon}`} />
-          </svg>
+          <item.icon width={30} height={30} />
           {item.label}
         </Link>
       ))}

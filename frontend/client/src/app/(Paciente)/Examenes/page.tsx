@@ -1,5 +1,6 @@
 "use client";
 import "@styles/pages/Examenes.css";
+import MedicalExamsFilter from "./components/MedicalExamsFilter";
 import MedicalExamsList from "./components/MedicalExamsList";
 import useMedicalExams from "@hooks/useMedicalExams";
 import LoadingSpinner from "@components/common/LoadingSpinner";
@@ -26,13 +27,13 @@ export default function ExamsPage() {
 
   return (
     <>
-      <MedicalExamsList
+      <MedicalExamsFilter
         filter={filter}
         setFilter={setFilter}
-        filteredExams={filteredExams}
         disponiblesCount={disponiblesCount}
         pendientesCount={pendientesCount}
       />
+      <MedicalExamsList filteredExams={filteredExams} />
     </>
   );
 }

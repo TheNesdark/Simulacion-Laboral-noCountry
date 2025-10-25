@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { BackIcon, LogoIcon } from "@components/icons";
 
 interface SignUpProps {
   onBack: () => void;
@@ -12,7 +13,7 @@ export default function Register({ onBack, onChange }: SignUpProps) {
     <>
       {/* Boton de regreso */}
       <button className="button-back" onClick={onBack}>
-        <img src="/assets/icons/back-icon.svg" alt="back" />
+        <BackIcon />
       </button>
 
       {/* Circulo Rosa */}
@@ -34,12 +35,7 @@ export default function Register({ onBack, onChange }: SignUpProps) {
           {/* Logo */}
           <div className="login-logo">
             <div className="Logo">
-              <Image
-                src="/assets/icons/logo-icon.svg"
-                alt="user"
-                width={40}
-                height={40}
-              />
+              <LogoIcon />
             </div>
             <span>Medical Salud</span>
           </div>

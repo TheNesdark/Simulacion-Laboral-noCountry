@@ -2,7 +2,7 @@
 
 import "@/styles/components/layout/Header.css";
 import { usePathname } from "next/navigation";
-import ArrowLeftIcon from "../icons/ArrowLeftIcon";
+import ArrowLeftIcon from "../icons/BackIcon";
 import Link from "next/link";
 import DropdownUser from "../ui/DropdownUser";
 export default function Header() {

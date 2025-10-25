@@ -32,7 +32,7 @@ export default function ChatsList() {
   ];
 
   const handleChatClick = (chatId: number) => {
-    router.push(`/Message/${chatId}`);
+    router.push(`/Chat/${chatId}`);
   };
 
   return (

@@ -1,26 +1,30 @@
 "use client";
 
-import Link from 'next/link';
-import ClinicsIcon from '@/components/icons/ClinicsIcon';
+import Link from "next/link";
+import {
+  MedicosIcon,
+  HospitalIcon,
+  EspecialidadesIcon,
+} from "@/components/icons";
 
 const categories = [
   {
-    icon: ClinicsIcon,
+    icon: MedicosIcon,
     alt: "Medicos",
     label: "Medicos",
-    path: "/Medicos"
+    path: "/Medicos",
   },
   {
-    icon: "hospital-icon",
+    icon: HospitalIcon,
     alt: "Hospital",
     label: "Clinicas y Hospitales",
-    path: "/Clinicas"
+    path: "/Clinicas",
   },
   {
-    icon: "especialidades-icon",
+    icon: EspecialidadesIcon,
     alt: "Especialidades",
     label: "Especialidades",
-    path: "/Especialidades"
+    path: "/Especialidades",
   },
 ];
 
