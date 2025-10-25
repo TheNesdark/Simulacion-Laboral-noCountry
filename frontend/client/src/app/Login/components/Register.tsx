@@ -1,7 +1,10 @@
 "use client";
 
-import Image from "next/image";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
 import { BackIcon, LogoIcon } from "@components/icons";
+import { GoogleIcon, FacebookIcon } from "@components/icons";
+import { auth } from "@/lib/firebase/firebase";
 
 interface SignUpProps {
   onBack: () => void;
@@ -9,6 +12,45 @@ interface SignUpProps {
 }
 
 export default function Register({ onBack, onChange }: SignUpProps) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleRegister = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+    
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      console.log("Usuario registrado exitosamente");
+    } catch (error: any) {
+      console.error("Error al registrar usuario:", error);
+      setError(getErrorMessage(error.code));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getErrorMessage = (errorCode: string): string => {
+    switch (errorCode) {
+      case "auth/email-already-in-use":
+        return "El correo electrónico ya está en uso.";
+      case "auth/invalid-email":
+        return "El correo electrónico no es válido.";
+      case "auth/operation-not-allowed":
+        return "El registro de usuarios está deshabilitado.";
+      case "auth/weak-password":
+        return "La contraseña es muy débil. Debe tener al menos 6 caracteres.";
+      case "auth/configuration-not-found":
+        return "Error de configuración. Por favor, verifica la configuración de Firebase.";
+      default:
+        return "Ocurrió un error durante el registro. Por favor, inténtalo de nuevo.";
+    }
+  };
+
   return (
     <>
       {/* Boton de regreso */}
@@ -31,7 +73,7 @@ export default function Register({ onBack, onChange }: SignUpProps) {
         </div>
 
         {/* Formulario de inicio de sesión */}
-        <form className="login-form" action="">
+        <form className="login-form" action="" onSubmit={handleRegister}>
           {/* Logo */}
           <div className="login-logo">
             <div className="Logo">
@@ -47,32 +89,39 @@ export default function Register({ onBack, onChange }: SignUpProps) {
               id="paciente-name"
               type="text"
               placeholder="Nombre y Apellido"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
             <label htmlFor="paciente-email">Correo electrónico</label>
             <input
               id="paciente-email"
               type="email"
               placeholder="Correo electrónico"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <label htmlFor="paciente-password">Contraseña</label>
             <input
               id="paciente-password"
               type="password"
               placeholder="Contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
+          {/* Mostrar errores si existen */}
+          {error && <div className="error-message">{error}</div>}
+
           {/* Botón de inicio de sesión */}
-          <button type="submit">Registrarse</button>
+          <button type="submit" disabled={loading}>
+            {loading ? "Registrando..." : "Registrarse"}
+          </button>
 
           {/* Sección de proveedores */}
           <div className="login-providers">
-            <svg width={50} height={50}>
-              <use href="/assets/icons/Providers.svg#google" />
-            </svg>
-            <svg width={50} height={50}>
-              <use href="/assets/icons/Providers.svg#facebook" />
-            </svg>
+            <GoogleIcon />
+            <FacebookIcon />
           </div>
         </form>
       </section>

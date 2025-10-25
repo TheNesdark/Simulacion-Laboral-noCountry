@@ -52,3 +52,17 @@
 .medicos-no-doctors-text {
   font-size: 1.125rem;
 }
+
+.doctor-card-rating{
+  display:flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.doctor-card-rating::before{
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background: url("/assets/icons/LikeIcon.svg") no-repeat center/18px 18px;
+}

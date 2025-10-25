@@ -1,5 +1,7 @@
 import "@/styles/globals.css";
 import { Roboto } from "next/font/google";
+import AuthGuard from "@/components/AuthGuard";
+import Providers from "@components/providers";
 
 const roboto = Roboto({
   weight: ["400", "700"],
@@ -20,10 +22,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
-      <body className={roboto.className}>
-          <main>{children}</main>
-      </body>
-    </html>
+        <html lang="es">
+          <body className={roboto.className}>
+            <Providers>
+              <AuthGuard>
+                {children}
+              </AuthGuard>
+            </Providers>
+          </body>
+        </html>
   );
 }

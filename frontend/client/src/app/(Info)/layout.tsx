@@ -1,6 +1,8 @@
 import "@/styles/globals.css";
 import { Roboto } from "next/font/google";
 import Header from "@/components/layout/Header";
+import Providers from "@/components/providers";
+import AuthGuard from "@/components/AuthGuard";
 
 const roboto = Roboto({
   weight: ["400", "700"],
@@ -23,8 +25,12 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={roboto.className}>
-        <Header />
-        <main>{children}</main>
+        <Providers>
+          <AuthGuard>
+            <Header />
+            {children}
+          </AuthGuard>
+        </Providers>
       </body>
     </html>
   );
