@@ -1,3 +1,4 @@
+import Providers from "@/components/providers";
 import "@/styles/globals.css";
 import { Roboto } from "next/font/google";
 
@@ -22,7 +23,9 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={roboto.className}>
-        <main>{children}</main>
+        <Providers>
+          <main>{children}</main>
+        </Providers>
       </body>
     </html>
   );

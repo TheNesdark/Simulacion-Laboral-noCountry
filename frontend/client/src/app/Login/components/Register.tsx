@@ -1,10 +1,9 @@
 "use client";
 
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { BackIcon, LogoIcon } from "@components/icons";
 import { GoogleIcon, FacebookIcon } from "@components/icons";
-import { auth } from "@/lib/firebase/firebase";
+import { useAuth } from "@/context/AuthContext";
 
 interface SignUpProps {
   onBack: () => void;
@@ -12,42 +11,24 @@ interface SignUpProps {
 }
 
 export default function Register({ onBack, onChange }: SignUpProps) {
+  const { register, error } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    setError(null);
     setLoading(true);
-    
+
+
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      await register(name, email, password);
       console.log("Usuario registrado exitosamente");
     } catch (error: any) {
       console.error("Error al registrar usuario:", error);
-      setError(getErrorMessage(error.code));
     } finally {
       setLoading(false);
-    }
-  };
-
-  const getErrorMessage = (errorCode: string): string => {
-    switch (errorCode) {
-      case "auth/email-already-in-use":
-        return "El correo electrónico ya está en uso.";
-      case "auth/invalid-email":
-        return "El correo electrónico no es válido.";
-      case "auth/operation-not-allowed":
-        return "El registro de usuarios está deshabilitado.";
-      case "auth/weak-password":
-        return "La contraseña es muy débil. Debe tener al menos 6 caracteres.";
-      case "auth/configuration-not-found":
-        return "Error de configuración. Por favor, verifica la configuración de Firebase.";
-      default:
-        return "Ocurrió un error durante el registro. Por favor, inténtalo de nuevo.";
     }
   };
 
