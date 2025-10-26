@@ -16,6 +16,7 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   register: (name: string, email: string, password: string) => Promise<User | undefined>;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   error: string | null;
   setError: React.Dispatch<React.SetStateAction<string | null>>;
@@ -85,6 +86,27 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const login = async (email: string, password: string) => {
+    setError(null);
+    setLoading(true);
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) return setError("No se encontraron datos del usuario.");
+      setUser(user);
+      setUserData(userData);
+      router.push("/");
+    } catch (error: any) {
+      setError("Tus credenciales son incorrectos.")
+    } finally {
+      setLoading(false);
+    }
+  }
+
   const logout = async () => {
     await signOut(auth);
     setUser(null);
@@ -92,7 +114,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, register, logout, error, setError }}>
+    <AuthContext.Provider value={{ user, loading, register, login, logout, error, setError }}>
       {children}
     </AuthContext.Provider>
   );
