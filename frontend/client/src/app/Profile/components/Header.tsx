@@ -1,6 +1,7 @@
 "use client";
 import "@/styles/components/layout/Header.css";
 import { useRouter } from "next/navigation";
+import { BackIcon } from "@/components/icons";
 
 export default function Header() {
 	const router = useRouter();
@@ -11,7 +12,9 @@ export default function Header() {
 
 	return (
 		<header className="header">
-			<img src="/assets/icons/back-icon.svg" alt="Volver" onClick={handleBack} className="back-link" />
+			<button className="back-link" onClick={handleBack}>
+				<BackIcon />
+			</button>
 			<h1>Perfil</h1>
 		</header>
 	);

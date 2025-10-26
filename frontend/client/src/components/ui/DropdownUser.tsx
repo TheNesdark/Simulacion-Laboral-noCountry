@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
+import { UserProfile} from "@components/icons";
 
 export default function DropdownUser() {
   const { user, logout } = useAuth();
@@ -39,13 +40,7 @@ export default function DropdownUser() {
         onClick={() => setIsOpen((s) => !s)}
         type="button"
       >
-        <img
-          src="/assets/example-photos/fadbb3fb1c636000b153327245aafd5c73dccc90.png"
-          alt="Usuario"
-          width={40}
-          height={40}
-          className="dropdown-avatar"
-        />
+        <UserProfile />
       </button>
 
       {isOpen && (

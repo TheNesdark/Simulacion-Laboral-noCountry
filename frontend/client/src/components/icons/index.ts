@@ -26,3 +26,4 @@ export { default as LikeIcon } from "./LikeIcon";
 export { default as LockIcon } from "./LockIcon";
 export { default as MonitorIcon } from "./MonitorIcon";
 export { default as ProfileIcon } from "./ProfileIcon";
+export { default as UserProfile } from "./UserIcon";

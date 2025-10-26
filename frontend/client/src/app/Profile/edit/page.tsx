@@ -1,33 +1,40 @@
 "use client";
-import React, { useState } from 'react';
-import "@/styles/pages/Profile.css";
-import EditIcon from "@/components/icons/EditIcon";
 
-const initialUserData = {
-  nombre: 'Juan',
-  apellidos: 'Pérez García',
-  documento: '12345678',
-  fechaNacimiento: '1990-05-15',
-  correo: 'juan.perez@example.com',
-  telefono: '+5491123456789',
-};
+import "@/styles/pages/Profile.css";
+import React from 'react';
+import EditIcon from "@/components/icons/EditIcon";
+import { useEditProfile } from "@/hooks/useEditProfile";
 
 export default function EditProfilePage() {
-  const [formData, setFormData] = useState(initialUserData);
+  const {
+    formData,
+    photoPreview,
+    fileInputRef,
+    handlePhotoChange,
+    handleEditPhotoClick,
+    handleInputChange,
+    handleSubmit,
+    userData,
+  } = useEditProfile();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Datos guardados:', formData);
-
-    alert('Cambios guardados exitosamente');
+    try {
+      const result = await handleSubmit(e);
+      if (result?.success) {
+        if (result.photoUploadSuccess || !fileInputRef.current?.files?.[0]) {
+          alert('Cambios guardados exitosamente');
+        } else {
+          alert('Cambios guardados, pero hubo un error al subir la foto. Puedes intentar subirla nuevamente.');
+        }
+      }
+    } catch (error: any) {
+      if (error.message) {
+        alert(error.message);
+      } else {
+        alert('Error al guardar los cambios. Por favor, inténtalo de nuevo.');
+      }
+    }
   };
 
   return (
@@ -35,25 +42,45 @@ export default function EditProfilePage() {
       <div className="profile-banner edit-banner">
         <div className="profile-image-container">
           <div className="profile-image">
-            <span>J</span>
+            {photoPreview ? (
+              <img src={photoPreview} alt="Vista previa" className="w-full h-full object-cover rounded-full" />
+            ) : userData?.photoURL ? (
+              <img src={userData.photoURL} alt="Foto de perfil" className="w-full h-full object-cover rounded-full" />
+            ) : (
+              <span>{userData?.nombre ? userData.nombre.charAt(0).toUpperCase() : 'U'}</span>
+            )}
           </div>
-          <button className="edit-photo-btn" type="button" aria-label="Editar foto">
+          <button 
+            className="edit-photo-btn" 
+            type="button" 
+            aria-label="Editar foto"
+            onClick={handleEditPhotoClick}
+          >
             <EditIcon />
           </button>
         </div>
         <div className="profile-name-display">
-          <h2>{formData.nombre} {formData.apellidos}</h2>
+          <h2>
+            {formData.nombres} {formData.apellidos}
+          </h2>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="edit-profile-form">
+      <form onSubmit={onSubmit} className="edit-profile-form">
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handlePhotoChange}
+          accept="image/*"
+          className="hidden"
+        />
         <div className="form-group">
-          <label htmlFor="nombre">Nombre</label>
+          <label htmlFor="nombres">Nombre</label>
           <input
             type="text"
-            id="nombre"
-            name="nombre"
-            value={formData.nombre}
+            id="nombres"
+            name="nombres"
+            value={formData.nombres}
             onChange={handleInputChange}
             required
           />
@@ -81,6 +108,22 @@ export default function EditProfilePage() {
             onChange={handleInputChange}
             required
           />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="genero">Género</label>
+          <select
+            id="genero"
+            name="genero"
+            value={formData.genero}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="">Seleccione</option>
+            <option value="masculino">Masculino</option>
+            <option value="femenino">Femenino</option>
+            <option value="otro">Otro</option>
+          </select>
         </div>
 
         <div className="form-group">

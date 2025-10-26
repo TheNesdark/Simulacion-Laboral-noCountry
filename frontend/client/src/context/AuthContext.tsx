@@ -10,24 +10,37 @@ import {
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, User } from "firebase/auth";
 import { auth, db } from "@/lib/firebase/firebase";
 import { useRouter } from "next/navigation";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, updateDoc, DocumentData } from "firebase/firestore";
 
 interface AuthContextType {
   user: User | null;
   userData: any;
   loading: boolean;
-  register: (name: string, email: string, password: string) => Promise<User | undefined>;
+  register: (data: registerProps) => Promise<User | undefined>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  updateUserData: (data: Partial<userData>) => Promise<void>;
   error: string | null;
   setError: React.Dispatch<React.SetStateAction<string | null>>;
 }
+
+interface registerProps {
+  documento: string;
+  nombres: string;
+  apellidos: string;
+  fechaNacimiento: string;
+  telefono: string;
+  email: string;
+  password: string;
+}
+
+export type userData = DocumentData
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<userData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter()
@@ -55,20 +68,22 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const register = async (name: string, email: string, password: string) => {
+  const register = async (data: registerProps) => {
     setError(null)
     setLoading(true);
-
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
       const user = userCredential.user;
-
       await setDoc(doc(db, "users", user.uid), {
         id: user.uid,
-        name,
-        email
+        nombres: data.nombres,
+        apellidos: data.apellidos,
+        documento: data.documento,
+        fechaNacimiento: data.fechaNacimiento,
+        telefono: data.telefono,
+        email: data.email,
       });
-      console.log("Usuario registrado exitosamente", user.uid);
+
       router.push("/");
       return user;
 
@@ -103,10 +118,8 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
       const userRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userRef);
-
       if (!userSnap.exists()) return setError("No se encontraron datos del usuario.");
       setUser(user);
       setUserData(userData);
@@ -124,8 +137,28 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     router.push("/Login");
   }
 
+  const updateUserData = async (data: Partial<userData>) => {
+    if (!user) {
+      throw new Error("No hay usuario autenticado");
+    }
+
+    try {
+      const userRef = doc(db, "users", user.uid);
+      await updateDoc(userRef, data);
+      
+      // Actualizar el estado local
+      setUserData(prev => ({
+        ...prev,
+        ...data
+      }));
+    } catch (error) {
+      console.error("Error al actualizar datos del usuario:", error);
+      throw error;
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ user, userData, loading, register, login, logout, error, setError }}>
+    <AuthContext.Provider value={{ user, userData, loading, register, login, logout, updateUserData, error, setError }}>
       {children}
     </AuthContext.Provider>
   );

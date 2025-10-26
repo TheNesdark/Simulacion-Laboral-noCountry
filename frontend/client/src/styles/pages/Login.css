@@ -4,7 +4,7 @@ main {
     justify-content: center;
     height: 100dvh;
     width: 100dvw;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 /* Círculo azul en la esquina superior derecha */
@@ -121,6 +121,16 @@ main::after {
     flex-direction: column;
 }
 
+.input-nombres {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+}
+
+.input-nombres div {
+    width: 50%;
+}
+
 .login-inputs label {
     width: 100%;
     margin-top: 1rem;
@@ -149,16 +159,34 @@ main::after {
     margin-right: 1rem;
 }
 
-/* Boton de inicio de sesion */
-button[type="submit"] {
-    width: 100%;
+/* Botones de paso */
+.next-step-button,
+.prev-step-button,
+.submit-button {
     margin: 1rem 0;
-    padding: 0.8rem;
+    width: 100%;
     border-radius: 30px;
+    padding: 0.5rem;
     border: 1px solid #fafafa;
-    background-color: #979797;
+    background-color: #03acf2;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     color: #ffffff;
+    cursor: pointer;
+}
+
+.submit-button {
+    background-color: #4caf50;
+}
+
+.step-buttons {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+}
+
+.error-message {
+    text-align: center;
+    padding: 0.5rem;
 }
 
 /* Seccion de proveedores */
@@ -193,6 +221,7 @@ button[type="submit"] {
     main {
         display: block;
     }
+
     /* Círculo azul */
     main::before {
         top: auto;
@@ -334,17 +363,6 @@ button[type="submit"] {
         margin-right: 1rem;
     }
 
-    /* Boton de inicio de sesion */
-    button[type="submit"] {
-        width: 100%;
-        margin: 2.5rem 0;
-        padding: 0.3rem;
-        border-radius: 10px;
-        border: 1px solid #fafafa;
-        background-color: #03acf2;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        color: #ffffff;
-    }
 
     /* Seccion de proveedores */
     .login-providers {

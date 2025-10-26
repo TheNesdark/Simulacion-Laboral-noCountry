@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import Link from 'next/link';
 import "@/styles/pages/Profile.css";
@@ -6,7 +8,7 @@ import ArrowRightIcon from "@/components/icons/ArrowRightIcon";
 import MonitorIcon from "@/components/icons/MonitorIcon";
 import LockIcon from "@/components/icons/LockIcon";
 import HelpIcon from "@/components/icons/HelpIcon";
-
+import { useAuth } from '@/context/AuthContext';
 
 const profileOptions = [
   {
@@ -34,12 +36,15 @@ const profileOptions = [
 ];
 
 export default function ProfilePage() {
+
+  const { userData } = useAuth();
+
   return (
     <div className="profile-page">
       <div className="profile-banner">
         <div className="profile-image-container">
           <div className="profile-image">
-            <span>V</span>
+            <span>{userData.nombres ? userData.nombres.charAt(0).toUpperCase() : 'U'}</span>
           </div>
           <button className="edit-photo-btn" aria-label="Editar foto">
             <EditIcon />
