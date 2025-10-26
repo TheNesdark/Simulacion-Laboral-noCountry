@@ -14,6 +14,7 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 
 interface AuthContextType {
   user: User | null;
+  userData: any;
   loading: boolean;
   register: (name: string, email: string, password: string) => Promise<User | undefined>;
   login: (email: string, password: string) => Promise<void>;
@@ -31,9 +32,19 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter()
 
-  const unsubscribe = onAuthStateChanged(auth, (user) => {
-    console.log(user, 'user')
-    setUser(user);
+  const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const userRef = doc(db, "users", user?.uid);
+      const userSnap = await getDoc(userRef);
+      if (userSnap.exists()) {
+        const data = userSnap.data();
+        setUser(user);
+        setUserData(data)
+      }
+    } else {
+      setUser(null);
+      setUserData(null);
+    }
     setLoading(false);
   });
 
@@ -114,7 +125,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, register, login, logout, error, setError }}>
+    <AuthContext.Provider value={{ user, userData, loading, register, login, logout, error, setError }}>
       {children}
     </AuthContext.Provider>
   );

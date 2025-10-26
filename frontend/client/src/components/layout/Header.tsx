@@ -5,14 +5,14 @@ import { usePathname } from "next/navigation";
 import ArrowLeftIcon from "../icons/BackIcon";
 import Link from "next/link";
 import DropdownUser from "../ui/DropdownUser";
+import { useAuth } from "@/context/AuthContext";
 export default function Header() {
+  const { userData } = useAuth();
   const pathname = usePathname();
-  const user = "Valentina";
-
   if (pathname === "/") {
     return (
       <header className="header">
-        <h1>¡Bienvenida, {user}!</h1>
+        <h1>¡Bienvenida, {userData.name}!</h1>
         <DropdownUser />
       </header>
     );
