@@ -4,7 +4,7 @@ main {
     justify-content: center;
     height: 100dvh;
     width: 100dvw;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 /* Círculo azul en la esquina superior derecha */
