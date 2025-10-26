@@ -2,8 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 export default function DropdownUser() {
+  const { user, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
 
@@ -13,6 +15,8 @@ export default function DropdownUser() {
         setIsOpen(false);
       }
     }
+
+    console.log(user, 'user')
 
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") setIsOpen(false);
@@ -52,7 +56,7 @@ export default function DropdownUser() {
           <button
             className="dropdown-item"
             role="menuitem"
-            onClick={() => alert("Cerrar sesión (stub)")}
+            onClick={logout}
           >
             <span className="dropdown-item-logout">Cerrar sesión</span>
           </button>
