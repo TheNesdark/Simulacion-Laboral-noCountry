@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
-import { UserProfile} from "@components/icons";
+import { UserPhoto } from "@components/icons";
 
 export default function DropdownUser() {
   const { user, logout } = useAuth();
@@ -40,7 +40,7 @@ export default function DropdownUser() {
         onClick={() => setIsOpen((s) => !s)}
         type="button"
       >
-        <UserProfile />
+        <UserPhoto />
       </button>
 
       {isOpen && (

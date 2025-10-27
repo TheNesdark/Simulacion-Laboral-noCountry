@@ -3,7 +3,7 @@
 import "@/styles/pages/Profile.css";
 import React from 'react';
 import EditIcon from "@/components/icons/EditIcon";
-import { useEditProfile } from "@/hooks/useEditProfile";
+import useEditProfile  from "@/hooks/useEditProfile";
 
 export default function EditProfilePage() {
   const {

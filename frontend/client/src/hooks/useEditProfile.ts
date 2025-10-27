@@ -1,9 +1,8 @@
 import { useState, useRef } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { storage } from '@/lib/firebase/firebase';
+import { uploadPhotoToFirebase, validateImageFile } from '@/services/firebase';
 
-export const useEditProfile = () => {
+export default function useEditProfile() {
   const { userData, updateUserData, user } = useAuth();
   const [userPhoto, setUserPhoto] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
@@ -21,13 +20,18 @@ export const useEditProfile = () => {
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     if (file) {
-      setUserPhoto(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPhotoPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
+      try {
+        validateImageFile(file);
+        setUserPhoto(file);
+        const reader = new FileReader();
+        reader.onloadend = () => { 
+          setPhotoPreview(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      } catch (error) {
+        console.error('Error al validar la imagen:', error);
+      }
+    } 
   };
 
   const handleEditPhotoClick = () => {
@@ -42,26 +46,7 @@ export const useEditProfile = () => {
     }));
   };
 
-  const uploadPhotoToFirebase = async (): Promise<string | null> => {
-    if (!user || !userPhoto) return null;
-
-    try {
-      const fileName = `${Date.now()}_${userPhoto.name}`;
-      const storageRef = ref(storage, `profile-photos/${user.uid}/${fileName}`);
-      const snapshot = await uploadBytes(storageRef, userPhoto);
-      const downloadURL = await getDownloadURL(snapshot.ref);
-      
-      return downloadURL;
-    } catch (error: any) {
-      if (error.code === 'storage/unauthorized') {
-        throw new Error('No tienes permisos para subir archivos. Contacta al administrador.');
-      } else if (error.code === 'storage/canceled') {
-        throw new Error('La carga de la imagen fue cancelada.');
-      } else {
-        throw new Error('Error al subir la imagen. Por favor, inténtalo de nuevo.');
-      }
-    }
-  };
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,13 +60,11 @@ export const useEditProfile = () => {
       let photoUploadSuccess = true;
       
       if (userPhoto) {
-        photoURL = await uploadPhotoToFirebase();
+        photoURL = await uploadPhotoToFirebase(userPhoto, user.uid);
         if (!photoURL) {
           photoUploadSuccess = false;
         }
       }
-
-      // Actualizar usando la función del contexto
       await updateUserData({
         nombre: formData.nombres,
         apellido: formData.apellidos,
@@ -101,19 +84,14 @@ export const useEditProfile = () => {
   };
 
   return {
-    // Estados
     formData,
     photoPreview,
     fileInputRef,
-    
-    // Funciones
     handlePhotoChange,
     handleEditPhotoClick,
     handleInputChange,
     handleSubmit,
-    
-    // Datos del usuario
     userData,
     user
   };
-};
+}

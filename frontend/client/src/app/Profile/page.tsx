@@ -9,6 +9,7 @@ import MonitorIcon from "@/components/icons/MonitorIcon";
 import LockIcon from "@/components/icons/LockIcon";
 import HelpIcon from "@/components/icons/HelpIcon";
 import { useAuth } from '@/context/AuthContext';
+import { UserPhoto } from '@/components/icons';
 
 const profileOptions = [
   {
@@ -43,12 +44,7 @@ export default function ProfilePage() {
     <div className="profile-page">
       <div className="profile-banner">
         <div className="profile-image-container">
-          <div className="profile-image">
-            <span>{userData.nombres ? userData.nombres.charAt(0).toUpperCase() : 'U'}</span>
-          </div>
-          <button className="edit-photo-btn" aria-label="Editar foto">
-            <EditIcon />
-          </button>
+            <UserPhoto width={100} height={100} />
         </div>
       </div>
 
