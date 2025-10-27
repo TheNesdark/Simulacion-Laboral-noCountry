@@ -28,6 +28,9 @@ export interface UserData {
   fechaNacimiento: string;
   telefono: string;
   email: string;
+  genero?: string;
+  photoURL: string;
+  createdAt: Date;
 }
 
 export interface RegisterProps {

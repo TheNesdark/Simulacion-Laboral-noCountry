@@ -65,16 +65,20 @@ export default function useEditProfile() {
           photoUploadSuccess = false;
         }
       }
-      await updateUserData({
-        nombre: formData.nombres,
-        apellido: formData.apellidos,
-        documento: formData.documento,
-        fechaNacimiento: formData.fechaNacimiento,
-        telefono: formData.telefono,
-        email: formData.correo,
-        genero: formData.genero,
-        photoURL: photoURL,
-      });
+      if (userData) {
+        await updateUserData({
+          ...userData,
+          nombres: formData.nombres,
+          apellidos: formData.apellidos,
+          documento: formData.documento,
+          fechaNacimiento: formData.fechaNacimiento,
+          telefono: formData.telefono,
+          email: formData.correo,
+          genero: formData.genero,
+          photoURL: photoURL || '',
+          createdAt: userData.createdAt,
+        });
+      }
 
       return { success: true, photoUploadSuccess };
     } catch (error) {

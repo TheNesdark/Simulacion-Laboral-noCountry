@@ -8,7 +8,7 @@ import { BackIcon, CallIcon } from "@/components/icons";
 export default function ChatView() {
   const params = useParams();
   const router = useRouter();
-  const chatId = Number(params.ChatId); // TODO: remove
+  const chatId = Number(params?.ChatId); // TODO: remove
   const chats = [
     {
       id: 1,

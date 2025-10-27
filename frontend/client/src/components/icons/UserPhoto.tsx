@@ -22,7 +22,7 @@ export default function UserPhoto({
   const { userData } = useAuth();
 
   const getUserInitial = () => {
-    if (userData?.nombre) return userData.nombre.charAt(0).toUpperCase();
+    if (userData?.nombres) return userData.nombres.charAt(0).toUpperCase();
     if (userData?.email) return userData.email.charAt(0).toUpperCase();
     return 'U';
   };

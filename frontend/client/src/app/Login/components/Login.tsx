@@ -24,7 +24,7 @@ export default function Login({ onBack, onChange }: SignInProps) {
   const handleLogin = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setLoading(true);
-    await login(email, password);
+    await login({ email, password });
     setLoading(false);
   }
 
