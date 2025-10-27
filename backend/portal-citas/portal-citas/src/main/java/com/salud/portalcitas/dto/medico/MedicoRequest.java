@@ -14,6 +14,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class MedicoRequest {
 
+    private String userId;
+
     @NotBlank
     @Size(max = 100)
     private String nombre;
@@ -25,6 +27,8 @@ public class MedicoRequest {
     @Size(max = 30)
     private String telefono;
 
-    @NotNull
     private Long matricula;
+
+    @NotNull
+    private String email;
 }

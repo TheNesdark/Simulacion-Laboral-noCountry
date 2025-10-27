@@ -20,10 +20,13 @@ public class Paciente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "user_id")
+    private String userId;
+
     private String nombre;
     private String apellido;
     private String telefono;
-    private String dni;
+    private String email;
 
     @Column(name = "fecha_nacimiento")
     private LocalDate fechaNacimiento;

@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -42,9 +41,12 @@ public class Cita {
 
     private String linkVideo;
 
+    private String googleEventId;
+
     @Column(name = "motivo_cancelacion")
     private String motivoCancelacion;
 
     @Column(name = "creado_en")
     private LocalDateTime creadoEn = LocalDateTime.now();
+
 }

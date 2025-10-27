@@ -15,6 +15,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class PacienteRequest {
 
+    private String userId;
+
     @NotBlank
     private String nombre;
 
@@ -26,9 +28,5 @@ public class PacienteRequest {
     @NotNull
     private String email;
 
-    @NotBlank
-    private String dni;
-
-    @NotNull
     private LocalDate fechaNacimiento;
 }

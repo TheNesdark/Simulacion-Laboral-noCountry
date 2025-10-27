@@ -57,7 +57,6 @@ public class PacienteServiceImpl implements PacienteService{
         paciente.setNombre(pacienteRequest.getNombre());
         paciente.setApellido(pacienteRequest.getApellido());
         paciente.setTelefono(pacienteRequest.getTelefono());
-        paciente.setDni(pacienteRequest.getDni());
         paciente.setFechaNacimiento(pacienteRequest.getFechaNacimiento());
 
         Paciente guardado = pacienteRepository.save(paciente);

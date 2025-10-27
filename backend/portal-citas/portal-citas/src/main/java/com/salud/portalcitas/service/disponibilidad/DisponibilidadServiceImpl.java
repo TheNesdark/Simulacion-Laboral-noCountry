@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,10 +69,13 @@ public class DisponibilidadServiceImpl implements DisponibilidadService {
     @Override
     public DisponibilidadResponse actualizarDisponibilidad(Long disponibilidadId, DisponibilidadRequest disponibilidadRequest) {
 
+        LocalDate hoy = LocalDate.now();
+        LocalTime horaActual = LocalTime.now();
+
         Disponibilidad disponibilidad = disponibilidadRepository.findById(disponibilidadId)
                 .orElseThrow(() -> new EntityNotFoundException("Disponibilidad no encontrada"));
 
-        boolean tieneCitasFuturas = citaRepository.existsFutureCitasForDisponibilidad(disponibilidadId, LocalDateTime.now());
+        boolean tieneCitasFuturas = citaRepository.existsFutureCitasForDisponibilidad(disponibilidadId, hoy, horaActual);
         if (tieneCitasFuturas) {
             throw new RuntimeException("No se puede modificar la disponibilidad porque existen citas futuras asociadas");
         }
@@ -108,6 +113,8 @@ public class DisponibilidadServiceImpl implements DisponibilidadService {
 
         return convertirADisponibilidadResponse.convertir(guardada);
     }
+
+
 
     public DisponibilidadResponse desactivar(Long disponibilidadId) {
         Disponibilidad d = disponibilidadRepository.findById(disponibilidadId)

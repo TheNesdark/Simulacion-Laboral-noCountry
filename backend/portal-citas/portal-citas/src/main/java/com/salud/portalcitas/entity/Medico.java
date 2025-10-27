@@ -21,9 +21,13 @@ public class Medico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
+    @Column(name = "user_id")
+    private String userId;
+
     private String nombre;
     private String apellido;
     private String telefono;
+    private String email;
     private Long matricula;
 
     @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)

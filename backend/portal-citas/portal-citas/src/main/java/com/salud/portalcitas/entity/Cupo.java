@@ -33,8 +33,6 @@ public class Cupo {
 
     private Boolean reservado = false;
 
-    private String googleEventId;
-
     @ManyToOne
     @JoinColumn(name = "disponibilidad_id")
     private Disponibilidad disponibilidad;

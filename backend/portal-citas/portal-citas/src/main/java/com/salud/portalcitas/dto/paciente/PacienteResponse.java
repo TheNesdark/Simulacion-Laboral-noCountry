@@ -12,11 +12,11 @@ import lombok.Setter;
 public class PacienteResponse {
 
     private Long id;
+    private String userId;
     private String nombre;
     private String apellido;
     private String telefono;
     private String email;
-    private String dni;
     private String fechaNacimiento;
     private Boolean activo;
 }

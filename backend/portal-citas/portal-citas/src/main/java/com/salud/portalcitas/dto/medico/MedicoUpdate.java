@@ -22,4 +22,6 @@ public class MedicoUpdate {
     private String telefono;
 
     private Long matricula;
+
+    private String email;
 }

@@ -10,7 +10,9 @@ import com.salud.portalcitas.repository.CitaRepository;
 import com.salud.portalcitas.service.cupo.CupoService;
 import com.salud.portalcitas.service.medico.MedicoService;
 import com.salud.portalcitas.service.paciente.PacienteService;
+import com.salud.portalcitas.util.client.CalendarService;
 import com.salud.portalcitas.util.enums.EstadoCita;
+import com.salud.portalcitas.util.mail.EmailService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,9 +30,12 @@ public class CitaServiceImpl implements CitaService{
     private final CupoService cupoService;
     private final PacienteService pacienteService;
     private final MedicoService medicoService;
+    private final CalendarService calendarService;
+    private final EmailService emailService;
 
 
     @Override
+    @Transactional
     public CitaResponse programarCita(CitaRequest citaRequest) {
         Cupo cupo = cupoService.obtenerPorId(citaRequest.getCupoId());
         if (cupo.getReservado()) throw new RuntimeException("Cupo no disponible");
@@ -46,27 +51,51 @@ public class CitaServiceImpl implements CitaService{
         cita.setLinkVideo(citaRequest.getLinkVideo());
         cita.setEstado(EstadoCita.PROGRAMADA);
 
+        //reservar cupo
         cupoService.marcarReservado(cupo.getId());
 
+        //guardar cita
         Cita citaGuardada = citaRepository.save(cita);
+
+        // crear evento en Google Calendar
+        String eventId = calendarService.crearEvento(citaGuardada);
+        citaGuardada.setGoogleEventId(eventId);
+        citaRepository.save(citaGuardada);
+
+        // enviar mail de confirmación
+        emailService.enviarConfirmacionCita(citaGuardada);
+
         return toResponse(citaGuardada);
     }
 
     @Override
+    @Transactional
     public CitaResponse cancelarCita(Long citaId, String motivo) {
         Cita cita = this.obtenerEntidadPorId(citaId);
+
         if (cita.getEstado() == EstadoCita.CANCELADA) return toResponse(cita);
 
         cita.setEstado(EstadoCita.CANCELADA);;
         cita.setMotivoCancelacion(motivo);
 
         Cita citaGuardada = citaRepository.save(cita);
+
+        // eliminar evento de Google Calendar
+        if (cita.getGoogleEventId() != null) {
+            calendarService.eliminarEvento(cita.getGoogleEventId());
+        }
+
+        // enviar email al paciente
+        emailService.enviarCancelacionCita(cita);
+
         return toResponse(citaGuardada);
     }
 
     @Override
+    @Transactional
     public CitaResponse completarCita(Long citaId) {
         Cita cita = this.obtenerEntidadPorId(citaId);
+
         if (cita.getEstado() == EstadoCita.COMPLETADA) return toResponse(cita);
 
         cita.setEstado(EstadoCita.COMPLETADA);

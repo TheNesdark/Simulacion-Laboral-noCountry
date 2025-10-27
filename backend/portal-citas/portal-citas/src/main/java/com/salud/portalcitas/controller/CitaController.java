@@ -4,6 +4,7 @@ import com.salud.portalcitas.dto.cita.CitaCancelRequest;
 import com.salud.portalcitas.dto.cita.CitaRequest;
 import com.salud.portalcitas.dto.cita.CitaResponse;
 import com.salud.portalcitas.service.cita.CitaService;
+import com.salud.portalcitas.service.cupo.CupoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
