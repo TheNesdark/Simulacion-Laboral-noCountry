@@ -35,6 +35,16 @@ export default function UserPhoto({
         className={`${className} user-avatar`}
         width={width}
         height={height}
+        onError={(e) => {
+          // Si la imagen falla al cargar, mostrar placeholder
+          const target = e.target as HTMLImageElement;
+          target.style.display = 'none';
+          const placeholder = document.createElement('div');
+          placeholder.className = `${className} user-avatar-placeholder`;
+          placeholder.style.display = 'flex';
+          placeholder.textContent = getUserInitial();
+          target.parentNode?.appendChild(placeholder);
+        }}
       />
     );
   }

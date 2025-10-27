@@ -150,3 +150,31 @@ export const validateRegisterData = (data: RegisterProps): string[] => {
   
   return errors;
 };
+
+/**
+ * Obtiene mensaje de error amigable según el código de error de Firebase
+ * @param errorCode - Código de error de Firebase
+ * @returns Mensaje de error amigable
+ */
+export const getErrorMessage = (errorCode: string): string => {
+  switch (errorCode) {
+    case "auth/email-already-in-use":
+      return "El correo electrónico ya está en uso.";
+    case "auth/invalid-email":
+      return "El correo electrónico no es válido.";
+    case "auth/operation-not-allowed":
+      return "El registro de usuarios está deshabilitado.";
+    case "auth/weak-password":
+      return "La contraseña es muy débil. Debe tener al menos 6 caracteres.";
+    case "auth/configuration-not-found":
+      return "Error de configuración. Por favor, verifica la configuración de Firebase.";
+    case "auth/user-not-found":
+      return "No se encontró una cuenta con ese correo electrónico.";
+    case "auth/wrong-password":
+      return "La contraseña es incorrecta.";
+    case "auth/too-many-requests":
+      return "Demasiados intentos fallidos. Por favor, inténtalo más tarde.";
+    default:
+      return "Ocurrió un error durante la operación. Por favor, inténtalo de nuevo.";
+  }
+};

@@ -7,10 +7,17 @@ import {
   useState,
   ReactNode,
 } from "react";
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, User } from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
 import { auth, db } from "@/lib/firebase/firebase";
 import { useRouter } from "next/navigation";
-import { doc, setDoc, getDoc, updateDoc, DocumentData } from "firebase/firestore";
+import { doc, getDoc, DocumentData } from "firebase/firestore";
+import { 
+  registerUser, 
+  loginUser, 
+  logoutUser, 
+  updateUserData as updateUserDataService,
+  getErrorMessage
+} from "@/services/firebase/authService";
 
 interface AuthContextType {
   user: User | null;
@@ -72,24 +79,13 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     setError(null)
     setLoading(true);
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
-      const user = userCredential.user;
-      await setDoc(doc(db, "users", user.uid), {
-        id: user.uid,
-        nombres: data.nombres,
-        apellidos: data.apellidos,
-        documento: data.documento,
-        fechaNacimiento: data.fechaNacimiento,
-        telefono: data.telefono,
-        email: data.email,
-      });
-
+      const user = await registerUser(data);
       router.push("/");
       return user;
-
     } catch (error: any) {
       console.error("Error al registrar usuario:", error);
       setError(getErrorMessage(error.code));
+      return undefined;
     } finally {
       setLoading(false);
     }
@@ -116,13 +112,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     setError(null);
     setLoading(true);
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      const userRef = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userRef);
-      if (!userSnap.exists()) return setError("No se encontraron datos del usuario.");
-      setUser(user);
-      setUserData(userData);
+      await loginUser(email, password);
       router.push("/");
     } catch (error: any) {
       setError("Tus credenciales son incorrectos.")
@@ -132,7 +122,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const logout = async () => {
-    await signOut(auth);
+    await logoutUser();
     setUser(null);
     router.push("/Login");
   }
@@ -143,8 +133,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      const userRef = doc(db, "users", user.uid);
-      await updateDoc(userRef, data);
+      await updateUserDataService(user.uid, data);
       
       // Actualizar el estado local
       setUserData(prev => ({
