@@ -13,8 +13,6 @@ const firebaseConfig = {
     appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID!,
 }
 
-console.log("Firebase Config during build:", firebaseConfig); // Añadido para depuración
-
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
