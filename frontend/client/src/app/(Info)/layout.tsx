@@ -26,10 +26,8 @@ export default function RootLayout({
     <html lang="es">
       <body className={roboto.className}>
         <Providers>
-          <AuthGuard>
             <Header />
             {children}
-          </AuthGuard>
         </Providers>
       </body>
     </html>
