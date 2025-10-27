@@ -1,4 +1,5 @@
 "use client";
+
 import { MedicalExam } from "@/types";
 
 interface MedicalExamsListProps {

@@ -1,4 +1,5 @@
 "use client";
+
 import "@styles/pages/Examenes.css";
 import MedicalExamsFilter from "./components/MedicalExamsFilter";
 import MedicalExamsList from "./components/MedicalExamsList";
