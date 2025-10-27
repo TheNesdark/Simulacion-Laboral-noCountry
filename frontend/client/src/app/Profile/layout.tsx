@@ -27,10 +27,8 @@ export default function ProfileLayout({
     <html lang="es">
       <body className={roboto.className}>
         <Providers>
-          <AuthGuard>
             <Header />
             {children}
-          </AuthGuard>
         </Providers>
       </body>
     </html>
