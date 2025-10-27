@@ -1,24 +1,12 @@
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-  signOut, 
-  updateProfile,
-  User
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  User,
 } from "firebase/auth";
-import { doc, setDoc, getDoc, updateDoc, DocumentData } from "firebase/firestore";
+import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
+import { RegisterProps, LoginProps, UserData } from "@/types";
 import { auth, db } from "@/lib/firebase/firebase";
-
-interface RegisterProps {
-  documento: string;
-  nombres: string;
-  apellidos: string;
-  fechaNacimiento: string;
-  telefono: string;
-  email: string;
-  password: string;
-}
-
-type UserData = DocumentData;
 
 /**
  * Registra un nuevo usuario con email y contraseña
@@ -28,11 +16,10 @@ type UserData = DocumentData;
 export const registerUser = async (data: RegisterProps): Promise<User> => {
   try {
     const userCredential = await createUserWithEmailAndPassword(
-      auth, 
-      data.email, 
+      auth,
+      data.email,
       data.password
     );
-    
     const user = userCredential.user;
     const userRef = doc(db, "users", user.uid);
     await setDoc(userRef, {
@@ -44,9 +31,9 @@ export const registerUser = async (data: RegisterProps): Promise<User> => {
       telefono: data.telefono || "",
       fechaNacimiento: data.fechaNacimiento || "",
       photoURL: "",
-      createdAt: new Date()
+      createdAt: new Date(),
     });
-    
+
     return user;
   } catch (error) {
     console.error("Error en registerUser:", error);
@@ -59,9 +46,9 @@ export const registerUser = async (data: RegisterProps): Promise<User> => {
  * @param email - Email del usuario
  * @param password - Contraseña del usuario
  */
-export const loginUser = async (email: string, password: string): Promise<void> => {
+export const loginUser = async (data: LoginProps) => {
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    await signInWithEmailAndPassword(auth, data.email, data.password);
   } catch (error) {
     console.error("Error en loginUser:", error);
     throw error;
@@ -85,10 +72,13 @@ export const logoutUser = async (): Promise<void> => {
  * @param userId - ID del usuario
  * @param data - Datos a actualizar
  */
-export const updateUserData = async (userId: string, data: Partial<UserData>): Promise<void> => {
+export const updateUserData = async (
+  userId: string,
+  data: UserData
+): Promise<void> => {
   try {
     const userRef = doc(db, "users", userId);
-    await updateDoc(userRef, data);
+    await updateDoc(userRef, data as Partial<UserData>);
   } catch (error) {
     console.error("Error en updateUserData:", error);
     throw error;
@@ -104,11 +94,10 @@ export const getUserData = async (userId: string): Promise<UserData | null> => {
   try {
     const userRef = doc(db, "users", userId);
     const userSnap = await getDoc(userRef);
-    
     if (userSnap.exists()) {
       return userSnap.data() as UserData;
     }
-    
+
     return null;
   } catch (error) {
     console.error("Error en getUserData:", error);
@@ -123,23 +112,23 @@ export const getUserData = async (userId: string): Promise<UserData | null> => {
  */
 export const validateRegisterData = (data: RegisterProps): string[] => {
   const errors: string[] = [];
-  
+
   if (!data.nombres?.trim()) errors.push("nombre");
   if (!data.apellidos?.trim()) errors.push("apellido");
   if (!data.email?.trim()) errors.push("correo electrónico");
   if (!data.password?.trim()) errors.push("contraseña");
-  
+
   // Validar formato de email
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (data.email && !emailRegex.test(data.email)) {
     errors.push("correo electrónico válido");
   }
-  
+
   // Validar longitud de contraseña
   if (data.password && data.password.length < 6) {
     errors.push("contraseña de al menos 6 caracteres");
   }
-  
+
   return errors;
 };
 

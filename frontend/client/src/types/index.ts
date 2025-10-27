@@ -19,3 +19,28 @@ export interface Appointment {
 }
 
 export type Appointments = Appointment[];
+
+
+export interface UserData {
+  nombres: string;
+  apellidos: string;
+  documento: string;
+  fechaNacimiento: string;
+  telefono: string;
+  email: string;
+}
+
+export interface RegisterProps {
+  documento: string;
+  nombres: string;
+  apellidos: string;
+  fechaNacimiento: string;
+  telefono: string;
+  email: string;
+  password: string;
+}
+
+export interface LoginProps {
+  email: string;
+  password: string;
+}

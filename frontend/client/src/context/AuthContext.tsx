@@ -7,59 +7,48 @@ import {
   useState,
   ReactNode,
 } from "react";
+import {
+  registerUser,
+  loginUser,
+  logoutUser,
+  getUserData,
+  updateUserData as updateUserDataService, // Renamed to avoid conflict
+  getErrorMessage,
+} from "@/services/firebase/authService";
+import type { UserData, RegisterProps, LoginProps } from "@/types";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth, db } from "@/lib/firebase/firebase";
 import { useRouter } from "next/navigation";
-import { doc, getDoc, DocumentData } from "firebase/firestore";
-import { 
-  registerUser, 
-  loginUser, 
-  logoutUser, 
-  updateUserData as updateUserDataService,
-  getErrorMessage
-} from "@/services/firebase/authService";
 
 interface AuthContextType {
   user: User | null;
-  userData: any;
+  userData: UserData | null;
   loading: boolean;
-  register: (data: registerProps) => Promise<User | undefined>;
-  login: (email: string, password: string) => Promise<void>;
+  register: (data: RegisterProps) => Promise<void | undefined>;
+  login: (data: LoginProps) => Promise<void | undefined>;
   logout: () => Promise<void>;
-  updateUserData: (data: Partial<userData>) => Promise<void>;
+  updateUserData: (data: UserData) => Promise<void | null>;
   error: string | null;
   setError: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-interface registerProps {
-  documento: string;
-  nombres: string;
-  apellidos: string;
-  fechaNacimiento: string;
-  telefono: string;
-  email: string;
-  password: string;
-}
-
-export type userData = DocumentData
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | null>(null);
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [userData, setUserData] = useState<userData | null>(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter()
+  const router = useRouter();
 
   const unsubscribe = onAuthStateChanged(auth, async (user) => {
     if (user) {
-      const userRef = doc(db, "users", user?.uid);
-      const userSnap = await getDoc(userRef);
-      if (userSnap.exists()) {
-        const data = userSnap.data();
-        setUser(user);
-        setUserData(data)
+      setUser(user);
+      try {
+        const data = await getUserData(user.uid);
+        setUserData(data as UserData);
+      } catch (error) {
+        console.error("Error al obtener datos del usuario:", error);
       }
     } else {
       setUser(null);
@@ -75,59 +64,67 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const register = async (data: registerProps) => {
-    setError(null)
+  const register = async (data: RegisterProps) => {
+    setError(null);
     setLoading(true);
     try {
-      const user = await registerUser(data);
+      await registerUser(data);
       router.push("/");
-      return user;
     } catch (error: any) {
-      console.error("Error al registrar usuario:", error);
       setError(getErrorMessage(error.code));
       return undefined;
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  const login = async (email: string, password: string) => {
+  const login = async (data: LoginProps) => {
     setError(null);
     setLoading(true);
     try {
-      await loginUser(email, password);
+      await loginUser(data);
       router.push("/");
     } catch (error: any) {
-      setError("Tus credenciales son incorrectos.")
+      setError("Tus credenciales son incorrectos.");
+      return undefined;
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const logout = async () => {
     await logoutUser();
     setUser(null);
+    setUserData(null);
     router.push("/Login");
-  }
+  };
 
-  const updateUserData = async (data: Partial<userData>) => {
-    if (!user) {
-      throw new Error("No hay usuario autenticado");
-    }
-
+  const updateUserData = async (data: UserData) => {
+    if (!user) return null;
     try {
       await updateUserDataService(user.uid, data);
-      setUserData(prev => ({
+      setUserData((prev) => ({
         ...prev,
-        ...data
+        ...data,
       }));
+      
     } catch (error) {
-      console.error("Error al actualizar datos del usuario:", error);
-      throw error;
+      setError("Error al actualizar datos del usuario.");
     }
-  }
+  };
   return (
-    <AuthContext.Provider value={{ user, userData, loading, register, login, logout, updateUserData, error, setError }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        userData,
+        loading,
+        register,
+        login,
+        logout,
+        updateUserData,
+        error,
+        setError,
+      }}>
       {children}
     </AuthContext.Provider>
   );

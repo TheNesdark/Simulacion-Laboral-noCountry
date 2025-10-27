@@ -5,7 +5,6 @@ export default function useRegister() {
   const { register, error, setError } = useAuth();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
-  
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -26,7 +25,7 @@ export default function useRegister() {
       await register(formData);
 
     } catch (error: any) {
-      console.error("Error al registrar usuario:", error);
+      setError(error.message);
 
     } finally {
       setLoading(false);
