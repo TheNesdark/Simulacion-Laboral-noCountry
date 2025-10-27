@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { BackIcon, CallIcon } from "@components/icons";
+import { BackIcon, CallIcon } from "@/components/icons";
 
 export default function ChatView() {
   const params = useParams();

@@ -98,7 +98,7 @@ export default function Login({ onBack, onChange }: SignInProps) {
           }
 
           {/* Botón de inicio de sesión */}
-          <button type="submit" disabled={loading}>
+          <button type="submit" disabled={loading} className="submit-button">
             {loading ? "Verificando..." : "Iniciar Sesión"}
           </button>
 

@@ -47,7 +47,7 @@ export default function EditProfilePage() {
             ) : userData?.photoURL ? (
               <img src={userData.photoURL} alt="Foto de perfil" className="w-full h-full object-cover rounded-full" />
             ) : (
-              <span>{userData?.nombre ? userData.nombre.charAt(0).toUpperCase() : 'U'}</span>
+              <span>{userData?.nombres ? userData.nombres.charAt(0).toUpperCase() : 'U'}</span>
             )}
           </div>
           <button 
@@ -75,7 +75,7 @@ export default function EditProfilePage() {
           className="hidden"
         />
         <div className="form-group">
-          <label htmlFor="nombres">Nombre</label>
+          <label htmlFor="nombres">Nombres</label>
           <input
             type="text"
             id="nombres"

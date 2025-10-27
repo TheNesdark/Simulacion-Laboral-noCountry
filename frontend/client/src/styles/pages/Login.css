@@ -175,7 +175,8 @@ main::after {
 }
 
 .submit-button {
-    background-color: #4caf50;
+    background-color: #00579b;
+    color: white;
 }
 
 .step-buttons {

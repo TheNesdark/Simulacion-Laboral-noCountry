@@ -91,23 +91,6 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  const getErrorMessage = (errorCode: string): string => {
-    switch (errorCode) {
-      case "auth/email-already-in-use":
-        return "El correo electrónico ya está en uso.";
-      case "auth/invalid-email":
-        return "El correo electrónico no es válido.";
-      case "auth/operation-not-allowed":
-        return "El registro de usuarios está deshabilitado.";
-      case "auth/weak-password":
-        return "La contraseña es muy débil. Debe tener al menos 6 caracteres.";
-      case "auth/configuration-not-found":
-        return "Error de configuración. Por favor, verifica la configuración de Firebase.";
-      default:
-        return "Ocurrió un error durante el registro. Por favor, inténtalo de nuevo.";
-    }
-  };
-
   const login = async (email: string, password: string) => {
     setError(null);
     setLoading(true);
@@ -134,8 +117,6 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 
     try {
       await updateUserDataService(user.uid, data);
-      
-      // Actualizar el estado local
       setUserData(prev => ({
         ...prev,
         ...data
@@ -145,7 +126,6 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       throw error;
     }
   }
-
   return (
     <AuthContext.Provider value={{ user, userData, loading, register, login, logout, updateUserData, error, setError }}>
       {children}

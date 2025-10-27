@@ -1,7 +1,7 @@
 "use client";
 
-import { BackIcon, LogoIcon } from "@components/icons";
-import { GoogleIcon, FacebookIcon } from "@components/icons";
+import { BackIcon, LogoIcon } from "@/components/icons";
+import { GoogleIcon, FacebookIcon } from "@/components/icons";
 import useRegister from "@/hooks/useRegister";
 
 interface SignUpProps {

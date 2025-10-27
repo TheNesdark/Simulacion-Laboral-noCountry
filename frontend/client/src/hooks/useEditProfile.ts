@@ -8,8 +8,8 @@ export default function useEditProfile() {
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState({
-    nombres: userData?.nombre || '',
-    apellidos: userData?.apellido || '',
+    nombres: userData?.nombres || '',
+    apellidos: userData?.apellidos || '',
     documento: userData?.documento || '',
     fechaNacimiento: userData?.fechaNacimiento || '',
     correo: userData?.email || '',

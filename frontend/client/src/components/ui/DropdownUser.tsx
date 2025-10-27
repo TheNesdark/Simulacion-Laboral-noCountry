@@ -16,9 +16,7 @@ export default function DropdownUser() {
         setIsOpen(false);
       }
     }
-
-    console.log(user, 'user')
-
+    
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") setIsOpen(false);
     }

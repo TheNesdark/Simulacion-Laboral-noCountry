@@ -10,7 +10,7 @@ export default function ChatsList() {
       name: "Dr. Franco Pérez",
       lastMessage: "Jajaja no. Decimelo!",
       avatar:
-        "assets/example-photos/5ef94050e148473f0ee5e20406467ee1b7041d3f.png",
+        "/assets/example-photos/5ef94050e148473f0ee5e20406467ee1b7041d3f.png",
       time: "Ahora",
     },
     {

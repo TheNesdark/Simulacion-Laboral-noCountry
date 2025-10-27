@@ -27,7 +27,6 @@ type UserData = DocumentData;
  */
 export const registerUser = async (data: RegisterProps): Promise<User> => {
   try {
-    // Crear usuario en Firebase Auth
     const userCredential = await createUserWithEmailAndPassword(
       auth, 
       data.email, 
@@ -35,13 +34,6 @@ export const registerUser = async (data: RegisterProps): Promise<User> => {
     );
     
     const user = userCredential.user;
-    
-    // Actualizar perfil con nombre
-    await updateProfile(user, {
-      displayName: `${data.nombres} ${data.apellidos}`
-    });
-    
-    // Crear documento en Firestore
     const userRef = doc(db, "users", user.uid);
     await setDoc(userRef, {
       uid: user.uid,

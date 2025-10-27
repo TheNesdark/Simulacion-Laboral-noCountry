@@ -102,9 +102,7 @@ main {
     gap: 6px;
 }
 
-.exam-actions button {
-    cursor: pointer;
-}
+
 
 .exam-actions .view-button {
     display: inline-flex;
