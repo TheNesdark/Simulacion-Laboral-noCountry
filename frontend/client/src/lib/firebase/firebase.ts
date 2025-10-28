@@ -17,7 +17,11 @@ const requiredEnvVars = {
 // Verificar que todas las variables estén definidas
 const missingVars = Object.entries(requiredEnvVars)
   .filter(([_, value]) => !value)
-  .map(([key, _]) => `NEXT_PUBLIC_FIREBASE_${key.toUpperCase()}`);
+  .map(([key, _]) => {
+    // Convertir camelCase a UPPER_CASE con guiones bajos
+    const upperKey = key.replace(/([A-Z])/g, '_$1').toUpperCase();
+    return `NEXT_PUBLIC_FIREBASE_${upperKey}`;
+  });
 
 if (missingVars.length > 0) {
   console.error(
