@@ -1,5 +1,3 @@
-import Providers from "@/components/providers";
-import "@/styles/globals.css";
 import { Roboto } from "next/font/google";
 
 const roboto = Roboto({
@@ -15,18 +13,10 @@ export const metadata = {
   description: "Sistema de gestión médica y coordinación de salud",
 };
 
-export default function RootLayout({
+export default function LoginLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="es">
-      <body className={roboto.className}>
-        <Providers>
-          <main>{children}</main>
-        </Providers>
-      </body>
-    </html>
-  );
+  return <main>{children}</main>;
 }

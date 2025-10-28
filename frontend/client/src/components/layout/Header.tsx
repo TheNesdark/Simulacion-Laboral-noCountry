@@ -11,11 +11,12 @@ import DropdownUser from "../ui/DropdownUser";
 export default function Header() {
   const { userData } = useAuth();
   const pathname = usePathname();
+  
   if (pathname === "/") {
     return (
       <header className="header">
         <div className="header-content">
-          <h1>{getGreeting()}</h1>
+          <h1>{getGreeting(userData)}</h1>
           <div className="user-info">
             <DropdownUser />
           </div>
@@ -41,7 +42,7 @@ export default function Header() {
         <Link href="/" className="back-link">
           <ArrowLeftIcon />
         </Link>
-        <h1>Medicos</h1>
+        <h1>Médicos</h1>
       </header>
     );
   }
@@ -50,39 +51,6 @@ export default function Header() {
     return (
       <header className="header">
         <Link href="/" className="back-link">
-          <ArrowLeftIcon />
-        </Link>
-        <h1>Especialidades</h1>
-      </header>
-    );
-  }
-
-  if (pathname === "/Medicos") {
-    return (
-      <header className="header">
-        <Link href="/">
-          <ArrowLeftIcon />
-        </Link>
-        <h1>Médicos</h1>
-      </header>
-    );
-  }
-
-  if (pathname === "/Clinicas") {
-    return (
-      <header className="header">
-        <Link href="/">
-          <ArrowLeftIcon />
-        </Link>
-        <h1>Clinicas</h1>
-      </header>
-    );
-  }
-
-  if (pathname === "/Especialidades") {
-    return (
-      <header className="header">
-        <Link href="/">
           <ArrowLeftIcon />
         </Link>
         <h1>Especialidades</h1>

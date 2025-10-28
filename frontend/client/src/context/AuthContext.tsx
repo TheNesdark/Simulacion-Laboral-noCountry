@@ -12,12 +12,12 @@ import {
   loginUser,
   logoutUser,
   getUserData,
-  updateUserData as updateUserDataService, // Renamed to avoid conflict
+  updateUserData as updateUserDataService, 
   getErrorMessage,
 } from "@/services/firebase/authService";
 import type { UserData, RegisterProps, LoginProps } from "@/types";
 import { onAuthStateChanged, User } from "firebase/auth";
-import { auth, db } from "@/lib/firebase/firebase";
+import { auth } from "@/lib/firebase/firebase";
 import { useRouter } from "next/navigation";
 
 interface AuthContextType {
@@ -27,7 +27,7 @@ interface AuthContextType {
   register: (data: RegisterProps) => Promise<void | undefined>;
   login: (data: LoginProps) => Promise<void | undefined>;
   logout: () => Promise<void>;
-  updateUserData: (data: UserData) => Promise<void | null>;
+  updateUserData: (data: Partial<UserData>) => Promise<void | null>;
   error: string | null;
   setError: React.Dispatch<React.SetStateAction<string | null>>;
 }
@@ -41,24 +41,24 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  const unsubscribe = onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      setUser(user);
-      try {
-        const data = await getUserData(user.uid);
-        setUserData(data as UserData);
-      } catch (error) {
-        console.error("Error al obtener datos del usuario:", error);
-      }
-    } else {
-      setUser(null);
-      setUserData(null);
-    }
-    setLoading(false);
-  });
-
   useEffect(() => {
-    unsubscribe();
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setUser(user);
+        try {
+          const data = await getUserData(user.uid);
+          setUserData(data as UserData);
+        } catch (error) {
+          console.error("Error al obtener datos del usuario:", error);
+          setError("Error al obtener datos del usuario.");
+        }
+      } else {
+        setUser(null);
+        setUserData(null);
+      }
+      setLoading(false);
+    });
+
     return () => {
       unsubscribe();
     };
@@ -70,6 +70,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await registerUser(data);
       router.push("/");
+      
     } catch (error: any) {
       setError(getErrorMessage(error.code));
       return undefined;
@@ -99,16 +100,21 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     router.push("/Login");
   };
 
-  const updateUserData = async (data: UserData) => {
+  const updateUserData = async (data: Partial<UserData>) => {
     if (!user) return null;
+    
+    setError(null);
     try {
       await updateUserDataService(user.uid, data);
-      setUserData((prev) => ({
-        ...prev,
-        ...data,
-      }));
-      
+      setUserData((prev) => {
+        if (!prev) return null;
+        return {
+          ...prev,
+          ...data,
+        };
+      });
     } catch (error) {
+      console.error("Error al actualizar datos del usuario:", error);
       setError("Error al actualizar datos del usuario.");
     }
   };

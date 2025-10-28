@@ -74,7 +74,7 @@ export const logoutUser = async (): Promise<void> => {
  */
 export const updateUserData = async (
   userId: string,
-  data: UserData
+  data: Partial<UserData>
 ): Promise<void> => {
   try {
     const userRef = doc(db, "users", userId);
@@ -97,8 +97,8 @@ export const getUserData = async (userId: string): Promise<UserData | null> => {
     if (userSnap.exists()) {
       return userSnap.data() as UserData;
     }
-
     return null;
+    
   } catch (error) {
     console.error("Error en getUserData:", error);
     throw error;

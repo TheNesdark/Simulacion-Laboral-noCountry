@@ -54,7 +54,6 @@ export default function useEditProfile() {
     if (!user) {
       throw new Error('Debes estar autenticado para guardar cambios');
     }
-
     try {
       let photoURL = userData?.photoURL || null;
       let photoUploadSuccess = true;
