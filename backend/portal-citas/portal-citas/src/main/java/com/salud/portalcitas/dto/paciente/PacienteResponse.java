@@ -19,6 +19,8 @@ public class PacienteResponse {
     private String apellido;
     private String telefono;
     private String email;
+    private String genero;
+    private String numeroDocumento;
     private LocalDate fechaNacimiento;
     private Boolean activo;
 }

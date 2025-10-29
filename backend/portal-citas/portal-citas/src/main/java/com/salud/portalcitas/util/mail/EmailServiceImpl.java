@@ -26,6 +26,7 @@ public class EmailServiceImpl implements EmailService{
                 Tu turno ha sido confirmado para el día %s a las %s.
                 
                 Médico: %s %s
+                Clínica: %s, %s
                 
                 ¡Gracias!
                 """.formatted(
@@ -33,7 +34,9 @@ public class EmailServiceImpl implements EmailService{
                 cita.getCupo().getFecha(),
                 cita.getCupo().getHoraInicio(),
                 cita.getMedico().getNombre(),
-                cita.getMedico().getApellido()
+                cita.getMedico().getApellido(),
+                cita.getMedico().getClinica().getNombre(),
+                cita.getMedico().getClinica().getDireccion()
         );
         enviarEmail(cita.getPaciente().getEmail(), subject, body);
     }
@@ -66,13 +69,17 @@ public class EmailServiceImpl implements EmailService{
                 Te recordamos que mañana tienes un turno con el Dr. %s %s,
                 el día %s a las %s.
                 
+                Clínica %s, %s
+                
                 ¡Te esperamos!
                 """.formatted(
                 cita.getPaciente().getNombre(),
                 cita.getMedico().getNombre(),
                 cita.getMedico().getApellido(),
                 cita.getCupo().getFecha(),
-                cita.getCupo().getHoraInicio()
+                cita.getCupo().getHoraInicio(),
+                cita.getMedico().getClinica().getNombre(),
+                cita.getMedico().getClinica().getDireccion()
         );
         enviarEmail(cita.getPaciente().getEmail(), subject, body);
     }

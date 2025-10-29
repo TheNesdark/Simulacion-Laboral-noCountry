@@ -10,7 +10,9 @@ public interface CitaService {
     CitaResponse programarCita(CitaRequest citaRequest);
     CitaResponse cancelarCita(Long citaId, String motivo);
     CitaResponse completarCita(Long citaId);
-    List<CitaResponse> listarPorPaciente(Long pacienteId);
-    List<CitaResponse> listarPorMedico(Long medicoId);
+    List<CitaResponse> listarCitasPendientesPorPaciente(Long pacienteId);
+    List<CitaResponse> listarTotalCitasPorPaciente(Long pacienteId);
+    List<CitaResponse> listarCitasPendientesPorMedico(Long medicoId);
+    List<CitaResponse> listarTotalCitasPorMedico(Long medicoId);
     public CitaResponse obtenerPorId(Long id);
 }

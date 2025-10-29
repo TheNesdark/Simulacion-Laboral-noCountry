@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -23,6 +25,9 @@ public class MedicoUpdate {
     private String telefono;
 
     private Long matricula;
+    private String genero;
+    private String numeroDocumento;
+    private LocalDate fechaNacimiento;
 
     @Email
     private String email;

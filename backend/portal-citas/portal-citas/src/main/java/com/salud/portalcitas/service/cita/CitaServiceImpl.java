@@ -107,7 +107,7 @@ public class CitaServiceImpl implements CitaService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<CitaResponse> listarPorPaciente(Long pacienteId) {
+    public List<CitaResponse> listarCitasPendientesPorPaciente(Long pacienteId) {
         return citaRepository.findByPacienteId(pacienteId).stream()
                 .filter(this::isFuture)
                 .map(this::toResponse)
@@ -116,9 +116,25 @@ public class CitaServiceImpl implements CitaService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<CitaResponse> listarPorMedico(Long medicoId) {
+    public List<CitaResponse> listarTotalCitasPorPaciente(Long pacienteId){
+        return citaRepository.findByPacienteId(pacienteId).stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CitaResponse> listarCitasPendientesPorMedico(Long medicoId) {
         return citaRepository.findByMedicoId(medicoId).stream()
                 .filter(this::isFuture)
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CitaResponse> listarTotalCitasPorMedico(Long medicoId) {
+        return citaRepository.findByMedicoId(medicoId).stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
     }

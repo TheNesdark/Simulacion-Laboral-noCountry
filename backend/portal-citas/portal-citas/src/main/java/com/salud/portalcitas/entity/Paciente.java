@@ -28,6 +28,11 @@ public class Paciente {
     private String telefono;
     private String email;
 
+    private String genero;
+
+    @Column(name = "numero_documento")
+    private String numeroDocumento;
+
     @Column(name = "fecha_nacimiento")
     private LocalDate fechaNacimiento;
 

@@ -25,6 +25,8 @@ public class PacienteRequest {
     private String apellido;
 
     private String telefono;
+    private String genero;
+    private String numeroDocumento;
 
     @NotBlank
     @Email
