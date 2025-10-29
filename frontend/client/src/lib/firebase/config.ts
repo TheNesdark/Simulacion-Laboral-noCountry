@@ -1,7 +1,4 @@
 import dotenv from 'dotenv';
-
-// Cargar variables de entorno desde .env.local o .env
-dotenv.config({ path: '.env.local' });
 dotenv.config({ path: '.env' });
 
 export const firebaseConfig = {
