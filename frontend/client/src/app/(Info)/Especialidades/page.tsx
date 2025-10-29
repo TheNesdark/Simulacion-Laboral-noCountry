@@ -1,32 +1,33 @@
 'use client';
 import { useState } from 'react';
-
+import { getAllSpecialtiesGrouped } from '@/api/specialtiesApi';
+import { useQuery } from '@tanstack/react-query';
+import { SpecialtiesGroup } from '@/types';
 import '@/styles/pages/Especialidades.css';
 
-interface SpecialtiesGroup {
-  letter: string;
-  specialties: string[];
-}
+export default function EspecialidadesPage() {
+  const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(null);
 
-const specialtiesData: SpecialtiesGroup[] = [
-  { letter: 'A', specialties: ['Alergología', 'Anestesiología'] },
-  { letter: 'B', specialties: ['Angiología', 'Bioquímica clínica'] },
-  { letter: 'C', specialties: ['Cardiología'] },
-  { letter: 'D', specialties: ['Dermatología', 'Diag. por Imágenes'] },
-  { letter: 'E', specialties: ['Endocrinología'] },
-  { letter: 'F', specialties: ['Fisiatra'] },
-  {
-    letter: 'G',
-    specialties: ['Gastroenterología', 'Genética', 'Ginecología'],
-  },
-  { letter: 'H', specialties: ['Hematología', 'Hepatología'] },
-  { letter: 'I', specialties: ['Inmunología', 'Infectología'] },
-];
+  const { data: specialtiesData = [], isLoading } = useQuery({
+    queryKey: ['specialties'],
+    queryFn: getAllSpecialtiesGrouped,
+  });
 
-export default function MedicosPage() {
-  const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(
-    null
-  );
+
+  if (isLoading) {
+    return (
+      <div className='especialidades-container'>
+        <div className='especialidades-decorative-circle-1'></div>
+        <div className='especialidades-decorative-circle-2'></div>
+        <div className='especialidades-decorative-circle-3'></div>
+        <div className='especialidades-list'>
+          <div style={{ textAlign: 'center', padding: '2rem' }}>
+            Cargando especialidades...
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className='especialidades-container'>
@@ -35,7 +36,7 @@ export default function MedicosPage() {
       <div className='especialidades-decorative-circle-3'></div>
 
       <div className='especialidades-list'>
-        {specialtiesData.map(group => (
+        {(specialtiesData as SpecialtiesGroup[]).map(group => (
           <div key={group.letter} className='especialidades-group'>
             <div className='especialidades-group-letter'>{group.letter}</div>
 

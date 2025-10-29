@@ -65,3 +65,16 @@ export interface Doctor {
 }
 
 export type Doctors = Doctor[];
+
+export interface Specialty {
+  id: string;
+  name: string;
+  letter: string;
+}
+
+export interface SpecialtiesGroup {
+  letter: string;
+  specialties: string[];
+}
+
+export type Specialties = Specialty[];
