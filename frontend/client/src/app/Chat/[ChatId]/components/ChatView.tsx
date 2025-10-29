@@ -2,69 +2,45 @@
 
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BackIcon, CallIcon } from '@/components/icons';
+import { useAuth } from '@/context/AuthContext';
+import { Message } from '@/types';
+import { getUserInfo, listenMessages, sendMessage } from '@/services/firebase';
 
 export default function ChatView() {
+  const { user } = useAuth();
   const params = useParams();
   const router = useRouter();
-  const chatId = Number(params?.ChatId); // TODO: remove
-  const chats = [
-    {
-      id: 1,
-      name: 'Dr. Franco Pérez',
-      lastMessage: 'Jajaja no. Decimelo!',
-      avatar:
-        '/assets/example-photos/5ef94050e148473f0ee5e20406467ee1b7041d3f.png',
-      time: 'Ahora',
-    },
-    {
-      id: 2,
-      name: 'Dra. Valeria Gómez',
-      lastMessage: 'Ahora llamo',
-      avatar:
-        '/assets/example-photos/fadbb3fb1c636000b153327245aafd5c73dccc90.png',
-      time: '15:30',
-    },
-    {
-      id: 3,
-      name: 'Dr. Tomás Ferreyra',
-      lastMessage: 'Lo recibo ya está en mi sistema.',
-      avatar:
-        '/assets/example-photos/621ef3ee9611b5f0007a8ab27a9018a04fb2cc39.png',
-      time: '13:26',
-    },
-  ];
+  const chatId = params?.ChatId as string;
 
-  const data = chats.find(i => i.id === chatId);
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      text: 'hola doctor',
-      time: '12:30',
-      sender: 'me',
-    },
-    {
-      id: 2,
-      text: 'Hola, ¿cómo está?',
-      time: '12:31',
-      sender: 'user',
-    },
-  ]);
-
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [otherUser, setOtherUser] = useState<any>(null);
   const [newMessage, setNewMessage] = useState('');
-  const handleSend = () => {
-    if (newMessage.trim() === '') return;
-    const newMsg = {
-      id: Date.now(),
-      text: newMessage,
-      time: new Date().toLocaleDateString([], {
-        hour: '2-digit',
-        minute: '2-digit',
-      }),
-      sender: 'me',
+
+  if (!user) return null;
+
+  useEffect(() => {
+    if (!chatId) return;
+    const unsub = listenMessages(chatId, setMessages);
+    return () => unsub();
+  }, [chatId]);
+
+  useEffect(() => {
+    const fetchOtherUser = async () => {
+      const participants = chatId.split("_");
+      const otherId = participants.find((id) => id !== user.uid);
+      if (otherId) {
+        const data = await getUserInfo(otherId);
+        setOtherUser(data);
+      }
     };
-    setMessages([...messages, newMsg]);
+    fetchOtherUser();
+  }, [chatId, user?.uid]);
+
+  const handleSend = async () => {
+    if (newMessage.trim() === '') return;
+    await sendMessage(chatId, user.uid, newMessage);
     setNewMessage('');
   };
   return (
@@ -79,7 +55,7 @@ export default function ChatView() {
             <BackIcon width={20} height={21} />
           </button>
           <Image
-            src={data?.avatar || '/assets/Login.png'}
+            src={otherUser?.avatarUrl || '/assets/Login.png'}
             alt='perfil'
             width={50}
             height={50}
@@ -88,7 +64,7 @@ export default function ChatView() {
             loading='eager'
             className='rounded-full'
           />
-          <h2 className='font-semibold'>Dr. López</h2>
+          <h2 className='font-semibold'>{otherUser?.name || "Usuario"}</h2>
         </div>
         <div className='flex gap-2'>
           <button className='text-[#00579b]'>
@@ -105,18 +81,17 @@ export default function ChatView() {
         {messages.map(msg => (
           <div
             key={msg.id}
-            className={`flex mt-1 ${msg.sender === 'me' ? 'justify-end' : 'justify-start'}`}
+            className={`flex mt-1 ${msg.senderId === user.uid ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`relative max-w-[75%] px-3 py-4 rounded-2xl text-sm shadow-sm break-words ${
-                msg.sender === 'me'
+              className={`relative max-w-[75%] px-3 py-4 rounded-2xl text-sm shadow-sm break-words ${msg.senderId === user.uid
                   ? 'bg-[#00579b] text-white rounded-br-none'
                   : 'bg-white text-gray-800 border rounded-bl-none'
-              }`}
+                }`}
             >
               <span className='text-justify'>{msg.text}</span>
               <span className='flex bottom-1 justify-end text-[10px] opacity-80'>
-                {msg.time}
+                {msg.text}
               </span>
             </div>
           </div>

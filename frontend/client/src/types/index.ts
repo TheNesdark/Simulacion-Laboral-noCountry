@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface MedicalExam {
   id: string;
   title: string;
@@ -79,3 +81,20 @@ export interface SpecialtiesGroup {
 }
 
 export type Specialties = Specialty[];
+
+
+export interface Chat {
+  id: string;
+  participants: string[];
+  lastMessage: string;
+  lastMessageAt: Timestamp;
+  createdAt: Timestamp;
+}
+
+export interface Message {
+  id: string;
+  senderId: string;
+  text: string;
+  createdAt: Timestamp;
+  readBy: string[];
+}
