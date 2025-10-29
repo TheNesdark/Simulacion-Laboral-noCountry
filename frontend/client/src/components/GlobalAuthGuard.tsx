@@ -15,7 +15,7 @@ export default function GlobalAuthGuard({ children }: GlobalAuthGuardProps) {
 
   // Rutas que no requieren autenticación
   const publicRoutes = ['/Login', '/Register'];
-  const isPublicRoute = publicRoutes.includes(pathname);
+  const isPublicRoute = pathname ? publicRoutes.includes(pathname) : false;
 
   useEffect(() => {
     // Solo redirigir si no está cargando y no es una ruta pública
