@@ -6,6 +6,7 @@ import com.salud.portalcitas.entity.Disponibilidad;
 import com.salud.portalcitas.repository.CupoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -56,6 +57,7 @@ public class CupoServiceImpl implements CupoService{
         }
     }
 
+    @Transactional
     public void eliminarCuposLibresFuturos(Long disponibilidadId) {
         LocalDate desde = LocalDate.now();
         cupoRepository.deleteFreeFutureCupos(disponibilidadId, desde);

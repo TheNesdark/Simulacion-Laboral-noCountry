@@ -1,5 +1,6 @@
 package com.salud.portalcitas.dto.medico;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,5 +24,7 @@ public class MedicoUpdate {
 
     private Long matricula;
 
+    @Email
     private String email;
+    private Long clinicaId;
 }

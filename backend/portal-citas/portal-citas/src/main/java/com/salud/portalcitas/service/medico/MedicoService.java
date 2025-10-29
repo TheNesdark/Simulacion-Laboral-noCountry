@@ -13,6 +13,7 @@ public interface MedicoService {
     public MedicoResponse obtenerPorIdResponse(Long medicoId);
     public Medico obtenerPorId(Long medicoId);
     public List<MedicoResponse> listarTodos();
-    public MedicoResponse actualizar(Long medicoId, MedicoUpdate updateDto);
+    public List<MedicoResponse> listarMedicosPorClinica(Long clinicaId);
+    public MedicoResponse actualizar(Long medicoId, MedicoUpdate medicoUpdate);
     public void eliminar(Long medicoId);
 }

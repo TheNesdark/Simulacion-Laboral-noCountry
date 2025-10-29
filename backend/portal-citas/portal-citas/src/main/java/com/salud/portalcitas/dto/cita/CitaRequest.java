@@ -21,6 +21,6 @@ public class CitaRequest {
 
     @NotNull
     private TipoCita tipo;
-
+    private String motivoCita;
     private String linkVideo;
 }

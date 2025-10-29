@@ -16,5 +16,4 @@ public interface DisponibilidadRepository extends JpaRepository<Disponibilidad, 
 
     @Query("select d from Disponibilidad d where d.id = :id and d.eliminada = false")
     Disponibilidad findActiveById(Long id);
-
 }

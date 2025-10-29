@@ -1,5 +1,6 @@
 package com.salud.portalcitas.dto.medico;
 
+import com.salud.portalcitas.dto.clinica.ClinicaResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,4 +19,5 @@ public class MedicoResponse {
     private String telefono;
     private Long matricula;
     private String email;
+    private ClinicaResponse clinica;
 }

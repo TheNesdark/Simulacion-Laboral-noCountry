@@ -49,6 +49,7 @@ public class CitaServiceImpl implements CitaService{
         cita.setMedico(medico);
         cita.setTipo(citaRequest.getTipo());
         cita.setLinkVideo(citaRequest.getLinkVideo());
+        cita.setMotivoCita(citaRequest.getMotivoCita());
         cita.setEstado(EstadoCita.PROGRAMADA);
 
         //reservar cupo
@@ -152,6 +153,8 @@ public class CitaServiceImpl implements CitaService{
                 cita.getTipo(),
                 cita.getEstado(),
                 cita.getLinkVideo(),
+                cita.getMedico().getClinica().getNombre(),
+                cita.getMotivoCita(),
                 cita.getMotivoCancelacion()
         );
     }

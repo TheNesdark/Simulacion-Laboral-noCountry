@@ -25,5 +25,7 @@ public class CitaResponse {
     private TipoCita tipo;
     private EstadoCita estado;
     private String linkVideo;
+    private String nombreClinica;
+    private String motivoCita;
     private String motivoCancelacion;
 }

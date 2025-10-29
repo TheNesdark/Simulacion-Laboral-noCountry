@@ -33,7 +33,7 @@ public class CitaController {
     @PutMapping("/{citaId}/cancelar")
     public ResponseEntity<CitaResponse> cancelar(@PathVariable Long citaId,
                                                  @RequestBody CitaCancelRequest cancelRequest) {
-        String motivo = cancelRequest != null ? cancelRequest.getMotivo() : "Motivo no especificado";
+        String motivo = cancelRequest != null ? cancelRequest.getMotivoCancelacion() : "Motivo no especificado";
         CitaResponse response = citaService.cancelarCita(citaId, motivo);
         return ResponseEntity.ok(response);
     }

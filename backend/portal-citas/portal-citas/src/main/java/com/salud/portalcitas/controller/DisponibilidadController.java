@@ -26,7 +26,7 @@ public class DisponibilidadController {
         return ResponseEntity.ok(disponibilidadService.listarPorMedico(medicoId));
     }
 
-    @PostMapping("/medico/{medicoId}/disponibilidades")
+    @PostMapping("/medicos/{medicoId}/disponibilidades")
     public ResponseEntity<DisponibilidadResponse> crearDisponibilidad(@PathVariable Long medicoId,
                                                                       @RequestBody @Valid DisponibilidadRequest disponibilidadRequest) {
         DisponibilidadResponse disponibilidadResponse = disponibilidadService.crearDisponibilidad(medicoId, disponibilidadRequest);
@@ -57,6 +57,4 @@ public class DisponibilidadController {
         disponibilidadService.eliminarLogico(disponibilidadId);
         return ResponseEntity.noContent().build();
     }
-
-
 }

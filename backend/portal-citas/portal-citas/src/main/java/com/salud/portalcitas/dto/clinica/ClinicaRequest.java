@@ -1,34 +1,29 @@
-package com.salud.portalcitas.dto.paciente;
+package com.salud.portalcitas.dto.clinica;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PacienteRequest {
-
-    private String userId;
+public class ClinicaRequest {
 
     @NotBlank
     private String nombre;
 
     @NotBlank
-    private String apellido;
+    private String direccion;
 
+    @NotBlank
     private String telefono;
 
     @NotBlank
-    @Email
     private String email;
 
-    private LocalDate fechaNacimiento;
+    @NotBlank
+    private String descripcion;
 }

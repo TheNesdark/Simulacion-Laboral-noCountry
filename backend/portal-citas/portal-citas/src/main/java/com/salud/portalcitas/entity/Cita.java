@@ -43,6 +43,9 @@ public class Cita {
 
     private String googleEventId;
 
+    @Column(name = "motivo_cita")
+    private String motivoCita;
+
     @Column(name = "motivo_cancelacion")
     private String motivoCancelacion;
 

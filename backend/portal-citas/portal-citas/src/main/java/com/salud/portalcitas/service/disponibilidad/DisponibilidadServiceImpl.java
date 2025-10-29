@@ -63,7 +63,7 @@ public class DisponibilidadServiceImpl implements DisponibilidadService {
             cupoService.generarCuposParaDisponibilidad(disponibilidadGuardada, DIAS_GENERACION);
         }
 
-        return convertirADisponibilidadResponse.convertir(disponibilidad);
+        return convertirADisponibilidadResponse.convertir(disponibilidadGuardada);
     }
 
     @Override

@@ -1,6 +1,9 @@
 package com.salud.portalcitas.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Entity;
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,26 +17,20 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "medicos")
-public class Medico {
+@Table(name = "clinicas")
+public class Clinica {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id")
-    private String userId;
-
     private String nombre;
-    private String apellido;
+    private String direccion;
     private String telefono;
     private String email;
-    private Long matricula;
+    private String descripcion;
 
-    @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<Disponibilidad> disponibilidades = new ArrayList<>();
-
-    @ManyToOne
-    @JoinColumn(name = "clinica_id")
-    private Clinica clinica;
+    @OneToMany(mappedBy = "clinica")
+    @JsonIgnore
+    private List<Medico> medicos = new ArrayList<>();
 }

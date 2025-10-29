@@ -1,5 +1,6 @@
 package com.salud.portalcitas.dto.medico;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -29,6 +30,9 @@ public class MedicoRequest {
 
     private Long matricula;
 
-    @NotNull
+    @NotBlank
+    @Email
     private String email;
+
+    private Long clinicaId;
 }
