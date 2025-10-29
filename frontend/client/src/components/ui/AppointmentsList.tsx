@@ -1,15 +1,15 @@
-import { formatDate } from "@/utils/dateUtils";
-import { Appointment } from "@/types";
-import ErrorMessage from "@/components/common/ErrorMessage";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
+import { formatDate } from '@/utils/dateUtils';
+import { Appointment } from '@/types';
+import ErrorMessage from '@/components/common/ErrorMessage';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
 
 const backgroundColors = [
-  "#F8BBD0",
-  "#BBDEFB",
-  "#C8E6C9",
-  "#FFF9C4",
-  "#D1C4E9",
-  "#FFE0B2",
+  '#F8BBD0',
+  '#BBDEFB',
+  '#C8E6C9',
+  '#FFF9C4',
+  '#D1C4E9',
+  '#FFE0B2',
 ];
 
 interface AppointmentsListProps {
@@ -35,10 +35,10 @@ export default function AppointmentsList({
 
   if (!appointments.length) {
     return (
-      <section className="appointments-list">
+      <section className='appointments-list'>
         <h2>{title}</h2>
-        <div className="flex items-center justify-center p-4 text-blue-500 m-auto gap-4">
-          <span className="ml-2">No hay citas programadas.</span>
+        <div className='flex items-center justify-center p-4 text-blue-500 m-auto gap-4'>
+          <span className='ml-2'>No hay citas programadas.</span>
         </div>
       </section>
     );
@@ -46,7 +46,7 @@ export default function AppointmentsList({
 
   return (
     <>
-      <section className="appointments-list">
+      <section className='appointments-list'>
         <h2>{title}</h2>
         {appointments.map((appointment, index) => (
           <article

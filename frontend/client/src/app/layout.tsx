@@ -1,14 +1,14 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import Providers from "@/components/providers";
-import GlobalAuthGuard from "@/components/GlobalAuthGuard";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import Providers from '@/components/providers';
+import GlobalAuthGuard from '@/components/GlobalAuthGuard';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "CoordiSalud - Simulación Laboral",
-  description: "Sistema de gestión de citas médicas",
+  title: 'CoordiSalud - Simulación Laboral',
+  description: 'Sistema de gestión de citas médicas',
 };
 
 export default function RootLayout({
@@ -17,12 +17,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es">
+    <html lang='es'>
       <body className={inter.className}>
         <Providers>
-          <GlobalAuthGuard>
-            {children}
-          </GlobalAuthGuard>
+          <GlobalAuthGuard>{children}</GlobalAuthGuard>
         </Providers>
       </body>
     </html>

@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import "@styles/pages/Home.css";
-import SearchBar from "./components/SearchBar";
-import CategoryCards from "./components/CategoryCards";
-import AppointmentList from "@/components/ui/AppointmentsList";
-import { useQuery } from "@tanstack/react-query";
-import { getTodaysAppointments } from "@/api/appointmentsApi";
+import '@styles/pages/Home.css';
+import SearchBar from './components/SearchBar';
+import CategoryCards from './components/CategoryCards';
+import AppointmentList from '@/components/ui/AppointmentsList';
+import { useQuery } from '@tanstack/react-query';
+import { getTodaysAppointments } from '@/api/appointmentsApi';
 
 export default function HomePage() {
   const {
@@ -13,7 +13,7 @@ export default function HomePage() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["appointments", "today"],
+    queryKey: ['appointments', 'today'],
     queryFn: getTodaysAppointments,
   });
 
@@ -22,7 +22,7 @@ export default function HomePage() {
       <SearchBar />
       <CategoryCards />
       <AppointmentList
-        title="Turnos Programados para hoy"
+        title='Turnos Programados para hoy'
         appointments={todaysAppointments || []}
         isLoading={isLoading}
         error={error}

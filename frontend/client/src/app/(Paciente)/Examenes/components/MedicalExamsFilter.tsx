@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { Dispatch, SetStateAction } from "react";
-import { MedicalExamFilter } from "@/types";
+import { Dispatch, SetStateAction } from 'react';
+import { MedicalExamFilter } from '@/types';
 
 interface MedicalExamsFilterProps {
   filter: string;
@@ -17,22 +17,22 @@ export default function MedicalExamsFilter({
   disponiblesCount,
 }: MedicalExamsFilterProps) {
   return (
-    <div className="filter" role="tablist" aria-label="Exámenes Médicos">
+    <div className='filter' role='tablist' aria-label='Exámenes Médicos'>
       <button
-        type="button"
-        role="tab"
-        aria-selected={filter === "Disponibles"}
-        className={filter === "Disponibles" ? "is-active" : ""}
-        onClick={() => setFilter("Disponibles")}
+        type='button'
+        role='tab'
+        aria-selected={filter === 'Disponibles'}
+        className={filter === 'Disponibles' ? 'is-active' : ''}
+        onClick={() => setFilter('Disponibles')}
       >
         Disponibles ({disponiblesCount})
       </button>
       <button
-        type="button"
-        role="tab"
-        aria-selected={filter === "Pendientes"}
-        className={filter === "Pendientes" ? "is-active" : ""}
-        onClick={() => setFilter("Pendientes")}
+        type='button'
+        role='tab'
+        aria-selected={filter === 'Pendientes'}
+        className={filter === 'Pendientes' ? 'is-active' : ''}
+        onClick={() => setFilter('Pendientes')}
       >
         Pendientes ({pendientesCount})
       </button>

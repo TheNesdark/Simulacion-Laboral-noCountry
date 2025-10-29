@@ -3,12 +3,20 @@ export interface MedicalExam {
   title: string;
   date: string;
   doctor: string;
-  status: "Disponibles" | "Pendientes";
+  status: 'Disponibles' | 'Pendientes';
 }
-
 export type MedicalExams = MedicalExam[];
+export type MedicalExamFilter = 'Disponibles' | 'Pendientes';
 
-export type MedicalExamFilter = "Disponibles" | "Pendientes";
+export interface Clinic {
+  id: string;
+  name: string;
+  image: string;
+  phone: string;
+  address: string;
+  color: string;
+}
+export type Clinics = Clinic[];
 
 export interface Appointment {
   id: string;
@@ -19,7 +27,6 @@ export interface Appointment {
 }
 
 export type Appointments = Appointment[];
-
 
 export interface UserData {
   nombres: string;
@@ -47,3 +54,14 @@ export interface LoginProps {
   email: string;
   password: string;
 }
+
+export interface Doctor {
+  id: string;
+  name: string;
+  specialty: string;
+  rating: number;
+  image: string;
+  category: 'recent' | 'favorites' | 'all';
+}
+
+export type Doctors = Doctor[];

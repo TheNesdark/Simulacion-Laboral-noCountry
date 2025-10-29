@@ -3,10 +3,10 @@ import {
   signInWithEmailAndPassword,
   signOut,
   User,
-} from "firebase/auth";
-import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
-import { RegisterProps, LoginProps, UserData } from "@/types";
-import { auth, db } from "@/lib/firebase/firebase";
+} from 'firebase/auth';
+import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
+import { RegisterProps, LoginProps, UserData } from '@/types';
+import { auth, db } from '@/lib/firebase/firebase';
 
 /**
  * Registra un nuevo usuario con email y contraseña
@@ -21,22 +21,22 @@ export const registerUser = async (data: RegisterProps): Promise<User> => {
       data.password
     );
     const user = userCredential.user;
-    const userRef = doc(db, "users", user.uid);
+    const userRef = doc(db, 'users', user.uid);
     await setDoc(userRef, {
       uid: user.uid,
       email: data.email,
       nombres: data.nombres,
       apellidos: data.apellidos,
-      documento: data.documento || "",
-      telefono: data.telefono || "",
-      fechaNacimiento: data.fechaNacimiento || "",
-      photoURL: "",
+      documento: data.documento || '',
+      telefono: data.telefono || '',
+      fechaNacimiento: data.fechaNacimiento || '',
+      photoURL: '',
       createdAt: new Date(),
     });
 
     return user;
   } catch (error) {
-    console.error("Error en registerUser:", error);
+    console.error('Error en registerUser:', error);
     throw error;
   }
 };
@@ -50,7 +50,7 @@ export const loginUser = async (data: LoginProps) => {
   try {
     await signInWithEmailAndPassword(auth, data.email, data.password);
   } catch (error) {
-    console.error("Error en loginUser:", error);
+    console.error('Error en loginUser:', error);
     throw error;
   }
 };
@@ -62,7 +62,7 @@ export const logoutUser = async (): Promise<void> => {
   try {
     await signOut(auth);
   } catch (error) {
-    console.error("Error en logoutUser:", error);
+    console.error('Error en logoutUser:', error);
     throw error;
   }
 };
@@ -77,10 +77,10 @@ export const updateUserData = async (
   data: Partial<UserData>
 ): Promise<void> => {
   try {
-    const userRef = doc(db, "users", userId);
+    const userRef = doc(db, 'users', userId);
     await updateDoc(userRef, data as Partial<UserData>);
   } catch (error) {
-    console.error("Error en updateUserData:", error);
+    console.error('Error en updateUserData:', error);
     throw error;
   }
 };
@@ -92,15 +92,14 @@ export const updateUserData = async (
  */
 export const getUserData = async (userId: string): Promise<UserData | null> => {
   try {
-    const userRef = doc(db, "users", userId);
+    const userRef = doc(db, 'users', userId);
     const userSnap = await getDoc(userRef);
     if (userSnap.exists()) {
       return userSnap.data() as UserData;
     }
     return null;
-    
   } catch (error) {
-    console.error("Error en getUserData:", error);
+    console.error('Error en getUserData:', error);
     throw error;
   }
 };
@@ -113,20 +112,20 @@ export const getUserData = async (userId: string): Promise<UserData | null> => {
 export const validateRegisterData = (data: RegisterProps): string[] => {
   const errors: string[] = [];
 
-  if (!data.nombres?.trim()) errors.push("nombre");
-  if (!data.apellidos?.trim()) errors.push("apellido");
-  if (!data.email?.trim()) errors.push("correo electrónico");
-  if (!data.password?.trim()) errors.push("contraseña");
+  if (!data.nombres?.trim()) errors.push('nombre');
+  if (!data.apellidos?.trim()) errors.push('apellido');
+  if (!data.email?.trim()) errors.push('correo electrónico');
+  if (!data.password?.trim()) errors.push('contraseña');
 
   // Validar formato de email
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (data.email && !emailRegex.test(data.email)) {
-    errors.push("correo electrónico válido");
+    errors.push('correo electrónico válido');
   }
 
   // Validar longitud de contraseña
   if (data.password && data.password.length < 6) {
-    errors.push("contraseña de al menos 6 caracteres");
+    errors.push('contraseña de al menos 6 caracteres');
   }
 
   return errors;
@@ -139,23 +138,23 @@ export const validateRegisterData = (data: RegisterProps): string[] => {
  */
 export const getErrorMessage = (errorCode: string): string => {
   switch (errorCode) {
-    case "auth/email-already-in-use":
-      return "El correo electrónico ya está en uso.";
-    case "auth/invalid-email":
-      return "El correo electrónico no es válido.";
-    case "auth/operation-not-allowed":
-      return "El registro de usuarios está deshabilitado.";
-    case "auth/weak-password":
-      return "La contraseña es muy débil. Debe tener al menos 6 caracteres.";
-    case "auth/configuration-not-found":
-      return "Error de configuración. Por favor, verifica la configuración de Firebase.";
-    case "auth/user-not-found":
-      return "No se encontró una cuenta con ese correo electrónico.";
-    case "auth/wrong-password":
-      return "La contraseña es incorrecta.";
-    case "auth/too-many-requests":
-      return "Demasiados intentos fallidos. Por favor, inténtalo más tarde.";
+    case 'auth/email-already-in-use':
+      return 'El correo electrónico ya está en uso.';
+    case 'auth/invalid-email':
+      return 'El correo electrónico no es válido.';
+    case 'auth/operation-not-allowed':
+      return 'El registro de usuarios está deshabilitado.';
+    case 'auth/weak-password':
+      return 'La contraseña es muy débil. Debe tener al menos 6 caracteres.';
+    case 'auth/configuration-not-found':
+      return 'Error de configuración. Por favor, verifica la configuración de Firebase.';
+    case 'auth/user-not-found':
+      return 'No se encontró una cuenta con ese correo electrónico.';
+    case 'auth/wrong-password':
+      return 'La contraseña es incorrecta.';
+    case 'auth/too-many-requests':
+      return 'Demasiados intentos fallidos. Por favor, inténtalo más tarde.';
     default:
-      return "Ocurrió un error durante la operación. Por favor, inténtalo de nuevo.";
+      return 'Ocurrió un error durante la operación. Por favor, inténtalo de nuevo.';
   }
 };

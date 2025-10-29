@@ -1,4 +1,4 @@
-main{
+main {
   height: 100vh;
 }
 
@@ -34,8 +34,10 @@ main{
 
 .filter-button-active {
   background-color: white;
-  color: #00579B;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  color: #00579b;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .clinicas-content {
@@ -43,4 +45,3 @@ main{
   position: relative;
   padding: 1.5rem;
 }
-

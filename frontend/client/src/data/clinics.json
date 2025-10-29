@@ -1,0 +1,28 @@
+{
+  "clinics": [
+    {
+      "id": "1",
+      "name": "Hospital Centro Integral",
+      "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&h=300&fit=crop",
+      "phone": "+54 9 11\n6844-8899",
+      "address": "Calle Cualquiera 123, Lanús, Buenos Aires",
+      "color": "bg-blue-100"
+    },
+    {
+      "id": "2",
+      "name": "Hospital Italiano",
+      "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&h=300&fit=crop",
+      "phone": "+54 9 261\n844-8899",
+      "address": "Calle Cualquiera, Ciudad, Mendoza",
+      "color": "bg-orange-100"
+    },
+    {
+      "id": "3",
+      "name": "Clínica Santa María",
+      "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&h=300&fit=crop",
+      "phone": "+54 9 261\n844-8899",
+      "address": "Calle Cualquiera, Ciudad, Mendoza",
+      "color": "bg-orange-100"
+    }
+  ]
+}

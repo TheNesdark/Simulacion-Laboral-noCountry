@@ -5,12 +5,16 @@
   transition: box-shadow 0.15s ease-in-out;
   display: flex;
   gap: 1.5rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.06);
   margin-bottom: 1.5rem;
 }
 
 .clinic-card:hover {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .clinic-card-image-container {
@@ -68,7 +72,7 @@
 }
 
 .clinic-card-address {
-    display: flex;
+  display: flex;
   align-items: center;
   gap: 0.5rem;
   color: #374151;
@@ -77,8 +81,8 @@
 
 .clinic-card-button {
   margin-top: 1rem;
-  border: 1px solid #00579B;
-  color: #00579B;
+  border: 1px solid #00579b;
+  color: #00579b;
   font-weight: 600;
   padding: 0.375rem 1.5rem;
   border-radius: 9999px;
@@ -87,18 +91,17 @@
 }
 
 .clinic-card-address::before {
-      content: "";
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    background: url("/assets/icons/PointIcon.svg") no-repeat center/18px 18px;
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: url('/assets/icons/PointIcon.svg') no-repeat center/18px 18px;
 }
 
-
 .clinic-card-phone::before {
-    content: "";
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    background: url("/assets/icons/PhoneIcon.svg") no-repeat center/18px 18px;
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: url('/assets/icons/PhoneIcon.svg') no-repeat center/18px 18px;
 }

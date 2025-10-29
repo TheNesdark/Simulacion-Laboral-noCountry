@@ -1,142 +1,140 @@
 main {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 54px;
-    gap: 24px;
-    padding: 24px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 54px;
+  gap: 24px;
+  padding: 24px;
 }
 
 /* Filtro de exámenes médicos */
 .filter {
-    display: flex;
-    align-items: center;
-    width: fit-content;
-    gap: 6px;
-    padding: 3px 6px;
-    background: #e2e2e2;
-    border-radius: 999px;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  gap: 6px;
+  padding: 3px 6px;
+  background: #e2e2e2;
+  border-radius: 999px;
 }
 
 .filter button {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    padding: 3px 6px;
-    border: none;
-    border-radius: 999px;
-    background: transparent;
-    font-size: 14px;
-    font-weight: 400;
-    color: #000;
-    cursor: pointer;
-    transition:
-        background-color 0.2s ease,
-        color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 6px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 400;
+  color: #000;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .filter button.is-active {
-    background: #fafafa;
-    color: #03acf2;
-    font-weight: 500;
-    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.25);
+  background: #fafafa;
+  color: #03acf2;
+  font-weight: 500;
+  box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.25);
 }
 
 .filter button:focus-visible {
-    outline: 2px solid #03acf2;
-    outline-offset: 2px;
+  outline: 2px solid #03acf2;
+  outline-offset: 2px;
 }
 
 /* Lista de exámenes médicos */
 .medical-exams-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
 }
 
 .medical-exams-list article {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    padding: 20px;
-    min-height: 160px;
-    background: #fafafa;
-    border: 1px solid #00579b;
-    border-radius: 10px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  min-height: 160px;
+  background: #fafafa;
+  border: 1px solid #00579b;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .medical-exams-list h2 {
-    font-size: 18px;
-    font-weight: bold;
-    color: #000;
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
 }
 
 .medical-exams-list time {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    font-weight: 400;
-    color: #979797;
-    gap: 12px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 400;
+  color: #979797;
+  gap: 12px;
 }
 
 .medical-exams-list time::before {
-    content: "";
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    background: url("/assets/icons/calendar-icon.svg") no-repeat center/18px
-        18px;
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: url('/assets/icons/calendar-icon.svg') no-repeat center/18px 18px;
 }
 
 .medical-exams-list button {
-    padding: 6px 12px;
-    border: none;
-    border-radius: 999px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 999px;
 }
 
 /* Acciones de exámenes médicos */
 .exam-actions {
-    display: flex;
-    gap: 6px;
+  display: flex;
+  gap: 6px;
 }
 
-
-
 .exam-actions .view-button {
-    display: inline-flex;
-    align-items: center;
-    border: 1px solid #00579b;
-    color: #00579b;
-    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.25);
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #00579b;
+  color: #00579b;
+  box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.25);
 }
 
 .exam-actions .view-button::before {
-    content: "";
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    margin-right: 0.2rem;
-    background: url("/assets/icons/Reports/view.icon.svg") no-repeat center/18px
-        18px;
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-right: 0.2rem;
+  background-color: currentColor;
+  mask: url('/assets/icons/Reports/view.icon.svg') no-repeat center/18px 18px;
+  -webkit-mask: url('/assets/icons/Reports/view.icon.svg') no-repeat center/18px 18px;
 }
 
 .exam-actions .download-button {
-    display: inline-flex;
-    align-items: center;
-    background: #00579b;
-    border: 1px solid #00579b;
-    color: #fafafa;
-    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.25);
+  display: inline-flex;
+  align-items: center;
+  background: #00579b;
+  border: 1px solid #00579b;
+  color: #fafafa;
+  box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.25);
 }
 
 .exam-actions .download-button::before {
-    content: "";
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    margin-right: 0.2rem;
-    background: url("/assets/icons/Reports/download-icon.svg") no-repeat
-        center/18px 18px;
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-right: 0.2rem;
+  background: url('/assets/icons/Reports/download-icon.svg') no-repeat
+    center/18px 18px;
 }

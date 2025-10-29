@@ -1,14 +1,14 @@
-import { FilterIcon } from "@/components/icons";
+import { FilterIcon } from '@/components/icons';
 export default function SearchBar() {
   return (
-    <form className="search-bar">
+    <form className='search-bar'>
       <input
-        id="search-input"
-        type="search"
-        placeholder="Buscar"
-        aria-label="Buscar"
+        id='search-input'
+        type='search'
+        placeholder='Buscar'
+        aria-label='Buscar'
       />
-      <button type="button">
+      <button type='button'>
         <FilterIcon />
       </button>
     </form>

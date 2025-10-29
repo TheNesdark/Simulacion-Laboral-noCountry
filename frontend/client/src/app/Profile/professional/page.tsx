@@ -1,6 +1,6 @@
-"use client";
+'use client';
 import React, { useState, useRef } from 'react';
-import "@/styles/pages/Profile.css";
+import '@/styles/pages/Profile.css';
 
 const specialties = [
   'Medicina General',
@@ -34,11 +34,13 @@ export default function SwitchToProfessionalPage() {
     titulo: false,
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -47,7 +49,7 @@ export default function SwitchToProfessionalPage() {
     if (fileList && fileList[0]) {
       setFiles(prev => ({
         ...prev,
-        [name]: fileList[0]
+        [name]: fileList[0],
       }));
     }
   };
@@ -56,7 +58,7 @@ export default function SwitchToProfessionalPage() {
     e.preventDefault();
     setDragStates(prev => ({
       ...prev,
-      [fieldName]: true
+      [fieldName]: true,
     }));
   };
 
@@ -64,7 +66,7 @@ export default function SwitchToProfessionalPage() {
     e.preventDefault();
     setDragStates(prev => ({
       ...prev,
-      [fieldName]: false
+      [fieldName]: false,
     }));
   };
 
@@ -72,14 +74,14 @@ export default function SwitchToProfessionalPage() {
     e.preventDefault();
     setDragStates(prev => ({
       ...prev,
-      [fieldName]: false
+      [fieldName]: false,
     }));
 
     const droppedFiles = e.dataTransfer.files;
     if (droppedFiles && droppedFiles[0]) {
       setFiles(prev => ({
         ...prev,
-        [fieldName]: droppedFiles[0]
+        [fieldName]: droppedFiles[0],
       }));
     }
   };
@@ -88,7 +90,7 @@ export default function SwitchToProfessionalPage() {
     label,
     fieldName,
     accept,
-    required
+    required,
   }: {
     label: string;
     fieldName: string;
@@ -104,45 +106,53 @@ export default function SwitchToProfessionalPage() {
     const currentFile = files[fieldName as keyof typeof files];
 
     return (
-      <div className="form-group">
+      <div className='form-group'>
         <label>{label}</label>
         <div
           className={`file-upload-zone ${dragStates[fieldName as keyof typeof dragStates] ? 'drag-over' : ''} ${currentFile ? 'has-file' : ''}`}
-          onDragOver={(e) => handleDragOver(e, fieldName)}
-          onDragLeave={(e) => handleDragLeave(e, fieldName)}
-          onDrop={(e) => handleDrop(e, fieldName)}
+          onDragOver={e => handleDragOver(e, fieldName)}
+          onDragLeave={e => handleDragLeave(e, fieldName)}
+          onDrop={e => handleDrop(e, fieldName)}
           onClick={handleClick}
         >
           <input
             ref={fileInputRef}
-            type="file"
+            type='file'
             name={fieldName}
             onChange={handleFileChange}
             accept={accept}
             required={required}
             style={{ display: 'none' }}
           />
-          <div className="upload-content">
+          <div className='upload-content'>
             {currentFile ? (
               <>
-                <div className="file-icon">📄</div>
-                <div className="file-info">
-                  <span className="file-name">{currentFile.name}</span>
-                  <span className="file-size">({(currentFile.size / 1024 / 1024).toFixed(2)} MB)</span>
+                <div className='file-icon'>📄</div>
+                <div className='file-info'>
+                  <span className='file-name'>{currentFile.name}</span>
+                  <span className='file-size'>
+                    ({(currentFile.size / 1024 / 1024).toFixed(2)} MB)
+                  </span>
                 </div>
               </>
             ) : (
               <>
-                <div className="upload-icon">📎</div>
-                <div className="upload-text">
-                  <span className="primary-text">Arrastra y suelta tu archivo aquí</span>
-                  <span className="secondary-text">o haz clic para seleccionar</span>
+                <div className='upload-icon'>📎</div>
+                <div className='upload-text'>
+                  <span className='primary-text'>
+                    Arrastra y suelta tu archivo aquí
+                  </span>
+                  <span className='secondary-text'>
+                    o haz clic para seleccionar
+                  </span>
                 </div>
               </>
             )}
           </div>
         </div>
-        <small className="file-hint">Formatos aceptados: JPG, PNG, PDF. Máximo 5MB</small>
+        <small className='file-hint'>
+          Formatos aceptados: JPG, PNG, PDF. Máximo 5MB
+        </small>
       </div>
     );
   };
@@ -166,32 +176,32 @@ export default function SwitchToProfessionalPage() {
   };
 
   return (
-    <div className="edit-profile-page">
-      <form onSubmit={handleSubmit} className="edit-profile-form">
-        <div className="form-group">
-          <label htmlFor="matricula">Número de Matrícula Profesional</label>
+    <div className='edit-profile-page'>
+      <form onSubmit={handleSubmit} className='edit-profile-form'>
+        <div className='form-group'>
+          <label htmlFor='matricula'>Número de Matrícula Profesional</label>
           <input
-            type="text"
-            id="matricula"
-            name="matricula"
+            type='text'
+            id='matricula'
+            name='matricula'
             value={formData.matricula}
             onChange={handleInputChange}
-            placeholder="Ingrese su número de matrícula"
+            placeholder='Ingrese su número de matrícula'
             required
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="especialidad">Especialidad</label>
+        <div className='form-group'>
+          <label htmlFor='especialidad'>Especialidad</label>
           <select
-            id="especialidad"
-            name="especialidad"
+            id='especialidad'
+            name='especialidad'
             value={formData.especialidad}
             onChange={handleInputChange}
             required
           >
-            <option value="">Seleccione una especialidad</option>
-            {specialties.map((specialty) => (
+            <option value=''>Seleccione una especialidad</option>
+            {specialties.map(specialty => (
               <option key={specialty} value={specialty}>
                 {specialty}
               </option>
@@ -200,27 +210,27 @@ export default function SwitchToProfessionalPage() {
         </div>
 
         <FileUploadZone
-          label="DNI - Parte Anterior"
-          fieldName="dniFrontal"
-          accept="image/*,.pdf"
+          label='DNI - Parte Anterior'
+          fieldName='dniFrontal'
+          accept='image/*,.pdf'
           required
         />
 
         <FileUploadZone
-          label="DNI - Parte Posterior"
-          fieldName="dniPosterior"
-          accept="image/*,.pdf"
+          label='DNI - Parte Posterior'
+          fieldName='dniPosterior'
+          accept='image/*,.pdf'
           required
         />
 
         <FileUploadZone
-          label="Título Habilitante"
-          fieldName="titulo"
-          accept="image/*,.pdf"
+          label='Título Habilitante'
+          fieldName='titulo'
+          accept='image/*,.pdf'
           required
         />
 
-        <button type="submit" className="save-button">
+        <button type='submit' className='save-button'>
           Enviar
         </button>
       </form>

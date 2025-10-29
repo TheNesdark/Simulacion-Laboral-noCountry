@@ -67,22 +67,22 @@
 .especialidades-specialty-button {
   padding: 0.5rem 1.25rem;
   border-radius: 9999px;
-  border: 1px solid #00579B;
+  border: 1px solid #00579b;
   font-weight: 500;
   font-size: 0.875rem;
   transition: all 0.2s;
   background-color: transparent;
-  color: #00579B;
+  color: #00579b;
   cursor: pointer;
 }
 
 .especialidades-specialty-button:hover {
-  background-color: #00579B;
+  background-color: #00579b;
   color: white;
 }
 
 .especialidades-specialty-button-active {
-  background-color: #00579B;
+  background-color: #00579b;
   color: white;
-  border-color: #00579B;
+  border-color: #00579b;
 }

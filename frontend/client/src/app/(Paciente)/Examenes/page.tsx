@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import "@styles/pages/Examenes.css";
-import MedicalExamsFilter from "./components/MedicalExamsFilter";
-import MedicalExamsList from "./components/MedicalExamsList";
-import useMedicalExams from "@hooks/useMedicalExams";
-import LoadingSpinner from "@components/common/LoadingSpinner";
-import ErrorMessage from "@components/common/ErrorMessage";
+import '@styles/pages/Examenes.css';
+import MedicalExamsFilter from './components/MedicalExamsFilter';
+import MedicalExamsList from './components/MedicalExamsList';
+import useMedicalExams from '@hooks/useMedicalExams';
+import LoadingSpinner from '@components/common/LoadingSpinner';
+import ErrorMessage from '@components/common/ErrorMessage';
 
 export default function ExamsPage() {
   const {

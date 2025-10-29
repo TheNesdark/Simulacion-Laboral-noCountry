@@ -14,7 +14,7 @@ export default function useEditProfile() {
     fechaNacimiento: userData?.fechaNacimiento || '',
     correo: userData?.email || '',
     telefono: userData?.telefono || '',
-    genero: userData?.genero || ''
+    genero: userData?.genero || '',
   });
 
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,29 +24,29 @@ export default function useEditProfile() {
         validateImageFile(file);
         setUserPhoto(file);
         const reader = new FileReader();
-        reader.onloadend = () => { 
+        reader.onloadend = () => {
           setPhotoPreview(reader.result as string);
         };
         reader.readAsDataURL(file);
       } catch (error) {
         console.error('Error al validar la imagen:', error);
       }
-    } 
+    }
   };
 
   const handleEditPhotoClick = () => {
     fileInputRef.current?.click();
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
-
-  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,7 +57,7 @@ export default function useEditProfile() {
     try {
       let photoURL = userData?.photoURL || null;
       let photoUploadSuccess = true;
-      
+
       if (userPhoto) {
         photoURL = await uploadPhotoToFirebase(userPhoto, user.uid);
         if (!photoURL) {
@@ -95,6 +95,6 @@ export default function useEditProfile() {
     handleInputChange,
     handleSubmit,
     userData,
-    user
+    user,
   };
 }

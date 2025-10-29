@@ -1,8 +1,8 @@
-import { useState, useMemo } from "react";
-import { OnArgs } from "react-calendar";
-import { Appointment } from "@/types";
-import { useQuery } from "@tanstack/react-query";
-import { getAllAppointments } from "@/api/appointmentsApi";
+import { useState, useMemo } from 'react';
+import { OnArgs } from 'react-calendar';
+import { Appointment } from '@/types';
+import { useQuery } from '@tanstack/react-query';
+import { getAllAppointments } from '@/api/appointmentsApi';
 
 interface TileClassNameProps {
   date: Date;
@@ -17,12 +17,12 @@ export default function useCalendar() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["appointments", "all"],
+    queryKey: ['appointments', 'all'],
     queryFn: getAllAppointments,
   });
 
   const monthAppointments = useMemo(() => {
-    return allAppointments.filter((appointment) => {
+    return allAppointments.filter(appointment => {
       const appointmentDate = new Date(`${appointment.date}T00:00:00`);
       return (
         appointmentDate.getMonth() === activeDate.getMonth() &&
@@ -36,11 +36,11 @@ export default function useCalendar() {
   };
 
   const isDateHasAppointment = ({ date }: TileClassNameProps) => {
-    const dateString: string = date.toISOString().split("T")[0];
+    const dateString: string = date.toISOString().split('T')[0];
     return monthAppointments.find(
-      (appointment: Appointment) => appointment.date === dateString,
+      (appointment: Appointment) => appointment.date === dateString
     )
-      ? "appointment-date"
+      ? 'appointment-date'
       : null;
   };
 

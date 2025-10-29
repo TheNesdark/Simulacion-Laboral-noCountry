@@ -1,18 +1,18 @@
-import { Roboto } from "next/font/google";
-import Header from "@/components/layout/Header";
-import NavBar from "@/components/layout/NavBar";
+import { Roboto } from 'next/font/google';
+import Header from '@/components/layout/Header';
+import NavBar from '@/components/layout/NavBar';
 
 const roboto = Roboto({
-  weight: ["400", "700"],
-  subsets: ["latin"],
-  display: "swap",
+  weight: ['400', '700'],
+  subsets: ['latin'],
+  display: 'swap',
   preload: true,
-  fallback: ["system-ui", "arial"],
+  fallback: ['system-ui', 'arial'],
 });
 
 export const metadata = {
-  title: "CoordiSalud - Paciente",
-  description: "Sistema de gestión médica y coordinación de salud",
+  title: 'CoordiSalud - Paciente',
+  description: 'Sistema de gestión médica y coordinación de salud',
 };
 
 export default function PacienteLayout({

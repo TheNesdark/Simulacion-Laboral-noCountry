@@ -1,6 +1,6 @@
-"use client";
-import Image from "next/image";
-import { useAuth } from "@/context/AuthContext";
+'use client';
+import Image from 'next/image';
+import { useAuth } from '@/context/AuthContext';
 
 interface UserPhotoProps {
   className?: string;
@@ -11,13 +11,13 @@ interface UserPhotoProps {
   altText?: string;
 }
 
-export default function UserPhoto({ 
-  className = "", 
-  width = 40, 
-  height = 40, 
+export default function UserPhoto({
+  className = '',
+  width = 40,
+  height = 40,
   priority = true,
   showFallback = true,
-  altText = "Foto de perfil"
+  altText = 'Foto de perfil',
 }: UserPhotoProps) {
   const { userData } = useAuth();
 
@@ -30,12 +30,12 @@ export default function UserPhoto({
   if (userData?.photoURL) {
     return (
       <Image
-        src={userData.photoURL} 
+        src={userData.photoURL}
         alt={altText}
         className={`${className} user-avatar`}
         width={width}
         height={height}
-        onError={(e) => {
+        onError={e => {
           // Si la imagen falla al cargar, mostrar placeholder
           const target = e.target as HTMLImageElement;
           target.style.display = 'none';
@@ -50,7 +50,10 @@ export default function UserPhoto({
   }
 
   return (
-    <div className={`${className} user-avatar-placeholder`} style={{ display: 'flex' }}>
+    <div
+      className={`${className} user-avatar-placeholder`}
+      style={{ display: 'flex' }}
+    >
       {getUserInitial()}
     </div>
   );

@@ -1,11 +1,11 @@
-"use client";
-import "@/styles/pages/Calendario.css";
-import "react-calendar/dist/Calendar.css";
-import Calendar from "react-calendar";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
-import ErrorMessage from "@/components/common/ErrorMessage";
-import AppointmentList from "@/components/ui/AppointmentsList";
-import useCalendar from "@/hooks/useCalendar";
+'use client';
+import '@/styles/pages/Calendario.css';
+import 'react-calendar/dist/Calendar.css';
+import Calendar from 'react-calendar';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
+import ErrorMessage from '@/components/common/ErrorMessage';
+import AppointmentList from '@/components/ui/AppointmentsList';
+import useCalendar from '@/hooks/useCalendar';
 
 export default function CalendarPage() {
   const {
@@ -26,13 +26,13 @@ export default function CalendarPage() {
   }
 
   const title = activeDate
-    .toLocaleString("es-CO", { month: "long", year: "numeric" })
+    .toLocaleString('es-CO', { month: 'long', year: 'numeric' })
     .toUpperCase();
 
   return (
     <>
       <Calendar
-        className={"calendar"}
+        className={'calendar'}
         onActiveStartDateChange={handleActiveStartDateChange}
         tileClassName={isDateHasAppointment}
         onChange={() => {}}

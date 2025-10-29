@@ -7,19 +7,24 @@ import { storage } from '@/lib/firebase/firebase';
  * @param userId - ID del usuario para crear la ruta de almacenamiento
  * @returns URL de descarga de la imagen subida
  */
-export const uploadPhotoToFirebase = async (file: File, userId: string): Promise<string> => {
+export const uploadPhotoToFirebase = async (
+  file: File,
+  userId: string
+): Promise<string> => {
   if (!file || !userId) {
     throw new Error('Se requiere el archivo y el ID del usuario');
   }
 
   try {
-    const storageRef = ref(storage, `profile-photos/${userId}/${Date.now()}-${file.name}`);
+    const storageRef = ref(
+      storage,
+      `profile-photos/${userId}/${Date.now()}-${file.name}`
+    );
     await uploadBytes(storageRef, file);
-    
+
     const downloadURL = await getDownloadURL(storageRef);
-    
+
     return downloadURL;
-    
   } catch (error) {
     console.error('Error al subir la foto a Firebase:', error);
     throw new Error('No se pudo subir la foto. Por favor, intente nuevamente.');
@@ -30,7 +35,9 @@ export const uploadPhotoToFirebase = async (file: File, userId: string): Promise
  * Elimina una foto de Firebase Storage
  * @param photoUrl - URL de la foto a eliminar
  */
-export const deletePhotoFromFirebase = async (photoUrl: string): Promise<void> => {
+export const deletePhotoFromFirebase = async (
+  photoUrl: string
+): Promise<void> => {
   try {
     console.log('Función de eliminación de fotos no implementada aún');
   } catch (error) {

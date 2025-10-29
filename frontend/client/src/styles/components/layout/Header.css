@@ -1,121 +1,121 @@
 .header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    display: flex;
-    gap: 16px;
-    padding: 12px;
-    font-size: 24px;
-    font-weight: bold;
-    background-color: white;
-    box-shadow:
-        0 4px 12px 0 rgba(0, 0, 0, 0.2),
-        0 3px 6px 0 rgba(0, 0, 0, 0.19);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  gap: 16px;
+  padding: 12px;
+  font-size: 24px;
+  font-weight: bold;
+  background-color: white;
+  box-shadow:
+    0 4px 12px 0 rgba(0, 0, 0, 0.2),
+    0 3px 6px 0 rgba(0, 0, 0, 0.19);
 }
 
 .header h1 {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 
 .header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .user-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .user-avatar {
-    border-radius: 50%;
-    object-fit: cover;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .user-avatar-placeholder {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 1px solid black;
-    background-color: white;
-    color: #00579b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 18px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid black;
+  background-color: white;
+  color: #00579b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
 }
 .dropdown-user {
-    position: relative;
-    margin-left: auto;
+  position: relative;
+  margin-left: auto;
 }
 
 .dropdown-toggle {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .dropdown-avatar {
-    border-radius: 9999px;
-    object-fit: cover;
+  border-radius: 9999px;
+  object-fit: cover;
 }
 
 .dropdown-menu {
-    position: absolute;
-    right: 0;
-    top: calc(100% + 8px);
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-    padding: 8px 0;
-    min-width: 160px;
-    font-size: 0.9rem;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    z-index: 40;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  padding: 8px 0;
+  min-width: 160px;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 40;
 }
 
 .dropdown-item {
-    display: flex;
-    align-items: center;
-    padding: 8px 12px;
-    color: #111827;
-    text-decoration: none;
-    background: transparent;
-    border: none;
-    text-align: left;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  color: #111827;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  text-align: left;
+  gap: 8px;
 }
 
 .dropdown-item:hover {
-    background: #f3f4f6;
+  background: #f3f4f6;
 }
 
 .dropdown-item span {
-    display: flex;
-    align-content: center;
-    gap: 8px;
+  display: flex;
+  align-content: center;
+  gap: 8px;
 }
 .dropdown-item-profile::before {
-    content: "";
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    background: url("/assets/icons/perfilIcon.svg") no-repeat center/18px 18px;
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: url('/assets/icons/perfilIcon.svg') no-repeat center/18px 18px;
 }
 
 .dropdown-item-logout::before {
-    content: "";
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    background: url("/assets/icons/LogoutIcon.svg") no-repeat center/18px 18px;
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: url('/assets/icons/LogoutIcon.svg') no-repeat center/18px 18px;
 }
