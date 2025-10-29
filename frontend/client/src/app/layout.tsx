@@ -4,7 +4,6 @@ import Providers from '@/components/providers';
 import GlobalAuthGuard from '@/components/GlobalAuthGuard';
 import { roboto } from '@/lib/fonts';
 
-
 export const metadata: Metadata = {
   title: 'CoordiSalud - Simulación Laboral',
   description: 'Sistema de gestión de citas médicas',

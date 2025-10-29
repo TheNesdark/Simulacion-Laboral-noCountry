@@ -30,6 +30,7 @@ export const registerUser = async (data: RegisterProps): Promise<User> => {
       documento: data.documento || '',
       telefono: data.telefono || '',
       fechaNacimiento: data.fechaNacimiento || '',
+      genero: data.genero || '',
       photoURL: '',
       createdAt: new Date(),
     });

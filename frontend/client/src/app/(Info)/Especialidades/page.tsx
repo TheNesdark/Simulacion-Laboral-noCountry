@@ -6,13 +6,14 @@ import { SpecialtiesGroup } from '@/types';
 import '@/styles/pages/Especialidades.css';
 
 export default function EspecialidadesPage() {
-  const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(null);
+  const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(
+    null
+  );
 
   const { data: specialtiesData = [], isLoading } = useQuery({
     queryKey: ['specialties'],
     queryFn: getAllSpecialtiesGrouped,
   });
-
 
   if (isLoading) {
     return (

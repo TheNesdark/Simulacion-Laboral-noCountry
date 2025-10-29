@@ -13,6 +13,7 @@ export default function useRegister() {
     documento: '',
     telefono: '',
     fechaNacimiento: '',
+    genero: '',
   });
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -38,7 +39,9 @@ export default function useRegister() {
     setStep(1);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,

@@ -48,6 +48,7 @@ export interface RegisterProps {
   telefono: string;
   email: string;
   password: string;
+  genero: string;
 }
 
 export interface LoginProps {

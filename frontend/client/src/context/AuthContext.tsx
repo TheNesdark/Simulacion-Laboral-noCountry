@@ -85,7 +85,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       await loginUser(data);
       router.push('/');
     } catch (error: any) {
-      setError('Tus credenciales son incorrectos.');
+      setError(getErrorMessage(error.code));
       return undefined;
     } finally {
       setLoading(false);

@@ -144,6 +144,19 @@ export default function Register({ onBack, onChange }: SignUpProps) {
                 onChange={handleInputChange}
               />
 
+              <label htmlFor='genero'>Género</label>
+              <select
+                id='genero'
+                name='genero'
+                value={formData.genero}
+                onChange={handleInputChange}
+              >
+                <option value=''>Seleccionar género</option>
+                <option value='masculino'>Masculino</option>
+                <option value='femenino'>Femenino</option>
+                <option value='otro'>Otro</option>
+              </select>
+
               <div className='step-buttons'>
                 <button
                   type='button'
