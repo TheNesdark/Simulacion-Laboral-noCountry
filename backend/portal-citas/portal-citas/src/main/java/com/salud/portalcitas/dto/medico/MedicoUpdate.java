@@ -27,4 +27,5 @@ public class MedicoUpdate {
     @Email
     private String email;
     private Long clinicaId;
+    private Long especialidadId;
 }

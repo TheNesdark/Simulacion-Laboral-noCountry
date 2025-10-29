@@ -4,10 +4,12 @@ import com.salud.portalcitas.dto.medico.MedicoRequest;
 import com.salud.portalcitas.dto.medico.MedicoResponse;
 import com.salud.portalcitas.dto.medico.MedicoUpdate;
 import com.salud.portalcitas.entity.Clinica;
+import com.salud.portalcitas.entity.Especialidad;
 import com.salud.portalcitas.entity.Medico;
 import com.salud.portalcitas.mapper.MedicoMapper;
 import com.salud.portalcitas.repository.MedicoRepository;
 import com.salud.portalcitas.service.clinica.ClinicaService;
+import com.salud.portalcitas.service.especialidad.EspecialidadService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,14 +25,26 @@ public class MedicoServiceImpl implements MedicoService{
     private final MedicoRepository medicoRepository;
     private final MedicoMapper medicoMapper;
     private final ClinicaService clinicaService;
+    private final EspecialidadService especialidadService;
 
 
     @Override
     public MedicoResponse crear(MedicoRequest medicoRequest) {
-        Clinica clinica = clinicaService.obtenerPorId(medicoRequest.getClinicaId());
+
         Medico medico = medicoMapper.toEntity(medicoRequest);
-        medico.setClinica(clinica);
+
+        if (medicoRequest.getClinicaId() != null) {
+            Clinica clinica = clinicaService.obtenerPorId(medicoRequest.getClinicaId());
+            medico.setClinica(clinica);
+        }
+
+        if (medicoRequest.getEspecialidadId() != null) {
+            Especialidad especialidad = especialidadService.obtenerPorId(medicoRequest.getEspecialidadId());
+            medico.setEspecialidad(especialidad);
+        }
+
         Medico guardado = medicoRepository.save(medico);
+
         return medicoMapper.toResponse(guardado);
     }
 
@@ -69,6 +83,11 @@ public class MedicoServiceImpl implements MedicoService{
         if (medicoUpdate.getClinicaId() != null) {
             Clinica clinica = clinicaService.obtenerPorId(medicoUpdate.getClinicaId());
             existente.setClinica(clinica);
+        }
+
+        if (medicoUpdate.getEspecialidadId() != null) {
+            Especialidad especialidad = especialidadService.obtenerPorId(medicoUpdate.getEspecialidadId());
+            existente.setEspecialidad(especialidad);
         }
 
         Medico saved = medicoRepository.save(existente);

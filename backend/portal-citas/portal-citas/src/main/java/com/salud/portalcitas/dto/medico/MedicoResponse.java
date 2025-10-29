@@ -19,5 +19,11 @@ public class MedicoResponse {
     private String telefono;
     private Long matricula;
     private String email;
-    private ClinicaResponse clinica;
+
+    private Long clinicaId;
+    private String nombreClinica;
+
+    private Long especialidadId;
+    private String nombreEspecialidad;
+
 }

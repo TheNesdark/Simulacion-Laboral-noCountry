@@ -35,4 +35,6 @@ public class MedicoRequest {
     private String email;
 
     private Long clinicaId;
+
+    private Long especialidadId;
 }

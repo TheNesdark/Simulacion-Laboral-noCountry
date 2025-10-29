@@ -4,10 +4,7 @@ import com.salud.portalcitas.dto.medico.MedicoRequest;
 import com.salud.portalcitas.dto.medico.MedicoResponse;
 import com.salud.portalcitas.dto.medico.MedicoUpdate;
 import com.salud.portalcitas.entity.Medico;
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -16,6 +13,10 @@ public interface MedicoMapper {
 
     Medico toEntity(MedicoRequest request);
 
+    @Mapping(target = "clinicaId", source = "clinica.id")
+    @Mapping(target = "nombreClinica", source = "clinica.nombre")
+    @Mapping(target = "especialidadId", source = "especialidad.id")
+    @Mapping(target = "nombreEspecialidad", source = "especialidad.nombre")
     MedicoResponse toResponse(Medico medico);
 
     List<MedicoResponse> toResponseList(List<Medico> entities);

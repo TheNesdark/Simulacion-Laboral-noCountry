@@ -36,4 +36,8 @@ public class Medico {
     @ManyToOne
     @JoinColumn(name = "clinica_id")
     private Clinica clinica;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "especialidad_id")
+    private Especialidad especialidad;
 }
