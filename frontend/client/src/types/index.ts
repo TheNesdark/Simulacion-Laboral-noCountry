@@ -12,11 +12,10 @@ export type MedicalExamFilter = 'Disponibles' | 'Pendientes';
 
 export interface Clinic {
   id: string;
-  name: string;
-  image: string;
-  phone: string;
-  address: string;
-  color: string;
+  nombre: string;
+  descripcion: string;
+  telefono: string;
+  direccion: string;
 }
 export type Clinics = Clinic[];
 

@@ -1,24 +1,23 @@
 import '@/styles/components/ClinicCard.css';
-import LikeIcon from '@/components/icons/LikeIcon';
 import { Clinic } from '@/types';
 
-export function ClinicCard({ id, name, phone, address, image, color }: Clinic) {
+export function ClinicCard({ id, nombre, telefono, direccion, descripcion }: Clinic) {
   return (
     <div key={id} className='clinic-card'>
-      <div className={`clinic-card-image-container ${color}`}>
-        <img src={image} alt={name} className='clinic-card-image' />
+      <div className={`clinic-card-image-container`}>
+        <img src={descripcion} alt={nombre} className='clinic-card-image' />
       </div>
 
       <div className='clinic-card-content'>
         <div className='clinic-card-info'>
-          <h2 className='clinic-card-name'>{name}</h2>
+          <h2 className='clinic-card-name'>{nombre}</h2>
 
           <div className='clinic-card-phone-container'>
-            <div className='clinic-card-phone'>{phone}</div>
+            <div className='clinic-card-phone'>{telefono}</div>
           </div>
 
           <div className='clinic-card-address-container'>
-            <div className='clinic-card-address'>{address}</div>
+            <div className='clinic-card-address'>{direccion}</div>
           </div>
         </div>
 

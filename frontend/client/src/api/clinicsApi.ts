@@ -1,7 +1,9 @@
-import clinicsData from '@/data/clinics.json';
 import { Clinic } from '@/types';
 
+const BASEURL = process.env.NEXT_PUBLIC_BASE_URL || '';
+
 export const getAllClinics = async (): Promise<Clinic[]> => {
-  await new Promise(res => setTimeout(res, 100));
-  return clinicsData.clinics as Clinic[];
+  const res = await fetch(`${BASEURL}/api/clinicas`);
+  console.log(res);
+  return res.json();
 };
