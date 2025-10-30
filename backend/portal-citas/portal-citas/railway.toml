@@ -1,0 +1,37 @@
+# Portal de Citas - Configuración completa para Railway
+# Copia este contenido directamente al archivo railway.toml en la raíz del proyecto
+
+[build]
+  # Comando de construcción Maven
+  command = "mvn clean package -DskipTests"
+  
+[start]
+  # Comando de inicio personalizado
+  command = "java -jar target/portal-citas-0.0.1-SNAPSHOT.jar"
+
+[deploy]
+  # Configuración de reinicio - solo en caso de fallas críticas
+  restartPolicyType = "ON_FAILURE"
+  restartPolicyMaxRetries = 3
+  
+  # Tiempo de espera adicional para aplicaciones Java lentas
+  sleepApplication = 15
+  
+  # Timeout más largo para conexiones de base de datos
+  healthcheckTimeout = 120
+  
+  # Configuración de deployment
+  restartDelayMs = 10000
+  
+
+  
+[environments.production]
+  # Configuración específica para producción
+  restartPolicyType = "ON_FAILURE"
+  restartPolicyMaxRetries = 1
+  sleepApplication = 30
+  
+[environments.staging]
+  # Configuración para staging
+  restartPolicyType = "ALWAYS"
+  restartPolicyMaxRetries = 5
