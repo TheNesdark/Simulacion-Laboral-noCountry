@@ -17,36 +17,40 @@ import java.util.List;
 @Configuration
 public class GoogleCalendarConfig {
 
+    @Value("${google.calendar.credentials-file:}")
+    private String credentialsFile;
+
     @Value("${google.calendar.application-name:ClinicaTurnosApp}")
     private String applicationName;
 
-    // Variables de entorno para credenciales de Google
-    @Value("${google.project-id:}")
-    private String projectId;
-
-    @Value("${google.private-key-id:}")
-    private String privateKeyId;
-
-    @Value("${google.private-key:}")
-    private String privateKey;
-
-    @Value("${google.client-email:}")
+    // Variables individuales de la Service Account
+    @Value("${google.calendar.client-email:}")
     private String clientEmail;
 
-    @Value("${google.client-id:}")
-    private String clientId;
+    @Value("${google.calendar.private-key:}")
+    private String privateKey;
 
-    @Value("${google.auth-uri:https://accounts.google.com/o/oauth2/auth}")
-    private String authUri;
+    @Value("${google.calendar.private-key-id:}")
+    private String privateKeyId;
 
-    @Value("${google.token-uri:https://oauth2.googleapis.com/token}")
+    @Value("${google.calendar.project-id:}")
+    private String projectId;
+
+    @Value("${google.calendar.token-uri:}")
     private String tokenUri;
 
-    @Value("${google.auth-provider-cert-url:https://www.googleapis.com/oauth2/v1/certs}")
+    @Value("${google.calendar.auth-uri:}")
+    private String authUri;
+
+    @Value("${google.calendar.auth-provider-cert-url:}")
     private String authProviderCertUrl;
 
-    @Value("${google.client-cert-url:}")
+    @Value("${google.calendar.client-cert-url:}")
     private String clientCertUrl;
+
+    // Variable de entorno con el contenido completo del JSON
+    @Value("${GOOGLE_CREDENTIALS_JSON:}")
+    private String credentialsJson;
 
     @Bean
     public Calendar googleCalendar() throws Exception {
@@ -55,45 +59,21 @@ public class GoogleCalendarConfig {
 
         InputStream is;
 
-        // Verificar si hay credenciales en variables de entorno
-        if (!projectId.isEmpty() && !privateKey.isEmpty() && !clientEmail.isEmpty()) {
-            // Construir JSON desde variables de entorno
-            String credentialsJson = String.format("""
-                {
-                  "type": "service_account",
-                  "project_id": "%s",
-                  "private_key_id": "%s",
-                  "private_key": "%s",
-                  "client_email": "%s",
-                  "client_id": "%s",
-                  "auth_uri": "%s",
-                  "token_uri": "%s",
-                  "auth_provider_x509_cert_url": "%s",
-                  "client_x509_cert_url": "%s",
-                  "universe_domain": "googleapis.com"
-                }
-                """,
-                projectId,
-                privateKeyId,
-                privateKey.replace("\\n", "\n"), // Convertir \n literales a saltos de línea
-                clientEmail,
-                clientId,
-                authUri,
-                tokenUri,
-                authProviderCertUrl,
-                clientCertUrl
-            );
-            
+        // Intentar usar las variables individuales primero
+        if (!clientEmail.isEmpty() && !privateKey.isEmpty()) {
+            String credentialsJson = buildCredentialsJson();
+            is = new ByteArrayInputStream(credentialsJson.getBytes(StandardCharsets.UTF_8));
+        } else if (!credentialsJson.isEmpty()) {
+            // Leer desde variable de entorno con JSON completo
             is = new ByteArrayInputStream(credentialsJson.getBytes(StandardCharsets.UTF_8));
         } else {
-            // Fallback: intentar cargar desde classpath
-            is = this.getClass().getResourceAsStream("/google-credentials.json");
-            
+            // Leer desde archivo físico
+            is = this.getClass().getResourceAsStream(
+                    credentialsFile.startsWith("classpath:") ? credentialsFile.replace("classpath:", "/") : credentialsFile
+            );
+
             if (is == null) {
-                throw new IllegalStateException(
-                    "No se encontraron credenciales de Google Calendar. " +
-                    "Configura las variables de entorno: GOOGLE_PROJECT_ID, GOOGLE_PRIVATE_KEY, GOOGLE_CLIENT_EMAIL"
-                );
+                throw new IllegalStateException("No se encontraron las credenciales de Google Calendar. Configure las variables de entorno o un archivo de credenciales.");
             }
         }
 
@@ -103,5 +83,34 @@ public class GoogleCalendarConfig {
         return new Calendar.Builder(httpTransport, jsonFactory, new HttpCredentialsAdapter(credentials))
                 .setApplicationName(applicationName)
                 .build();
+    }
+
+    /**
+     * Construye el JSON de credenciales desde las variables de entorno individuales
+     */
+    private String buildCredentialsJson() {
+        return """
+            {
+              "type": "service_account",
+              "project_id": "%s",
+              "private_key_id": "%s",
+              "private_key": "%s",
+              "client_email": "%s",
+              "client_id": "103105373014233457291",
+              "auth_uri": "%s",
+              "token_uri": "%s",
+              "auth_provider_x509_cert_url": "%s",
+              "client_x509_cert_url": "%s"
+            }
+            """.formatted(
+                projectId,
+                privateKeyId,
+                privateKey.replace("\\n", "\n"),
+                clientEmail,
+                authUri,
+                tokenUri,
+                authProviderCertUrl,
+                clientCertUrl
+            );
     }
 }

@@ -1,0 +1,18 @@
+[build]
+  # Comando de construcción Maven
+  command = "mvn clean package -DskipTests"
+  
+[start]
+  # Comando de inicio personalizado
+  command = "java -jar target/portal-citas-0.0.1-SNAPSHOT.jar"
+
+[deploy]
+  # Configuración de reinicio - solo en caso de fallas críticas
+  restartPolicyType = "ON_FAILURE"
+  restartPolicyMaxRetries = 3
+  
+  # Timeout más largo para conexiones de base de datos
+  healthcheckTimeout = 120
+  
+  # Configuración de deployment
+  restartDelayMs = 10000
