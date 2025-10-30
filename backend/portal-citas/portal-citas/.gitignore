@@ -22,6 +22,14 @@ target/
 /src/main/resources/google/*.json
 #db-data/
 
+### Environment and Secrets ###
+.env
+.env.local
+.env.production
+*.pem
+*.key
+google-credentials.json
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
