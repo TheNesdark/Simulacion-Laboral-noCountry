@@ -21,39 +21,34 @@ public class GoogleCalendarConfig {
     private String applicationName;
 
     // Variables de entorno para credenciales de Google
-    @Value("${GOOGLE_PROJECT_ID:}")
+    @Value("${google.project-id:}")
     private String projectId;
 
-    @Value("${GOOGLE_PRIVATE_KEY_ID:}")
+    @Value("${google.private-key-id:}")
     private String privateKeyId;
 
-    @Value("${GOOGLE_PRIVATE_KEY:}")
+    @Value("${google.private-key:}")
     private String privateKey;
 
-    @Value("${GOOGLE_CLIENT_EMAIL:}")
+    @Value("${google.client-email:}")
     private String clientEmail;
 
-    @Value("${GOOGLE_CLIENT_ID:}")
+    @Value("${google.client-id:}")
     private String clientId;
 
-    @Value("${GOOGLE_AUTH_URI:https://accounts.google.com/o/oauth2/auth}")
+    @Value("${google.auth-uri:https://accounts.google.com/o/oauth2/auth}")
     private String authUri;
 
-    @Value("${GOOGLE_TOKEN_URI:https://oauth2.googleapis.com/token}")
+    @Value("${google.token-uri:https://oauth2.googleapis.com/token}")
     private String tokenUri;
 
-    @Value("${GOOGLE_AUTH_PROVIDER_CERT_URL:https://www.googleapis.com/oauth2/v1/certs}")
+    @Value("${google.auth-provider-cert-url:https://www.googleapis.com/oauth2/v1/certs}")
     private String authProviderCertUrl;
 
-    @Value("${GOOGLE_CLIENT_CERT_URL:}")
+    @Value("${google.client-cert-url:}")
     private String clientCertUrl;
 
     @Bean
-    @org.springframework.boot.autoconfigure.condition.ConditionalOnProperty(
-        name = "google.calendar.enabled",
-        havingValue = "true",
-        matchIfMissing = false
-    )
     public Calendar googleCalendar() throws Exception {
         var httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         var jsonFactory = JacksonFactory.getDefaultInstance();
