@@ -1,113 +1,380 @@
-.login-container {
-    position: relative;
-    height: 100dvh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+main {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  height: 100dvh;
+  width: 100dvw;
+  overflow: hidden;
 }
 
 /* Círculo azul en la esquina superior derecha */
-.login-container::before {
-    content: "";
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    background-color: #c6e4f8;
-    border-radius: 50%;
-    top: -150px;
-    right: -150px;
-    z-index: -1;
-  }
-  
+main::before {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background-color: #b3e5fc;
+  border-radius: 50%;
+  top: -150px;
+  right: -150px;
+  z-index: -1;
+}
+
 /* Círculo verde en la esquina inferior izquierda */
-.login-container::after {
-    content: "";
-    position: absolute;
-    width: 250px;
-    height: 250px;
-    background-color: #c6f8d6;
-    border-radius: 50%;
-    bottom: -125px;
-    left: -125px;
-    z-index: -1;
-  }
-
-.login-title {
-    position: absolute;
-    border-radius: 50%;
-    background-color: #dc8cf5;
-    color: white;
-    padding: 12px 12px;
-    width: 250px;
-    height: 250px;
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: -2;
+main::after {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background-color: #c8e6c9;
+  border-radius: 50%;
+  bottom: -150px;
+  left: -150px;
+  z-index: -1;
 }
 
-.login-form {
-    margin-top: 150px;
-    width: 350px;
-    display: flex;
-    flex-direction: column;
-    border-bottom: 1px solid black;
-    input{
-        padding: 6px 6px;
-        border-radius: 12px;
-        border: 1px solid black;
-        margin-bottom: 12px;
-        background-color: white;
-    }
-    label{
-        font-size: 15px;
-        font-weight: bold;
-        margin-bottom: 8px;
-    }
-    span{
-        font-size: 12px;
-        cursor: pointer;
-        text-align: end;
-    }
+/* Circulo Rosa */
+.circle-pink {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background-color: #f8bbd0;
+  color: #00579b;
+  text-align: center;
+  font-size: 32px;
+  font-weight: bold;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -2;
 }
 
-.button {
-    width: 100%;
-    max-width: 350px;
-    padding: 12px 12px;
-    border-radius: 24px;
-    border: none;
-    cursor: pointer;
-    margin: 12px 0;
+/* Ocultar la imagen en mobile */
+.circle-pink img {
+  display: none;
 }
 
-.button-paciente {
-    background-color: #1565c0;;
-    color: white;
+.circle-pink .initial-image {
+  display: block;
 }
 
-.button-profesional {
-    background-color: white;
-    color: #1565c0;
-    border: 2px solid #1565c0;
+/* Seccion de login */
+.login {
+  display: flex;
+  width: 90%;
+  margin-top: 300px;
+  align-content: center;
+}
+
+.initial-options {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  gap: 1rem;
 }
 
 .button-login {
-    background-color: #dc8cf5;
-    color: white;
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 20px;
+  background-color: #00579b;
+  color: white;
 }
 
+.button-register {
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 20px;
+  background-color: #fafafa;
+  color: #00579b;
+  border: 1px solid #00579b;
+}
+
+/* Ocultar panel de navegacion */
+.options {
+  display: none;
+}
+
+/* Seccion de Formulario de Login */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  color: black;
+  font-size: 1rem;
+}
+
+/* Ocultar Logo en mobile */
+.login-logo {
+  display: none;
+}
+
+/* Seccion de inputs */
+.login-inputs {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-nombres {
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+}
+
+.input-nombres div {
+  width: 50%;
+}
+
+.login-inputs label {
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  text-align: start;
+  font-weight: bold;
+}
+
+.login-inputs input,
+.login-inputs select {
+  width: 100%;
+  padding: 0.3rem;
+  border-radius: 10px;
+  border: 1px solid #000000;
+  background-color: #f2f2f2;
+  color: #000000;
+}
+
+/* Seccion de opciones */
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.login-options input {
+  margin-right: 1rem;
+}
+
+/* Botones de paso */
+.next-step-button,
+.prev-step-button,
+.submit-button {
+  margin: 1rem 0;
+  width: 100%;
+  border-radius: 30px;
+  padding: 0.5rem;
+  border: 1px solid #fafafa;
+  background-color: #03acf2;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.submit-button {
+  background-color: #00579b;
+  color: white;
+}
+
+.step-buttons {
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+}
+
+.error-message {
+  text-align: center;
+  padding: 0.5rem;
+}
+
+/* Seccion de proveedores */
+.login-providers {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-top: 1px solid #00579b;
+}
+
+.login-providers svg {
+  color: blue;
+  width: 3rem;
+  height: 3rem;
+}
+
+/* Boton de regreso */
 .button-back {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  top: 10px;
+  left: 10px;
+  background-color: white;
+}
+
+/* Estilos responsivos en computador */
+@media (min-width: 768px) {
+  main {
+    display: block;
+  }
+
+  /* Círculo azul */
+  main::before {
+    top: auto;
+    bottom: 0;
+    left: 30%;
+    width: 200px;
+    height: 200px;
+  }
+
+  /* Círculo azul */
+  main::after {
+    left: 40%;
+    bottom: auto;
+    top: 0;
+    width: 200px;
+    height: 200px;
+  }
+
+  /* Circulo Rosa */
+  .circle-pink {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    left: 0%;
+    top: 60%;
+    width: 200px;
+    height: 200px;
+    transform: translateY(-50%);
+  }
+
+  /* Quitar texto de circulo */
+  .circle-pink span {
+    display: none;
+  }
+
+  /* Mostrar imagen en circulo rosa */
+  .circle-pink img {
+    display: block;
+    position: absolute;
+    bottom: 30%;
+    left: 50%;
+    max-width: 300px;
+    width: 300px;
+    height: 300px;
+    object-fit: contain;
+    z-index: 1;
+  }
+
+  /* Seccion de Login y registro */
+  .login {
+    display: flex;
+    width: 50%;
+    height: 90%;
+    float: right;
+    align-content: center;
+    margin: 32px 16px;
+  }
+
+  /* Barra de navegacion */
+  .options {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #00579b;
+    width: 10rem;
+  }
+
+  .options button {
+    border-radius: 10px 0px 0px 10px;
+    padding: 0.5rem;
+  }
+
+  .options .active {
+    color: white;
+    background-color: #00579b;
+  }
+
+  /* Seccion de Formulario de Login */
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    padding: 1.5rem;
+    background-color: #00579b;
+    color: white;
+    font-size: 0.8rem;
+  }
+
+  /* Seccion de Logo */
+  .login-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    gap: 1rem;
+    font-size: 1.5rem;
+  }
+
+  .login-logo .Logo {
+    padding: 0.5rem 0.5rem;
     background-color: white;
-    color: #1565c0;
-    border: 2px solid #1565c0;
+    border-radius: 50%;
+  }
+
+  /* Seccion de inputs */
+  .login-inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .login-inputs label {
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    text-align: start;
+  }
+
+  .register-inputs,
+  .login-inputs input {
+    width: 100%;
+    padding: 0.3rem;
+    border-radius: 10px;
+    border: none;
+    background-color: #f2f2f2;
+    color: #000000;
+  }
+
+  /* Seccion de opciones */
+  .login-options {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+  }
+
+  .login-options input {
+    margin-right: 1rem;
+  }
+
+  /* Seccion de proveedores */
+  .login-providers {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-top: 1px solid #fafafa;
+  }
+
+  .login-providers svg {
+    color: white;
+  }
 }

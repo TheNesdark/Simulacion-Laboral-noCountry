@@ -1,45 +1,40 @@
-'use client'
+'use client';
 
-import Image from 'next/image'
-import '@/styles/pages/Login.css'
-import blob from '@/assets/login.png'
-import logo from '@/assets/logo.png'
-import PacienteLogin from './PacienteLogin'
-import ProfesionalLogin from './ProfesionalLogin'
-import { useState } from 'react'
-export default function Login() {
-    const [showPacientesLogin, setShowPacientesLogin] = useState(false)
-    const [showProfesionalLogin, setShowProfesionalLogin] = useState(false)
+import Image from 'next/image';
+import '@/styles/pages/Login.css';
+import Login from './components/Login';
+import Register from './components/Register';
+import Initial from './components/Initial';
+import { useState } from 'react';
 
-    const handleBack = () => {
-        setShowPacientesLogin(false)
-        setShowProfesionalLogin(false)
-    }
+type AuthView = 'initial' | 'login' | 'register';
 
-    const handlePacienteLogin = () => {
-        setShowPacientesLogin(true)
-        console.log('hola')
-    }
+export default function LoginPage() {
+  const [view, setView] = useState<AuthView>('initial');
 
-    const handleProfesionalLogin = () => {
-        setShowProfesionalLogin(true)
-    }
-    if (showPacientesLogin) {
-        return <PacienteLogin onBack={handleBack} />
-    } else if (showProfesionalLogin) {
-        return <ProfesionalLogin onBack={handleBack} />
-    } else {
-        return (
-            <div className="login-container">
-                <Image src={blob} alt="Logo" width={300} height={300} />
-                <button className="button button-paciente" onClick={handlePacienteLogin}>
-                    Soy Paciente
-                </button>
-                <button className="button button-profesional" onClick={handleProfesionalLogin}>
-                    Soy Profesional
-                </button>
-                <Image src={logo} alt="Logo" width={50} height={50} />
-            </div>
-        )
-    }
+  const handleBack = () => {
+    setView('initial');
+  };
+
+  const handleLoginView = () => {
+    setView('login');
+  };
+
+  const handleRegisterView = () => {
+    setView('register');
+  };
+
+  if (view === 'login') {
+    return <Login onBack={handleBack} onChange={handleRegisterView} />;
+  }
+
+  if (view === 'register') {
+    return <Register onBack={handleBack} onChange={handleLoginView} />;
+  }
+
+  if (view === 'initial') {
+    return (
+      <Initial onLogin={handleLoginView} onRegister={handleRegisterView} />
+    );
+  }
 }
