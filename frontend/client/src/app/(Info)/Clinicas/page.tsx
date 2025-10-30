@@ -16,7 +16,7 @@ export default function MedicosPage() {
 
   let filteredClinics = clinics || [];
   if (activeFilter === 'A-Z') {
-    filteredClinics = [...clinics].sort((a, b) => a.name.localeCompare(b.name));
+    filteredClinics = [...clinics].sort((a, b) => a.nombre.localeCompare(b.nombre));
   }
 
   return (
