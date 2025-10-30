@@ -19,6 +19,18 @@ target/
 *.iml
 *.ipr
 
+/src/main/resources/google/*.json
+#db-data/
+
+### Environment and Secrets ###
+.env
+.env.local
+.env.production
+*.pem
+*.key
+google-credentials.json
+application.properties
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
