@@ -1,0 +1,13 @@
+
+[build]
+  # Maven build command
+  command = "mvn clean package -DskipTests"
+  
+[start]
+  # Custom start command for Railway
+  command = "java -jar target/portal-citas-0.0.1-SNAPSHOT.jar"
+
+[deploy]
+  # Restart policy
+  restartPolicyType = "ON_FAILURE"
+  restartPolicyMaxRetries = 10
