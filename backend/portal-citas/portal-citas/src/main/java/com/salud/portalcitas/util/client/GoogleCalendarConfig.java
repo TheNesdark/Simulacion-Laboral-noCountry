@@ -49,6 +49,11 @@ public class GoogleCalendarConfig {
     private String clientCertUrl;
 
     @Bean
+    @org.springframework.boot.autoconfigure.condition.ConditionalOnProperty(
+        name = "google.calendar.enabled",
+        havingValue = "true",
+        matchIfMissing = false
+    )
     public Calendar googleCalendar() throws Exception {
         var httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         var jsonFactory = JacksonFactory.getDefaultInstance();
