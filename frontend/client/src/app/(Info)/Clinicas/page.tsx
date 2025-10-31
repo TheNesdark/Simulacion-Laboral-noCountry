@@ -37,7 +37,7 @@ export default function MedicosPage() {
 
       <div className='clinicas-content'>
         {filteredClinics.map(clinic => (
-          <ClinicCard key={clinic.id} {...clinic} />
+          <ClinicCard descripcion={''} key={clinic.id} {...clinic} />
         ))}
       </div>
     </>
