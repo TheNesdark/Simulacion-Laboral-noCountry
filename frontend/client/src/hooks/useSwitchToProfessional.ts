@@ -54,6 +54,7 @@ export default function useSwitchToProfessional() {
         ]);
 
         setClinics(clinicsData);
+        console.log(clinicsData)
         setSpecialties(specialtiesData);
       } catch (err) {
         console.error("Error cargando datos:", err);

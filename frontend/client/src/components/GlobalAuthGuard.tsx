@@ -47,6 +47,10 @@ export default function GlobalAuthGuard({ children }: GlobalAuthGuardProps) {
         console.log('Paciente intentando acceder a rutas de médico, redirigiendo a /');
         router.push('/');
       }
+            if (isMedico && pathname.startsWith('/(Paciente)')) {
+        console.log('Paciente intentando acceder a rutas de médico, redirigiendo a /');
+        router.push('/');
+      }
     }
   }, [user, loading, userData, role, isPublicRoute, pathname, router]);
 
