@@ -3,13 +3,13 @@ import { useAuth } from '@/context/AuthContext';
 import { crearMedico } from '@/services/backend/UserService';
 import { getAllClinics } from '@/api/clinicsApi';
 import { getAllSpecialties } from '@/api/specialtiesApi';
-import { Clinic, Specialty } from '@/types';
+import {  Specialty } from '@/types';
 
 export default function useSwitchToProfessional() {
   const { user, userData, updateUserData } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [clinics, setClinics] = useState<Clinic[]>([]);
+  const [clinics, setClinics] = useState();
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [formData, setFormData] = useState({
     userId: "",
@@ -52,8 +52,6 @@ export default function useSwitchToProfessional() {
           getAllClinics(),
           getAllSpecialties()
         ]);
-
-        setClinics(clinicsData);
         console.log(clinicsData)
         setSpecialties(specialtiesData);
       } catch (err) {
