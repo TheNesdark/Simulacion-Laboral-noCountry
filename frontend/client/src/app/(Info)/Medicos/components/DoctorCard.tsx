@@ -1,14 +1,19 @@
 import '@/styles/components/DoctorCard.css';
 import { Doctor } from '@/types';
+import { useRouter } from 'next/navigation';
 
-interface DoctorCardProps extends Doctor {}
+interface DoctorCardProps extends Doctor { }
 
 export function DoctorCard({
+  id,
   name,
   specialty,
   rating,
   image,
 }: DoctorCardProps) {
+  const router = useRouter();
+
+  const handleClick = () => router.replace(`./${id}`)
   return (
     <div className="doctor-card">
       <div className="doctor-card-content">
@@ -25,7 +30,7 @@ export function DoctorCard({
           <div className='doctor-card-rating-container'>
             <span className='doctor-card-rating'>{rating}%</span>
           </div>
-          <button className='doctor-card-button'>Pedir Turno</button>
+          <button className='doctor-card-button z-10' onClick={() => router.replace(`Medicos/${id}`)}>Pedir Turno</button>
         </div>
       </div>
     </div>
