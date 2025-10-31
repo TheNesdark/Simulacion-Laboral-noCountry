@@ -1,35 +1,56 @@
-import specialtiesData from '@/data/specialties.json';
-import { Specialty, SpecialtiesGroup } from '@/types';
+import { Specialty } from "@/types";
 
-export const getAllSpecialtiesGrouped = async (): Promise<
-  SpecialtiesGroup[]
-> => {
-  await new Promise(res => setTimeout(res, 100));
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
 
-  const specialties = specialtiesData.specialties as Specialty[];
-  console.log('Specialties data:', specialties);
+export const getAllSpecialtiesGrouped = async (): Promise<{ letter: string; specialties: string[] }[]> => {
 
-  const grouped = specialties.reduce(
-    (acc, specialty) => {
-      const letter = specialty.letter;
-      if (!acc[letter]) {
-        acc[letter] = [];
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/especialidades`);
+
+    if (!response.ok) {
+      throw new Error('Error al obtener las especialidades');
+    }
+
+    const specialties: Specialty[] = await response.json();
+
+    // Group specialties by first letter
+    const grouped = specialties.reduce((acc, specialty) => {
+      const firstLetter = specialty.nombre.charAt(0).toUpperCase();
+
+      if (!acc[firstLetter]) {
+        acc[firstLetter] = [];
       }
-      acc[letter].push(specialty.name);
+
+      acc[firstLetter].push(specialty.nombre);
+
       return acc;
-    },
-    {} as Record<string, string[]>
-  );
+    }, {} as Record<string, string[]>);
 
-  console.log('Grouped specialties:', grouped);
+    // Convert to array format expected by component
+    return Object.keys(grouped)
+      .sort()
+      .map(letter => ({
+        letter,
+        specialties: grouped[letter].sort()
+      }));
 
-  const result = Object.entries(grouped)
-    .map(([letter, specialties]) => ({
-      letter,
-      specialties: specialties.sort((a, b) => a.localeCompare(b)),
-    }))
-    .sort((a, b) => a.letter.localeCompare(b.letter));
+  } catch (error) {
+    console.error('Error fetching specialties:', error);
+    throw error;
+  }
+};
 
-  console.log('Final result:', result);
-  return result;
+export const getAllSpecialties = async (): Promise<Specialty[]> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/especialidades`);
+
+    if (!response.ok) {
+      throw new Error('Error al obtener las especialidades');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching specialties:', error);
+    throw error;
+  }
 };

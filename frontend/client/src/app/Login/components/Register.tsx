@@ -152,9 +152,9 @@ export default function Register({ onBack, onChange }: SignUpProps) {
                 onChange={handleInputChange}
               >
                 <option value=''>Seleccionar género</option>
-                <option value='masculino'>Masculino</option>
-                <option value='femenino'>Femenino</option>
-                <option value='otro'>Otro</option>
+                <option value='M'>Masculino</option>
+                <option value='F'>Femenino</option>
+                <option value='O'>Otro</option>
               </select>
 
               <div className='step-buttons'>

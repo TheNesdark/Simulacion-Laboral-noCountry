@@ -134,9 +134,9 @@ export default function EditProfilePage() {
             required
           >
             <option value=''>Seleccione</option>
-            <option value='masculino'>Masculino</option>
-            <option value='femenino'>Femenino</option>
-            <option value='otro'>Otro</option>
+            <option value='M'>Masculino</option>
+            <option value='F'>Femenino</option>
+            <option value='O'>Otro</option>
           </select>
         </div>
 

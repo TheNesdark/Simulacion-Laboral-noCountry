@@ -1,237 +1,196 @@
 'use client';
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import '@/styles/pages/Profile.css';
-
-const specialties = [
-  'Medicina General',
-  'Cardiología',
-  'Dermatología',
-  'Ginecología',
-  'Neurología',
-  'Oftalmología',
-  'Pediatría',
-  'Psiquiatría',
-  'Radiología',
-  'Traumatología',
-  'Urología',
-];
+import useSwitchToProfessional from '@/hooks/useSwitchToProfessional';
 
 export default function SwitchToProfessionalPage() {
-  const [formData, setFormData] = useState({
-    matricula: '',
-    especialidad: '',
-  });
+  const {
+    formData,
+    loading,
+    error,
+    clinics,
+    specialties,
+    handleInputChange,
+    handleSubmit,
+  } = useSwitchToProfessional();
 
-  const [files, setFiles] = useState({
-    dniFrontal: null as File | null,
-    dniPosterior: null as File | null,
-    titulo: null as File | null,
-  });
 
-  const [dragStates, setDragStates] = useState({
-    dniFrontal: false,
-    dniPosterior: false,
-    titulo: false,
-  });
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, files: fileList } = e.target;
-    if (fileList && fileList[0]) {
-      setFiles(prev => ({
-        ...prev,
-        [name]: fileList[0],
-      }));
-    }
-  };
-
-  const handleDragOver = (e: React.DragEvent, fieldName: string) => {
+  const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setDragStates(prev => ({
-      ...prev,
-      [fieldName]: true,
-    }));
-  };
-
-  const handleDragLeave = (e: React.DragEvent, fieldName: string) => {
-    e.preventDefault();
-    setDragStates(prev => ({
-      ...prev,
-      [fieldName]: false,
-    }));
-  };
-
-  const handleDrop = (e: React.DragEvent, fieldName: string) => {
-    e.preventDefault();
-    setDragStates(prev => ({
-      ...prev,
-      [fieldName]: false,
-    }));
-
-    const droppedFiles = e.dataTransfer.files;
-    if (droppedFiles && droppedFiles[0]) {
-      setFiles(prev => ({
-        ...prev,
-        [fieldName]: droppedFiles[0],
-      }));
-    }
-  };
-
-  const FileUploadZone = ({
-    label,
-    fieldName,
-    accept,
-    required,
-  }: {
-    label: string;
-    fieldName: string;
-    accept: string;
-    required: boolean;
-  }) => {
-    const fileInputRef = useRef<HTMLInputElement>(null);
-
-    const handleClick = () => {
-      fileInputRef.current?.click();
-    };
-
-    const currentFile = files[fieldName as keyof typeof files];
-
-    return (
-      <div className='form-group'>
-        <label>{label}</label>
-        <div
-          className={`file-upload-zone ${dragStates[fieldName as keyof typeof dragStates] ? 'drag-over' : ''} ${currentFile ? 'has-file' : ''}`}
-          onDragOver={e => handleDragOver(e, fieldName)}
-          onDragLeave={e => handleDragLeave(e, fieldName)}
-          onDrop={e => handleDrop(e, fieldName)}
-          onClick={handleClick}
-        >
-          <input
-            ref={fileInputRef}
-            type='file'
-            name={fieldName}
-            onChange={handleFileChange}
-            accept={accept}
-            required={required}
-            style={{ display: 'none' }}
-          />
-          <div className='upload-content'>
-            {currentFile ? (
-              <>
-                <div className='file-icon'>📄</div>
-                <div className='file-info'>
-                  <span className='file-name'>{currentFile.name}</span>
-                  <span className='file-size'>
-                    ({(currentFile.size / 1024 / 1024).toFixed(2)} MB)
-                  </span>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className='upload-icon'>📎</div>
-                <div className='upload-text'>
-                  <span className='primary-text'>
-                    Arrastra y suelta tu archivo aquí
-                  </span>
-                  <span className='secondary-text'>
-                    o haz clic para seleccionar
-                  </span>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-        <small className='file-hint'>
-          Formatos aceptados: JPG, PNG, PDF. Máximo 5MB
-        </small>
-      </div>
-    );
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Datos profesionales:', formData);
-    console.log('Archivos:', files);
-
-    if (!formData.matricula || !formData.especialidad) {
-      alert('Por favor complete todos los campos requeridos');
-      return;
-    }
-
-    if (!files.dniFrontal || !files.dniPosterior || !files.titulo) {
-      alert('Por favor adjunte todos los documentos requeridos');
-      return;
-    }
-
-    alert('Solicitud enviada exitosamente. Será revisada por nuestro equipo.');
+    handleSubmit(e);
   };
 
   return (
     <div className='edit-profile-page'>
-      <form onSubmit={handleSubmit} className='edit-profile-form'>
-        <div className='form-group'>
-          <label htmlFor='matricula'>Número de Matrícula Profesional</label>
-          <input
-            type='text'
-            id='matricula'
-            name='matricula'
-            value={formData.matricula}
-            onChange={handleInputChange}
-            placeholder='Ingrese su número de matrícula'
-            required
-          />
+      <h1 className='page-title'>Convertirse en Profesional de la Salud</h1>
+      
+      {error && (
+        <div className='error-message'>
+          {error}
         </div>
-
-        <div className='form-group'>
-          <label htmlFor='especialidad'>Especialidad</label>
-          <select
-            id='especialidad'
-            name='especialidad'
-            value={formData.especialidad}
-            onChange={handleInputChange}
-            required
-          >
-            <option value=''>Seleccione una especialidad</option>
-            {specialties.map(specialty => (
-              <option key={specialty} value={specialty}>
-                {specialty}
-              </option>
-            ))}
-          </select>
+      )}
+      
+      <form onSubmit={handleFormSubmit} className='edit-profile-form'>
+        <div className='form-section'>
+          <h2>Datos Personales</h2>
+          
+          <div className='form-row'>
+            <div className='form-group'>
+              <label htmlFor='nombre'>Nombre</label>
+              <input
+                type='text'
+                id='nombre'
+                name='nombre'
+                value={formData.nombre}
+                onChange={handleInputChange}
+                placeholder='Ingrese su nombre'
+                required
+              />
+            </div>
+            
+            <div className='form-group'>
+              <label htmlFor='apellido'>Apellido</label>
+              <input
+                type='text'
+                id='apellido'
+                name='apellido'
+                value={formData.apellido}
+                onChange={handleInputChange}
+                placeholder='Ingrese su apellido'
+                required
+              />
+            </div>
+          </div>
+          
+          <div className='form-row'>
+            <div className='form-group'>
+              <label htmlFor='email'>Email</label>
+              <input
+                type='email'
+                id='email'
+                name='email'
+                value={formData.email}
+                onChange={handleInputChange}
+                placeholder='Ingrese su email'
+                required
+              />
+            </div>
+            
+            <div className='form-group'>
+              <label htmlFor='telefono'>Teléfono</label>
+              <input
+                type='tel'
+                id='telefono'
+                name='telefono'
+                value={formData.telefono}
+                onChange={handleInputChange}
+                placeholder='Ingrese su teléfono'
+                required
+              />
+            </div>
+          </div>
+          
+          <div className='form-row'>
+            <div className='form-group'>
+              <label htmlFor='numeroDocumento'>Número de Documento</label>
+              <input
+                type='text'
+                id='numeroDocumento'
+                name='numeroDocumento'
+                value={formData.numeroDocumento}
+                onChange={handleInputChange}
+                placeholder='Ingrese su número de documento'
+                required
+              />
+            </div>
+            
+            <div className='form-group'>
+              <label htmlFor='fechaNacimiento'>Fecha de Nacimiento</label>
+              <input
+                type='date'
+                id='fechaNacimiento'
+                name='fechaNacimiento'
+                value={formData.fechaNacimiento}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+          </div>
+          
+          <div className='form-group'>
+            <label htmlFor='genero'>Género</label>
+            <select
+              id='genero'
+              name='genero'
+              value={formData.genero}
+              onChange={handleInputChange}
+              required
+            >
+              <option value=''>Seleccione un género</option>
+              <option value='M'>Masculino</option>
+              <option value='F'>Femenino</option>
+              <option value='O'>Otro</option>
+            </select>
+          </div>
         </div>
-
-        <FileUploadZone
-          label='DNI - Parte Anterior'
-          fieldName='dniFrontal'
-          accept='image/*,.pdf'
-          required
-        />
-
-        <FileUploadZone
-          label='DNI - Parte Posterior'
-          fieldName='dniPosterior'
-          accept='image/*,.pdf'
-          required
-        />
-
-        <FileUploadZone
-          label='Título Habilitante'
-          fieldName='titulo'
-          accept='image/*,.pdf'
-          required
-        />
-
-        <button type='submit' className='save-button'>
-          Enviar
+        
+        <div className='form-section'>
+          <h2>Datos Profesionales</h2>
+          
+          <div className='form-group'>
+            <label htmlFor='matricula'>Número de Matrícula Profesional</label>
+            <input
+              type='number'
+              id='matricula'
+              name='matricula'
+              value={formData.matricula || ''}
+              onChange={handleInputChange}
+              placeholder='Ingrese su número de matrícula'
+              required
+            />
+          </div>
+          
+          <div className='form-row'>
+            <div className='form-group'>
+              <label htmlFor='clinicaId'>Clínica</label>
+              <select
+                id='clinicaId'
+                name='clinicaId'
+                value={formData.clinicaId || ''}
+                onChange={handleInputChange}
+                required
+              >
+                <option value=''>Seleccione una clínica</option>
+                {clinics.map(clinic => (
+                  <option key={clinic.id} value={clinic.id}>
+                    {clinic.nombre}
+                  </option>
+                ))}
+              </select>
+            </div>
+            
+            <div className='form-group'>
+              <label htmlFor='especialidadId'>Especialidad</label>
+              <select
+                id='especialidadId'
+                name='especialidadId'
+                value={formData.especialidadId || ''}
+                onChange={handleInputChange}
+                required
+              >
+                <option value=''>Seleccione una especialidad</option>
+                {specialties.map((specialty, index) => (
+                  <option key={index} value={specialty.id}>
+                    {specialty.nombre}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <button type='submit' className='save-button' disabled={loading}>
+          {loading ? 'Enviando...' : 'Enviar Solicitud'}
         </button>
       </form>
     </div>

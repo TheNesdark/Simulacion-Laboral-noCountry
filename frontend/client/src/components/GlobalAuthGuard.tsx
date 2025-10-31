@@ -9,7 +9,7 @@ interface GlobalAuthGuardProps {
 }
 
 export default function GlobalAuthGuard({ children }: GlobalAuthGuardProps) {
-  const { user, loading } = useAuth();
+  const { user, loading, userData, role } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -18,18 +18,37 @@ export default function GlobalAuthGuard({ children }: GlobalAuthGuardProps) {
   const isPublicRoute = pathname ? publicRoutes.includes(pathname) : false;
 
   useEffect(() => {
+    const isMedico = role === 'medico';
+    const isPaciente = role === 'paciente';
+    
     // Solo redirigir si no está cargando y no es una ruta pública
     if (!loading && !user && !isPublicRoute) {
       console.log('Redirecting to login from:', pathname);
       router.push('/Login');
     }
 
-    // Si está autenticado y está en login, redirigir al home
+    // Si está autenticado y está en login, redirigir al home según rol
     if (!loading && user && pathname === '/Login') {
       console.log('User already authenticated, redirecting to home');
-      router.push('/');
+      if (isMedico) {
+        router.push('/Profesional');
+      } else if (isPaciente) {
+        router.push('/');
+      } else {
+        // Si no tiene rol definido, redirigir a página principal
+        router.push('/');
+      }
     }
-  }, [user, loading, isPublicRoute, pathname, router]);
+
+    // Verificar acceso a rutas según rol
+    if (!loading && user && role && !isPublicRoute) {
+      // Si es paciente pero está en rutas de médico, redirigir
+      if (isPaciente && pathname.startsWith('/Profesional')) {
+        console.log('Paciente intentando acceder a rutas de médico, redirigiendo a /');
+        router.push('/');
+      }
+    }
+  }, [user, loading, userData, role, isPublicRoute, pathname, router]);
 
   // Mostrar loading mientras se verifica la autenticación
   if (loading) {
