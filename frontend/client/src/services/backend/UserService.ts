@@ -1,6 +1,6 @@
 import { Paciente, Medico, PacienteRequest, MedicoRequest } from "../../types";
 
-const API_BASE_URL = "http://localhost:8080/api";
+import { API_BASE_URL } from './config';
 
 // Paciente CRUD
 export async function crearPaciente(

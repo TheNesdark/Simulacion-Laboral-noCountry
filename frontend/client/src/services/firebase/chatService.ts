@@ -1,6 +1,6 @@
 import { db } from "@/lib/firebase/firebase";
 import { Chat, Message } from "@/types";
-import { addDoc, collection, doc, getDoc, onSnapshot, orderBy, query, serverTimestamp, setDoc, where } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, onSnapshot, orderBy, query, serverTimestamp, setDoc, where } from "firebase/firestore";
 
 export const generateChatId = (id1: string, id2: string) => [id1, id2].sort().join("_");
 
@@ -87,4 +87,24 @@ export const getUserInfo = async (id: string) => {
     const userRef = doc(db, "users", id);
     const snap = await getDoc(userRef);
     return snap.exists() ? snap.data() : null;
+}
+
+export const getMedicoUsers = async () => {
+    const usersRef = collection(db, "users");
+    const q = query(usersRef, where("role", "==", "medico"));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => ({
+        uid: doc.id,
+        ...doc.data()
+    }));
+}
+
+export const getPacienteUsers = async () => {
+    const usersRef = collection(db, "users");
+    const q = query(usersRef, where("role", "==", "paciente"));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => ({
+        uid: doc.id,
+        ...doc.data()
+    }));
 }

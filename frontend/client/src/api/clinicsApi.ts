@@ -1,31 +1,37 @@
 import { Clinic } from '@/types';
-import ClinicData from "@data/clinics.json"
+import { API_BASE_URL } from '@/services/backend/config';
+import clinicasData from '@/data/clinicas.json';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
+const USE_MOCK = true;
 
-export const getAllClinics = () => {
-  return ClinicData.clinics
+export const getAllClinics = async (): Promise<Clinic[]> => {
+  if (USE_MOCK) {
+    return clinicasData.map(c => ({
+      id: c.id.toString(),
+      nombre: c.nombre,
+      descripcion: c.descripcion,
+      telefono: c.telefono,
+      direccion: c.direccion,
+    }));
+  }
+  const response = await fetch(`${API_BASE_URL}/clinicas`);
+  if (!response.ok) throw new Error('Error al obtener clínicas');
+  return response.json();
 };
 
 export const getClinicById = async (id: string): Promise<Clinic> => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/clinicas/${id}`);
-    
-    if (!response.ok) {
-      throw new Error('Error al obtener la clínica');
-    }
-    
-    const clinicData = await response.json();
-    
+  if (USE_MOCK) {
+    const clinica = clinicasData.find(c => c.id.toString() === id);
+    if (!clinica) throw new Error('Clínica no encontrada');
     return {
-      id: clinicData.id.toString(),
-      nombre: clinicData.nombre,
-      descripcion: clinicData.descripcion || '',
-      telefono: clinicData.telefono || '',
-      direccion: clinicData.direccion || '',
+      id: clinica.id.toString(),
+      nombre: clinica.nombre,
+      descripcion: clinica.descripcion,
+      telefono: clinica.telefono,
+      direccion: clinica.direccion,
     };
-  } catch (error) {
-    console.error('Error fetching clinic:', error);
-    throw error;
   }
+  const response = await fetch(`${API_BASE_URL}/clinicas/${id}`);
+  if (!response.ok) throw new Error('Error al obtener clínica');
+  return response.json();
 };

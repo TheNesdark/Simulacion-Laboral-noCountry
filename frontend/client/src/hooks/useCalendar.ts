@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { OnArgs } from 'react-calendar';
-import { Appointment } from '@/types';
+import { Cita } from '@/types';
 import { useQuery } from '@tanstack/react-query';
 import { getAllAppointments } from '@/api/appointmentsApi';
 
@@ -23,7 +23,7 @@ export default function useCalendar() {
 
   const monthAppointments = useMemo(() => {
     return allAppointments.filter(appointment => {
-      const appointmentDate = new Date(`${appointment.date}T00:00:00`);
+      const appointmentDate = new Date(`${appointment.fecha}T00:00:00`);
       return (
         appointmentDate.getMonth() === activeDate.getMonth() &&
         appointmentDate.getFullYear() === activeDate.getFullYear()
@@ -38,7 +38,7 @@ export default function useCalendar() {
   const isDateHasAppointment = ({ date }: TileClassNameProps) => {
     const dateString: string = date.toISOString().split('T')[0];
     return monthAppointments.find(
-      (appointment: Appointment) => appointment.date === dateString
+      (appointment: Cita) => appointment.fecha === dateString
     )
       ? 'appointment-date'
       : null;

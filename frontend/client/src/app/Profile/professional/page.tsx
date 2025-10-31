@@ -1,8 +1,6 @@
 'use client';
 import React from 'react';
 import '@/styles/pages/Profile.css';
-import clinics from "@data/clinics.json"
-import specialitys from "@data/specialties.json"
 import useSwitchToProfessional from '@/hooks/useSwitchToProfessional';
 
 export default function SwitchToProfessionalPage() {
@@ -10,6 +8,8 @@ export default function SwitchToProfessionalPage() {
     formData,
     loading,
     error,
+    clinics,
+    specialties,
     handleInputChange,
     handleSubmit,
   } = useSwitchToProfessional();
@@ -161,7 +161,7 @@ export default function SwitchToProfessionalPage() {
                 required
               >
                 <option value=''>Seleccione una clínica</option>
-                {clinics.clinics.map(clinic => (
+                {clinics?.map(clinic => (
                   <option key={clinic.id} value={clinic.id}>
                     {clinic.nombre}
                   </option>
@@ -179,9 +179,9 @@ export default function SwitchToProfessionalPage() {
                 required
               >
                 <option value=''>Seleccione una especialidad</option>
-                {specialitys.specialties.map((specialty, index) => (
-                  <option key={index} value={specialty.id}>
-                    {specialty.name}
+                {specialties?.map((specialty) => (
+                  <option key={specialty.id} value={specialty.id}>
+                    {specialty.nombre}
                   </option>
                 ))}
               </select>

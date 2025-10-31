@@ -2,13 +2,12 @@
 
 import { useState } from 'react';
 import { DoctorCard } from './components/DoctorCard';
-import { Doctor } from '@/types';
 import { getAllDoctors } from '@/api/doctorsApi';
 import { useQuery } from '@tanstack/react-query';
 import '@/styles/pages/Medicos.css';
 
 export default function MedicosPage() {
-  const [activeFilter, setActiveFilter] = useState("Recientes");
+  const [activeFilter, setActiveFilter] = useState("A-Z");
 
   const { data: doctors = [] } = useQuery({
     queryKey: ["doctors"],
@@ -17,26 +16,21 @@ export default function MedicosPage() {
 
   let filteredDoctors = doctors || [];
   if (activeFilter === "A-Z") {
-    filteredDoctors = [...doctors].sort((a, b) => a.name.localeCompare(b.name));
-  } else if (activeFilter === "Favoritos") {
-    filteredDoctors = doctors.filter(doctor => doctor.category === 'favorites');
-  } else if (activeFilter === "Recientes") {
-    filteredDoctors = doctors.filter(doctor => doctor.category === 'recent');
+    filteredDoctors = [...doctors].sort((a, b) => 
+      `${a.nombre} ${a.apellido}`.localeCompare(`${b.nombre} ${b.apellido}`)
+    );
   }
 
   return (
     <>
       <div className="filter-bar">
         <div className="filter-buttons">
-          {["A-Z", "Recientes", "Favoritos"].map((filter) => (
-            <button
-              key={filter}
-              onClick={() => setActiveFilter(filter)}
-              className={`filter-button ${activeFilter === filter ? 'filter-button-active' : ''}`}
-            >
-              {filter}
-            </button>
-          ))}
+          <button
+            onClick={() => setActiveFilter("A-Z")}
+            className={`filter-button ${activeFilter === "A-Z" ? 'filter-button-active' : ''}`}
+          >
+            A-Z
+          </button>
         </div>
       </div>
 

@@ -1,5 +1,5 @@
 import { formatDate } from '@/utils/dateUtils';
-import { Appointment } from '@/types';
+import { Cita } from '@/types';
 import ErrorMessage from '@/components/common/ErrorMessage';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 
@@ -13,7 +13,7 @@ const backgroundColors = [
 ];
 
 interface AppointmentsListProps {
-  appointments: Appointment[];
+  appointments: Cita[];
   title: string;
   isLoading: boolean;
   error: Error | null;
@@ -57,12 +57,13 @@ export default function AppointmentsList({
             }}
           >
             <div>
-              <h3>{appointment.title}</h3>
-              <p>{appointment.doctor}</p>
+              <h3>{appointment.motivoCita}</h3>
+              <p>{appointment.nombreClinica}</p>
+              <span className="text-xs">{appointment.tipo}</span>
             </div>
-            <time dateTime={`${appointment.date}T${appointment.time}`}>
-              <span>{formatDate(appointment.date)}</span>
-              <span>{appointment.time}</span>
+            <time dateTime={`${appointment.fecha}T${appointment.horaInicio}`}>
+              <span>{formatDate(appointment.fecha)}</span>
+              <span>{appointment.horaInicio}</span>
             </time>
           </article>
         ))}

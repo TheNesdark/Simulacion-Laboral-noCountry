@@ -3,6 +3,7 @@
 import '@/styles/components/layout/NavBar.css';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { useAuth } from '@/context/AuthContext';
 import {
   HomeIcon,
   EstudiosIcon,
@@ -12,6 +13,7 @@ import {
 
 export default function NavBar() {
   const pathname = usePathname();
+  const { role } = useAuth();
   const navItems = [
     {
       href: '/',
@@ -39,42 +41,42 @@ export default function NavBar() {
     },
   ];
 
-  const nabMedicItems = [
+  const medicoNavItems = [
     {
-      href: '/Medico',
+      href: '/Profesional',
       icon: HomeIcon,
-      label: 'inicio',
-      active: pathname === '/Medico',
+      label: 'Inicio',
+      active: pathname === '/Profesional',
     },
     {
-      href: '/Medico/Calendario',
+      href: '/Profesional/Calendario',
       icon: CalendarioIcon,
       label: 'Mis citas',
-      active: pathname === '/Medico/Calendario',
+      active: pathname === '/Profesional/Calendario',
     },
     {
-      href: '/Medico/Chat',
+      href: '/Chat',
       icon: ChatIcon,
       label: 'Chat',
-      active: pathname === '/Medico/Chat',
+      active: pathname.startsWith('/Chat'),
     },
   ];
 
-  if (pathname.startsWith('/Medico')) {
-      return (
-    <nav className='bottom-navbar-med'>
-      {nabMedicItems.map((item, index) => (
-        <Link
-          key={index}
-          href={item.href}
-          className={item.active ? 'active' : ''}
-        >
-          <item.icon width={30} height={30} />
-          {item.label}
-        </Link>
-      ))}
-    </nav>
-  );
+  if (role === 'medico') {
+    return (
+      <nav className='bottom-navbar bottom-navbar-medico'>
+        {medicoNavItems.map((item, index) => (
+          <Link
+            key={index}
+            href={item.href}
+            className={item.active ? 'active' : ''}
+          >
+            <item.icon width={30} height={30} />
+            {item.label}
+          </Link>
+        ))}
+      </nav>
+    );
   }
 
   return (

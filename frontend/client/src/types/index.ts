@@ -29,6 +29,31 @@ export interface Appointment {
 
 export type Appointments = Appointment[];
 
+// Tipos para Citas (API)
+export interface Cita {
+  id: number;
+  pacienteId: number;
+  medicoId: number;
+  cupoId: number;
+  fecha: string;
+  horaInicio: string;
+  horaFin: string;
+  tipo: "PRESENCIAL" | "VIRTUAL";
+  estado: "PROGRAMADA" | "CANCELADA" | "COMPLETADA";
+  linkVideo?: string;
+  nombreClinica: string;
+  motivoCita: string;
+  motivoCancelacion?: string;
+}
+
+export interface CitaRequest {
+  cupoId: number;
+  pacienteId: number;
+  tipo: "PRESENCIAL" | "VIRTUAL";
+  motivoCita: string;
+  linkVideo?: string;
+}
+
 export interface UserData {
   nombres: string;
   apellidos: string;
@@ -39,6 +64,8 @@ export interface UserData {
   genero?: string;
   photoURL: string;
   role: 'medico' | 'paciente';
+  pacienteId?: number;
+  medicoId?: number;
   createdAt: Date;
 }
 
@@ -115,26 +142,22 @@ export interface PacienteRequest {
   fechaNacimiento: string; // Formato: YYYY-MM-DD
 }
 
-// Tipos para Médicos
+// Tipos para Médicos (API Response)
 export interface Medico {
   id: number;
   userId?: string;
   nombre: string;
   apellido: string;
   telefono: string;
-  genero: "M" | "F" | "O";
+  genero: string;
   numeroDocumento: string;
-  fechaNacimiento: string; // Formato: YYYY-MM-DD
+  fechaNacimiento: string;
   matricula: number;
   email: string;
-  clinica?: {
-    id: number;
-    nombre: string;
-  };
-  especialidad?: {
-    id: number;
-    nombre: string;
-  };
+  clinicaId?: number;
+  nombreClinica?: string;
+  especialidadId?: number;
+  nombreEspecialidad?: string;
 }
 
 export interface MedicoRequest {

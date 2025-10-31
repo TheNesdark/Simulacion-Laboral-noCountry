@@ -1,14 +1,17 @@
-main {
+.body{
+  height: 100dvh;
+  width: 100dvw;
+}
+
+.login-page{
   position: relative;
   display: flex;
   justify-content: center;
-  height: 100dvh;
-  width: 100dvw;
   overflow: hidden;
 }
 
 /* Círculo azul en la esquina superior derecha */
-main::before {
+.login-page::before {
   content: '';
   position: absolute;
   width: 300px;
@@ -21,7 +24,7 @@ main::before {
 }
 
 /* Círculo verde en la esquina inferior izquierda */
-main::after {
+.login-page::after {
   content: '';
   position: absolute;
   width: 300px;
@@ -220,12 +223,12 @@ main::after {
 
 /* Estilos responsivos en computador */
 @media (min-width: 768px) {
-  main {
+  .login-page main {
     display: block;
   }
 
   /* Círculo azul */
-  main::before {
+  .login-page main::before {
     top: auto;
     bottom: 0;
     left: 30%;
@@ -234,7 +237,7 @@ main::after {
   }
 
   /* Círculo azul */
-  main::after {
+  .login-page main::after {
     left: 40%;
     bottom: auto;
     top: 0;

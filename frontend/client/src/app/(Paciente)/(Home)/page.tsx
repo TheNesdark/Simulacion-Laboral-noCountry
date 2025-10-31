@@ -5,16 +5,20 @@ import SearchBar from './components/SearchBar';
 import CategoryCards from './components/CategoryCards';
 import AppointmentList from '@/components/ui/AppointmentsList';
 import { useQuery } from '@tanstack/react-query';
-import { getTodaysAppointments } from '@/api/appointmentsApi';
+import { getAppointmentsByPatient } from '@/api/appointmentsApi';
+import { useAuth } from '@/context/AuthContext';
 
 export default function HomePage() {
+  const { pacienteId } = useAuth();
+  
   const {
     data: todaysAppointments,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ['appointments', 'today'],
-    queryFn: getTodaysAppointments,
+    queryKey: ['appointments', 'patient', pacienteId],
+    queryFn: () => getAppointmentsByPatient(pacienteId!),
+    enabled: !!pacienteId,
   });
 
   return (

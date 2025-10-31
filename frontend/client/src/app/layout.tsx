@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import './globals.css';
+import '@styles/globals.css';
 import Providers from '@/components/providers';
 import GlobalAuthGuard from '@/components/GlobalAuthGuard';
 import { roboto } from '@/lib/fonts';

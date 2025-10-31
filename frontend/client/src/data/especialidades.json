@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "nombre": "Cardiología",
+    "descripcion": "Especialidad médica que se enfoca en el corazón y sistema cardiovascular"
+  },
+  {
+    "id": 2,
+    "nombre": "Pediatría",
+    "descripcion": "Especialidad médica dedicada al cuidado de niños y adolescentes"
+  },
+  {
+    "id": 3,
+    "nombre": "Traumatología",
+    "descripcion": "Especialidad médica que trata lesiones del sistema musculoesquelético"
+  },
+  {
+    "id": 4,
+    "nombre": "Dermatología",
+    "descripcion": "Especialidad médica que se ocupa de la piel y sus enfermedades"
+  },
+  {
+    "id": 5,
+    "nombre": "Neurología",
+    "descripcion": "Especialidad médica que trata enfermedades del sistema nervioso"
+  }
+]

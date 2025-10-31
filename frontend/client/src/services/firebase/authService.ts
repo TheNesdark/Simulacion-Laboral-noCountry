@@ -46,10 +46,12 @@ export const registerUser = async (data: RegisterProps): Promise<User> => {
  * Inicia sesión con email y contraseña
  * @param email - Email del usuario
  * @param password - Contraseña del usuario
+ * @returns Promise con el usuario autenticado
  */
-export const loginUser = async (data: LoginProps) => {
+export const loginUser = async (data: LoginProps): Promise<User> => {
   try {
-    await signInWithEmailAndPassword(auth, data.email, data.password);
+    const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
+    return userCredential.user;
   } catch (error) {
     console.error('Error en loginUser:', error);
     throw error;

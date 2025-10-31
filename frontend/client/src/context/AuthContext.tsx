@@ -25,6 +25,8 @@ interface AuthContextType {
   user: User | null;
   userData: UserData | null;
   role: 'medico' | 'paciente' | null;
+  pacienteId: number | null;
+  medicoId: number | null;
   loading: boolean;
   register: (pacienteData: any) => Promise<void | undefined>;
   login: (data: LoginProps) => Promise<void | undefined>;
@@ -40,6 +42,8 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [userData, setUserData] = useState<UserData | null>(null);
   const [role, setRole] = useState<'medico' | 'paciente' | null>(null);
+  const [pacienteId, setPacienteId] = useState<number | null>(null);
+  const [medicoId, setMedicoId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -51,7 +55,9 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         try {
           const data = await getUserData(user.uid);
           setUserData(data as UserData);
-          setRole(data?.role || null)
+          setRole(data?.role || null);
+          setPacienteId(data?.pacienteId || null);
+          setMedicoId(data?.medicoId || null);
         } catch (error) {
           console.error("Error al obtener datos del usuario:", error);
           setError("Error al obtener datos del usuario.");
@@ -60,6 +66,8 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         setUser(null);
         setUserData(null);
         setRole(null);
+        setPacienteId(null);
+        setMedicoId(null);
       }
       setLoading(false);
     });
@@ -89,8 +97,11 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         fechaNacimiento: data.fechaNacimiento,
       };
 
-      // Solo crear paciente en el backend
-      await crearPaciente(pacienteData);
+      // Crear paciente en el backend y guardar el ID
+      const pacienteCreado = await crearPaciente(pacienteData);
+      
+      // Guardar el ID del paciente en Firebase
+      await updateUserDataService(user.uid, { pacienteId: pacienteCreado.id });
 
       router.push("/");
 
@@ -109,8 +120,15 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     setError(null);
     setLoading(true);
     try {
-      await loginUser(data);
-      router.push("/");
+      const user = await loginUser(data);
+      const userData = await getUserData(user.uid);
+      
+      // Redirigir según el rol
+      if (userData?.role === 'medico') {
+        router.push("/Profesional");
+      } else {
+        router.push("/");
+      }
     } catch (error: any) {
       setError(getErrorMessage(error.code));
       return undefined;
@@ -124,6 +142,8 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
     setUserData(null);
     setRole(null);
+    setPacienteId(null);
+    setMedicoId(null);
     router.push("/Login");
   };
 
@@ -151,6 +171,8 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         user,
         userData,
         role,
+        pacienteId,
+        medicoId,
         loading,
         register,
         login,

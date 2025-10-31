@@ -47,9 +47,14 @@ export default function GlobalAuthGuard({ children }: GlobalAuthGuardProps) {
         console.log('Paciente intentando acceder a rutas de médico, redirigiendo a /');
         router.push('/');
       }
-            if (isMedico && pathname.startsWith('/(Paciente)')) {
-        console.log('Paciente intentando acceder a rutas de médico, redirigiendo a /');
-        router.push('/');
+      // Si es médico pero está en rutas de paciente (excepto Chat), redirigir
+      if (isMedico && (pathname === '/' || pathname.startsWith('/Calendario') || pathname.startsWith('/Examenes'))) {
+        console.log('Médico intentando acceder a rutas de paciente, redirigiendo a /Profesional');
+        router.push('/Profesional');
+      }
+      // Redirigir médicos de /Profesional/Chat a /Chat
+      if (isMedico && pathname.startsWith('/Profesional/Chat')) {
+        router.push(pathname.replace('/Profesional/Chat', '/Chat'));
       }
     }
   }, [user, loading, userData, role, isPublicRoute, pathname, router]);

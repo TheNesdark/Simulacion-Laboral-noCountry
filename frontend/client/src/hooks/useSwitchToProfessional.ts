@@ -9,7 +9,7 @@ export default function useSwitchToProfessional() {
   const { user, userData, updateUserData } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [clinics, setClinics] = useState();
+  const [clinics, setClinics] = useState<any[]>([]);
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [formData, setFormData] = useState({
     userId: "",
@@ -52,7 +52,7 @@ export default function useSwitchToProfessional() {
           getAllClinics(),
           getAllSpecialties()
         ]);
-        console.log(clinicsData)
+        setClinics(clinicsData);
         setSpecialties(specialtiesData);
       } catch (err) {
         console.error("Error cargando datos:", err);
@@ -109,17 +109,19 @@ export default function useSwitchToProfessional() {
       };
 
       // Crear el médico en el backend
-      await crearMedico(medicoData);
+      const medicoCreado = await crearMedico(medicoData);
       
-      // Actualizar el rol del usuario en Firebase
-      await updateUserData({ role: "medico" });
+      // Actualizar el rol y medicoId del usuario en Firebase
+      await updateUserData({ role: "medico", medicoId: medicoCreado.id });
       
       alert(
         "¡Felicitaciones! Ahora eres un profesional de la salud en nuestra plataforma.",
       );
     } catch (error: any) {
       console.error("Error al cambiar a profesional:", error);
-      setError(error.message || "Error al procesar la solicitud");
+      const errorMessage = error.message || "Error al procesar la solicitud";
+      setError(errorMessage);
+      alert(errorMessage);
     } finally {
       setLoading(false);
     }

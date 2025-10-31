@@ -6,7 +6,7 @@ Esta documentación describe los endpoints disponibles en la API del sistema Por
 
 ## Configuración del Servidor
 
-- **URL Base**: `http://localhost:8080`
+- **URL Base**: `http://localhost:8000`
 - **Prefijo de Rutas**: `/api`
 
 ## Autenticación

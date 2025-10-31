@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "nombre": "Clínica Central",
+    "direccion": "Av. Principal 123",
+    "telefono": "1234567890",
+    "email": "info@clinicacentral.com",
+    "descripcion": "Clínica de atención primaria y especialidades"
+  },
+  {
+    "id": 2,
+    "nombre": "Hospital San José",
+    "direccion": "Calle Salud 456",
+    "telefono": "0987654321",
+    "email": "contacto@hospitalsanjose.com",
+    "descripcion": "Hospital general con todas las especialidades"
+  }
+]
