@@ -13,4 +13,14 @@ public class HealthController {
     public ResponseEntity<Map<String, String>> health() {
         return ResponseEntity.ok(Map.of("status", "active", "message", "Backend is running"));
     }
+
+    @GetMapping("/health")
+    public ResponseEntity<Map<String, String>> healthSimple() {
+        return ResponseEntity.ok(Map.of("status", "UP"));
+    }
+
+    @GetMapping("/actuator/health")
+    public ResponseEntity<Map<String, String>> actuatorHealth() {
+        return ResponseEntity.ok(Map.of("status", "UP"));
+    }
 }
