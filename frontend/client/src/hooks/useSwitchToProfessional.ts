@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { crearMedico } from '@/services/backend/UserService';
+import { crearMedico, obtenerMedico, actualizarMedico } from '@/services/backend/UserService';
 import { getAllClinics } from '@/services/backend/clinicsService';
 import { getAllSpecialties } from '@/services/backend/specialtiesService';
 import { Specialty, Clinic } from '@/types';
 import { useNotifications } from '@/utils/notifications';
 
 export default function useSwitchToProfessional() {
-  const { user, userData, updateUserData } = useAuth();
+  const { user, userData, updateUserData, medicoId } = useAuth();
   const router = useRouter();
   const notifications = useNotifications();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [clinics, setClinics] = useState<Clinic[]>([]);
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
+  const [isReturningMedico, setIsReturningMedico] = useState(false);
   const [formData, setFormData] = useState({
     userId: "",
     nombre: "",
@@ -30,23 +31,70 @@ export default function useSwitchToProfessional() {
     role: "medico",
   });
 
-  // Cargar datos del usuario actual
+  // Cargar datos del usuario actual y del médico existente si aplica
   useEffect(() => {
-    if (user && userData) {
-      setFormData((prev) => ({
-        ...prev,
-        userId: user.uid,
-        nombre: userData.nombres || "",
-        apellido: userData.apellidos || "",
-        telefono: userData.telefono || "",
-        genero: (userData.genero as "M" | "F" | "O") || "M",
-        numeroDocumento: userData.documento || "",
-        fechaNacimiento: userData.fechaNacimiento || "",
-        email: userData.email || user.email || "",
-        role: "medico",
-      }));
-    }
-  }, [user, userData]);
+    const loadData = async () => {
+      if (user && userData) {
+        // Si ya tiene medicoId, significa que fue médico antes
+        if (medicoId) {
+          setIsReturningMedico(true);
+          try {
+            // Cargar datos del médico existente para prellenar el formulario
+            const medicoExistente = await obtenerMedico(medicoId);
+            setFormData((prev) => ({
+              ...prev,
+              userId: user.uid,
+              nombre: medicoExistente.nombre || userData.nombres || "",
+              apellido: medicoExistente.apellido || userData.apellidos || "",
+              telefono: medicoExistente.telefono || userData.telefono || "",
+              genero: medicoExistente.genero === "MASCULINO" ? "M" : 
+                      medicoExistente.genero === "FEMENINO" ? "F" : 
+                      medicoExistente.genero === "OTRO" ? "O" : 
+                      (userData.genero as "M" | "F" | "O") || "M",
+              numeroDocumento: medicoExistente.numeroDocumento || userData.documento || "",
+              fechaNacimiento: medicoExistente.fechaNacimiento || userData.fechaNacimiento || "",
+              email: medicoExistente.email || userData.email || user.email || "",
+              matricula: medicoExistente.matricula || 0,
+              clinicaId: medicoExistente.clinica?.id || 0,
+              especialidadId: medicoExistente.especialidad?.id || 0,
+              role: "medico",
+            }));
+          } catch (err) {
+            // Si no se puede cargar el médico, usar datos del usuario
+            setFormData((prev) => ({
+              ...prev,
+              userId: user.uid,
+              nombre: userData.nombres || "",
+              apellido: userData.apellidos || "",
+              telefono: userData.telefono || "",
+              genero: (userData.genero as "M" | "F" | "O") || "M",
+              numeroDocumento: userData.documento || "",
+              fechaNacimiento: userData.fechaNacimiento || "",
+              email: userData.email || user.email || "",
+              role: "medico",
+            }));
+          }
+        } else {
+          // Es un nuevo médico
+          setIsReturningMedico(false);
+          setFormData((prev) => ({
+            ...prev,
+            userId: user.uid,
+            nombre: userData.nombres || "",
+            apellido: userData.apellidos || "",
+            telefono: userData.telefono || "",
+            genero: (userData.genero as "M" | "F" | "O") || "M",
+            numeroDocumento: userData.documento || "",
+            fechaNacimiento: userData.fechaNacimiento || "",
+            email: userData.email || user.email || "",
+            role: "medico",
+          }));
+        }
+      }
+    };
+    
+    loadData();
+  }, [user, userData, medicoId]);
 
   // Cargar clínicas y especialidades
   useEffect(() => {
@@ -103,29 +151,56 @@ export default function useSwitchToProfessional() {
         "O": "OTRO"
       };
       
-      const medicoData = {
-        userId: formData.userId,
-        nombre: formData.nombre,
-        apellido: formData.apellido,
-        telefono: formData.telefono,
-        genero: generoMap[formData.genero] || "OTRO",
-        numeroDocumento: formData.numeroDocumento,
-        fechaNacimiento: formData.fechaNacimiento,
-        matricula: formData.matricula,
-        email: formData.email,
-        clinicaId: formData.clinicaId,
-        especialidadId: formData.especialidadId,
-      };
+      // Si ya es un médico que vuelve, solo actualizar el rol
+      if (isReturningMedico && medicoId) {
+        const medicoData = {
+          nombre: formData.nombre,
+          apellido: formData.apellido,
+          telefono: formData.telefono,
+          genero: generoMap[formData.genero] || "OTRO",
+          numeroDocumento: formData.numeroDocumento,
+          fechaNacimiento: formData.fechaNacimiento,
+          matricula: formData.matricula,
+          email: formData.email,
+          clinicaId: formData.clinicaId,
+          especialidadId: formData.especialidadId,
+        };
 
-      // Crear el médico en el backend
-      const medicoCreado = await crearMedico(medicoData);
-      
-      // Actualizar el rol y medicoId del usuario en Firebase
-      await updateUserData({ role: "medico", medicoId: medicoCreado.id });
-      
-      notifications.success(
-        "¡Felicitaciones! Ahora eres un profesional de la salud en nuestra plataforma."
-      );
+        // Actualizar los datos del médico existente
+        await actualizarMedico(medicoId, medicoData);
+        
+        // Solo actualizar el rol (el medicoId ya existe)
+        await updateUserData({ role: "medico" });
+        
+        notifications.success(
+          "¡Bienvenido de vuelta! Has vuelto a ser un profesional de la salud."
+        );
+      } else {
+        // Crear nuevo médico
+        const medicoData = {
+          userId: formData.userId,
+          nombre: formData.nombre,
+          apellido: formData.apellido,
+          telefono: formData.telefono,
+          genero: generoMap[formData.genero] || "OTRO",
+          numeroDocumento: formData.numeroDocumento,
+          fechaNacimiento: formData.fechaNacimiento,
+          matricula: formData.matricula,
+          email: formData.email,
+          clinicaId: formData.clinicaId,
+          especialidadId: formData.especialidadId,
+        };
+
+        // Crear el médico en el backend
+        const medicoCreado = await crearMedico(medicoData);
+        
+        // Actualizar el rol y medicoId del usuario en Firebase
+        await updateUserData({ role: "medico", medicoId: medicoCreado.id });
+        
+        notifications.success(
+          "¡Felicitaciones! Ahora eres un profesional de la salud en nuestra plataforma."
+        );
+      }
       
       // Redirigir a la página de profesional
       router.push('/Profesional');
@@ -146,6 +221,7 @@ export default function useSwitchToProfessional() {
     error,
     clinics,
     specialties,
+    isReturningMedico,
     handleInputChange,
     handleSubmit,
   };

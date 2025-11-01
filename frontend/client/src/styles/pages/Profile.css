@@ -110,6 +110,7 @@ main:has(.profile-page) {
 .edit-profile-page {
   display: flex;
   flex-direction: column;
+  padding: 1.5rem;
   min-height: 100vh;
   background-color: #f5f5f5;
 

@@ -10,6 +10,7 @@ export default function SwitchToProfessionalPage() {
     error,
     clinics,
     specialties,
+    isReturningMedico,
     handleInputChange,
     handleSubmit,
   } = useSwitchToProfessional();
@@ -22,7 +23,11 @@ export default function SwitchToProfessionalPage() {
 
   return (
     <div className='edit-profile-page'>
-      <h1 className='page-title'>Convertirse en Profesional de la Salud</h1>
+      <h1 className='page-title'>
+        {isReturningMedico 
+          ? 'Volver a ser Profesional de la Salud'
+          : 'Convertirse en Profesional de la Salud'}
+      </h1>
       
       {error && (
         <div className='error-message'>
