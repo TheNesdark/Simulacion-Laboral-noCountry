@@ -33,14 +33,24 @@
 }
 
 .doctor-card-image {
-  width: 5rem;
-  height: 5rem;
-  border-radius: 50%;
-  border-top-left-radius: 0;
-  object-fit: cover;
+  width: 5rem !important;
+  height: 5rem !important;
+  border-radius: 50% !important;
+  border-top-left-radius: 0 !important;
   box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.doctor-card-image img {
+  border-radius: 50% !important;
+  border-top-left-radius: 0 !important;
+  object-fit: cover;
+}
+
+.doctor-card-image > div {
+  border-radius: 50% !important;
+  border-top-left-radius: 0 !important;
 }
 
 .doctor-card-info {

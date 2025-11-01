@@ -81,7 +81,7 @@ public class DisponibilidadServiceImpl implements DisponibilidadService {
         }
 
         this.validarHoras(disponibilidadRequest);
-        this.validarSolapamientoHoras(disponibilidad.getMedico().getId(), disponibilidadRequest);
+        this.validarSolapamientoHoras(disponibilidad.getMedico().getId(), disponibilidadRequest, disponibilidadId);
 
         disponibilidad.setDiaSemana(disponibilidadRequest.getDiaSemana());
         disponibilidad.setHoraInicio(disponibilidadRequest.getHoraInicio());
@@ -152,10 +152,19 @@ public class DisponibilidadServiceImpl implements DisponibilidadService {
     }
 
     private void validarSolapamientoHoras(Long medicoId, DisponibilidadRequest request) {
+        validarSolapamientoHoras(medicoId, request, null);
+    }
+
+    private void validarSolapamientoHoras(Long medicoId, DisponibilidadRequest request, Long disponibilidadIdExcluir) {
 
         List<Disponibilidad> existentes = disponibilidadRepository.findByMedicoIdAndDiaSemanaAndEliminadaFalse(medicoId, request.getDiaSemana());
 
         for (Disponibilidad d : existentes) {
+            // Excluir la disponibilidad que se está actualizando
+            if (disponibilidadIdExcluir != null && d.getId().equals(disponibilidadIdExcluir)) {
+                continue;
+            }
+            
             boolean solapan =
                     !request.getHoraFin().isBefore(d.getHoraInicio()) && !request.getHoraInicio().isAfter(d.getHoraFin());
 

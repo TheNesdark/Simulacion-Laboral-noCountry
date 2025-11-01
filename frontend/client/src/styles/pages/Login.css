@@ -108,6 +108,8 @@
   border-radius: 20px;
   color: black;
   font-size: 1rem;
+  overflow-y: auto;
+  max-height: 100vh;
 }
 
 /* Ocultar Logo en mobile */
@@ -129,12 +131,22 @@
 
 .input-nombres div {
   width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-nombres label {
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 0.2rem;
+  text-align: start;
+  font-weight: bold;
 }
 
 .login-inputs label {
   width: 100%;
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
+  margin-top: 0.8rem;
+  margin-bottom: 0.3rem;
   text-align: start;
   font-weight: bold;
 }
@@ -142,11 +154,157 @@
 .login-inputs input,
 .login-inputs select {
   width: 100%;
-  padding: 0.3rem;
+  padding: 0.5rem 0.75rem;
   border-radius: 10px;
-  border: 1px solid #000000;
-  background-color: #f2f2f2;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
   color: #000000;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.login-inputs input:focus,
+.login-inputs select:focus {
+  outline: none;
+  border-color: #00579b;
+  box-shadow: 0 0 0 3px rgba(0, 87, 155, 0.1);
+  background-color: #ffffff;
+}
+
+.login-inputs input::placeholder,
+.login-inputs select::placeholder {
+  color: #9ca3af;
+}
+
+.login-inputs input.input-error,
+.login-inputs select.input-error {
+  border: 2px solid #dc3545;
+  background-color: #fff5f5;
+  animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-4px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(4px);
+  }
+}
+
+.field-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  padding: 0.5rem;
+  background-color: rgba(220, 53, 69, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  animation: slideDown 0.3s ease-out;
+}
+
+.field-error span {
+  flex: 1;
+}
+
+.error-icon-small {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: #dc3545;
+}
+
+.error-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  margin: 1rem 0;
+  background: linear-gradient(135deg, rgba(220, 53, 69, 0.1) 0%, rgba(220, 53, 69, 0.05) 100%);
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  border-radius: 12px;
+  animation: slideDown 0.3s ease-out, fadeIn 0.3s ease-out;
+}
+
+.error-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.error-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: #dc3545;
+}
+
+.error-text {
+  color: #dc3545;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.error-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #dc3545;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.error-close-btn:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+  transform: scale(1.1);
+}
+
+.error-close-btn:active {
+  transform: scale(0.95);
+}
+
+.error-close-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Seccion de opciones */
@@ -191,21 +349,6 @@
   padding: 0.5rem;
 }
 
-/* Seccion de proveedores */
-.login-providers {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  padding: 1.5rem;
-  border-top: 1px solid #00579b;
-}
-
-.login-providers svg {
-  color: blue;
-  width: 3rem;
-  height: 3rem;
-}
-
 /* Boton de regreso */
 .button-back {
   position: absolute;
@@ -223,6 +366,7 @@
   .login-page {
     display: block;
     align-content: center;
+    overflow: hidden;
   }
 
   /* Círculo azul */
@@ -339,6 +483,18 @@
     justify-content: center;
   }
 
+  .input-nombres div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .input-nombres label {
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    text-align: start;
+  }
+
   .login-inputs label {
     width: 100%;
     margin-top: 1rem;
@@ -365,18 +521,5 @@
 
   .login-options input {
     margin-right: 1rem;
-  }
-
-  /* Seccion de proveedores */
-  .login-providers {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    padding: 1.5rem;
-    border-top: 1px solid #fafafa;
-  }
-
-  .login-providers svg {
-    color: white;
   }
 }

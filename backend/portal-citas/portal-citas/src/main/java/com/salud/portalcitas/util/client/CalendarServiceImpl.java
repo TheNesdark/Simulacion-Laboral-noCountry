@@ -76,11 +76,18 @@ public class CalendarServiceImpl implements CalendarService{
         LocalDateTime inicio = LocalDateTime.of(cupo.getFecha(), cupo.getHoraInicio());
         LocalDateTime fin = LocalDateTime.of(cupo.getFecha(), cupo.getHoraFin());
 
+        // Convertir a formato ISO 8601 correcto para Google Calendar
+        // Usar zona horaria de Colombia (America/Bogota)
+        String inicioISO = inicio.toString() + ":00";
+        String finISO = fin.toString() + ":00";
+
         event.setStart(new EventDateTime()
-                .setDateTime(new DateTime(inicio.toString() + ":00-03:00")));
+                .setDateTime(new DateTime(inicioISO))
+                .setTimeZone("America/Bogota"));
 
         event.setEnd(new EventDateTime()
-                .setDateTime(new DateTime(fin.toString() + ":00-03:00")));
+                .setDateTime(new DateTime(finISO))
+                .setTimeZone("America/Bogota"));
 
         return event;
     }

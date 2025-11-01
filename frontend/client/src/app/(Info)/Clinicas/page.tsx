@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import '@/styles/pages/Clinicas.css';
 import { ClinicCard } from './components/ClinicCard';
-import { getAllClinics } from '@/api/clinicsApi';
+import { getAllClinics } from '@/services/backend/clinicsService';
 import { useQuery } from '@tanstack/react-query';
 
 export default function MedicosPage() {
@@ -37,7 +37,7 @@ export default function MedicosPage() {
 
       <div className='clinicas-content'>
         {filteredClinics.map(clinic => (
-          <ClinicCard descripcion={''} key={clinic.id} {...clinic} />
+          <ClinicCard key={clinic.id} {...clinic} />
         ))}
       </div>
     </>

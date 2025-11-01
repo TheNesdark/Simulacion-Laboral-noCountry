@@ -13,6 +13,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 public class DisponibilidadResponse {
 
+    private Long id;
     private int diaSemana;
     private LocalTime horaInicio;
     private LocalTime horaFin;

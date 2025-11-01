@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { getAllSpecialtiesGrouped } from '@/api/specialtiesApi';
+import { getAllSpecialtiesGrouped } from '@/services/backend/specialtiesService';
 import { useQuery } from '@tanstack/react-query';
 import '@/styles/pages/Especialidades.css';
 
@@ -16,14 +16,9 @@ export default function EspecialidadesPage() {
 
   if (isLoading) {
     return (
-      <div className="especialidades-container">
-        <div className="especialidades-decorative-circle-1"></div>
-        <div className="especialidades-decorative-circle-2"></div>
-        <div className="especialidades-decorative-circle-3"></div>
-        <div className="especialidades-list">
-          <div style={{ textAlign: "center", padding: "2rem" }}>
-            Cargando especialidades...
-          </div>
+      <div className="especialidades-container especialidades-loading">
+        <div className="especialidades-loading-content">
+          Cargando especialidades...
         </div>
       </div>
     );
@@ -37,7 +32,22 @@ export default function EspecialidadesPage() {
         <div className="especialidades-decorative-circle-3"></div>
         <div className="especialidades-list">
           <div style={{ textAlign: "center", padding: "2rem", color: "#ef4444" }}>
-            Error al cargar especialidades: {error.message}
+            Error al cargar especialidades: {error instanceof Error ? error.message : 'Error desconocido'}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!specialtiesData || specialtiesData.length === 0) {
+    return (
+      <div className="especialidades-container">
+        <div className="especialidades-decorative-circle-1"></div>
+        <div className="especialidades-decorative-circle-2"></div>
+        <div className="especialidades-decorative-circle-3"></div>
+        <div className="especialidades-list">
+          <div style={{ textAlign: "center", padding: "2rem", color: "#6b7280" }}>
+            No hay especialidades disponibles.
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import Header from './components/Header';
+import Header from '@/components/layout/Header';
 
 export const metadata = {
   title: 'CoordiSalud - Profile',
@@ -18,3 +18,4 @@ export default function ProfileLayout({
     </>
   );
 }
+

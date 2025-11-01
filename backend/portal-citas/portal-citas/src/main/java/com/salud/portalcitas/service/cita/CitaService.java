@@ -14,5 +14,7 @@ public interface CitaService {
     List<CitaResponse> listarTotalCitasPorPaciente(Long pacienteId);
     List<CitaResponse> listarCitasPendientesPorMedico(Long medicoId);
     List<CitaResponse> listarTotalCitasPorMedico(Long medicoId);
+    List<CitaResponse> listarCitasDeHoyPorPaciente(Long pacienteId);
+    List<CitaResponse> listarCitasDeHoyPorMedico(Long medicoId);
     public CitaResponse obtenerPorId(Long id);
 }

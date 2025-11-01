@@ -2,8 +2,6 @@
 
 import {
   LogoIcon,
-  GoogleIcon,
-  FacebookIcon,
   BackIcon,
 } from '@/components/icons';
 import { useAuth } from '@/context/AuthContext';
@@ -19,12 +17,48 @@ export default function Login({ onBack, onChange }: SignInProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [validationError, setValidationError] = useState<string>('');
 
-  const handleLogin = async (e: { preventDefault: () => void }) => {
+  const validateForm = (): boolean => {
+    if (!email.trim() || !password.trim()) {
+      setValidationError('Completa todos los campos');
+      return false;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setValidationError('Ingrese un correo electrónico válido');
+      return false;
+    }
+
+    if (password.length < 6) {
+      setValidationError('La contraseña debe tener al menos 6 caracteres');
+      return false;
+    }
+
+    setValidationError('');
+    return true;
+  };
+
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    e.stopPropagation();
+    
+    if (!validateForm()) {
+      return;
+    }
+
     setLoading(true);
-    await login({ email, password });
-    setLoading(false);
+    setValidationError('');
+    setError(null);
+    
+    try {
+      await login({ email, password });
+    } catch (error) {
+      // El error ya se maneja en el contexto, solo necesitamos capturarlo
+      console.error('Error en login:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -49,7 +83,7 @@ export default function Login({ onBack, onChange }: SignInProps) {
         </div>
 
         {/* Formulario de inicio de sesión */}
-        <form className='login-form' action='' onSubmit={handleLogin}>
+        <form className='login-form' onSubmit={handleLogin} noValidate>
           {/* Logo */}
           <div className='login-logo'>
             <div className='Logo'>
@@ -65,17 +99,35 @@ export default function Login({ onBack, onChange }: SignInProps) {
               id='paciente-email'
               type='email'
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={e => {
+                setEmail(e.target.value);
+                if (validationError) {
+                  setValidationError('');
+                }
+                if (error) {
+                  setError(null);
+                }
+              }}
               placeholder='Correo electrónico'
             />
+            
             <label htmlFor='paciente-password'>Contraseña</label>
             <input
               id='paciente-password'
               type='password'
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={e => {
+                setPassword(e.target.value);
+                if (validationError) {
+                  setValidationError('');
+                }
+                if (error) {
+                  setError(null);
+                }
+              }}
               placeholder='Contraseña'
             />
+            
           </div>
 
           {/* Opciones de inicio de sesión */}
@@ -87,25 +139,47 @@ export default function Login({ onBack, onChange }: SignInProps) {
             <span>Olvidé mi contraseña</span>
           </div>
 
-          {error && (
-            <div className='mb-3 flex justify-between p-2 rounded-xl border border-red-700 bg-red-300 text-red-700'>
-              <small>{error}</small>
-              <button type='button' onClick={() => setError(null)}>
-                x
+          {/* Mensaje de error unificado */}
+          {(validationError || error) && (
+            <div className='error-container'>
+              <div className='error-content'>
+                <svg className='error-icon' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                  <circle cx='12' cy='12' r='10' stroke='currentColor' strokeWidth='2'/>
+                  <line x1='12' y1='8' x2='12' y2='12' stroke='currentColor' strokeWidth='2' strokeLinecap='round'/>
+                  <line x1='12' y1='16' x2='12.01' y2='16' stroke='currentColor' strokeWidth='2' strokeLinecap='round'/>
+                </svg>
+                <span className='error-text'>{validationError || error}</span>
+              </div>
+              <button 
+                type='button' 
+                className='error-close-btn'
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setValidationError('');
+                  setError(null);
+                }}
+                aria-label='Cerrar error'
+              >
+                <svg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                  <line x1='18' y1='6' x2='6' y2='18' stroke='currentColor' strokeWidth='2' strokeLinecap='round'/>
+                  <line x1='6' y1='6' x2='18' y2='18' stroke='currentColor' strokeWidth='2' strokeLinecap='round'/>
+                </svg>
               </button>
             </div>
           )}
 
           {/* Botón de inicio de sesión */}
-          <button type='submit' disabled={loading} className='submit-button'>
+          <button 
+            type='submit' 
+            disabled={loading} 
+            className='submit-button'
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
             {loading ? 'Verificando...' : 'Iniciar Sesión'}
           </button>
-
-          {/* Sección de proveedores */}
-          <div className='login-providers'>
-            <GoogleIcon width={50} height={50} />
-            <FacebookIcon width={50} height={50} />
-          </div>
         </form>
       </section>
     </>

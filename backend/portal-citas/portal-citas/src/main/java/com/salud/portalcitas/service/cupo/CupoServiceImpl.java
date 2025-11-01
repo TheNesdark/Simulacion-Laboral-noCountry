@@ -25,7 +25,8 @@ public class CupoServiceImpl implements CupoService{
         LocalDate fin = hoy.plusDays(diasAdelante);
 
         for (LocalDate fecha = hoy; !fecha.isAfter(fin); fecha = fecha.plusDays(1)) {
-            if (fecha.getDayOfWeek().getValue() % 7 == disponibilidad.getDiaSemana()) {
+            int diaSemanaJava = fecha.getDayOfWeek().getValue() % 7;
+            if (diaSemanaJava == disponibilidad.getDiaSemana()) {
                 generarCuposParaFecha(disponibilidad, fecha);
             }
         }
@@ -73,7 +74,8 @@ public class CupoServiceImpl implements CupoService{
 
     @Override
     public Cupo obtenerPorId(Long cupoId) {
-        return cupoRepository.findById(cupoId).orElseThrow(() -> new RuntimeException("Cupo no encontrado"));
+        return cupoRepository.findByIdWithRelations(cupoId)
+                .orElseThrow(() -> new RuntimeException("Cupo no encontrado"));
     }
 
     @Override

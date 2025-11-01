@@ -14,6 +14,12 @@ import {
 export default function NavBar() {
   const pathname = usePathname();
   const { role } = useAuth();
+
+  // No mostrar navbar en páginas de perfil y horario
+  if (pathname?.startsWith('/Profesional/Perfil') || pathname?.startsWith('/Profile') || pathname === '/Profesional/Horario') {
+    return null;
+  }
+
   const navItems = [
     {
       href: '/',

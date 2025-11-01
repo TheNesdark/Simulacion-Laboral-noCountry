@@ -55,7 +55,7 @@ export default function ChatView() {
             <BackIcon width={20} height={21} />
           </button>
           <Image
-            src={otherUser?.avatarUrl || '/assets/Login.png'}
+            src={otherUser?.photoURL || '/assets/Login.png'}
             alt='perfil'
             width={50}
             height={50}
@@ -64,7 +64,7 @@ export default function ChatView() {
             loading='eager'
             className='rounded-full'
           />
-          <h2 className='font-semibold'>{otherUser?.name || "Usuario"}</h2>
+          <h2 className='font-semibold'>{otherUser ? `${otherUser.nombres} ${otherUser.apellidos}` : "Usuario"}</h2>
         </div>
         <div className='flex gap-2'>
           <button className='text-[#00579b]'>
@@ -91,7 +91,7 @@ export default function ChatView() {
             >
               <span className='text-justify'>{msg.text}</span>
               <span className='flex bottom-1 justify-end text-[10px] opacity-80'>
-                {msg.text}
+                {msg.createdAt?.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </span>
             </div>
           </div>

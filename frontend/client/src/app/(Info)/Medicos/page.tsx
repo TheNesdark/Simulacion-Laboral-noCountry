@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { DoctorCard } from './components/DoctorCard';
-import { getAllDoctors } from '@/api/doctorsApi';
+import { getAllDoctors } from '@/services/backend/doctorsService';
 import { useQuery } from '@tanstack/react-query';
 import '@/styles/pages/Medicos.css';
 

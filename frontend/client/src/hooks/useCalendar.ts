@@ -1,8 +1,9 @@
 import { useState, useMemo } from 'react';
 import { OnArgs } from 'react-calendar';
 import { Cita } from '@/types';
-import { useQuery } from '@tanstack/react-query';
-import { getAllAppointments } from '@/api/appointmentsApi';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { getAllAppointmentsByDoctor, getAllAppointmentsByPatient } from '@/services/backend/appointmentsService';
+import { useAuth } from '@/context/AuthContext';
 
 interface TileClassNameProps {
   date: Date;
@@ -11,14 +12,24 @@ interface TileClassNameProps {
 
 export default function useCalendar() {
   const [activeDate, setActiveDate] = useState<Date>(new Date());
+  const { medicoId, pacienteId, role } = useAuth();
+  const queryClient = useQueryClient();
 
   const {
     data: allAppointments = [],
     isLoading,
     error,
   } = useQuery({
-    queryKey: ['appointments', 'all'],
-    queryFn: getAllAppointments,
+    queryKey: ['appointments', role, medicoId || pacienteId],
+    queryFn: () => {
+      if (role === 'medico' && medicoId) {
+        return getAllAppointmentsByDoctor(medicoId);
+      } else if (role === 'paciente' && pacienteId) {
+        return getAllAppointmentsByPatient(pacienteId);
+      }
+      return [];
+    },
+    enabled: !!(medicoId || pacienteId),
   });
 
   const monthAppointments = useMemo(() => {
@@ -37,11 +48,22 @@ export default function useCalendar() {
 
   const isDateHasAppointment = ({ date }: TileClassNameProps) => {
     const dateString: string = date.toISOString().split('T')[0];
-    return monthAppointments.find(
+    const appointment = monthAppointments.find(
       (appointment: Cita) => appointment.fecha === dateString
-    )
-      ? 'appointment-date'
-      : null;
+    );
+    
+    if (!appointment) return null;
+    
+    // Si la cita está cancelada, usar clase especial
+    if (appointment.estado === 'CANCELADA') {
+      return 'appointment-date-cancelled';
+    }
+    
+    return 'appointment-date';
+  };
+
+  const refresh = () => {
+    queryClient.invalidateQueries({ queryKey: ['appointments', role, medicoId || pacienteId] });
   };
 
   return {
@@ -51,5 +73,6 @@ export default function useCalendar() {
     isDateHasAppointment,
     isLoading,
     error,
+    refresh,
   };
 }

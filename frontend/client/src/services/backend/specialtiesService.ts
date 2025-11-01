@@ -1,17 +1,7 @@
 import { Specialty } from "@/types";
-import { API_BASE_URL } from '@/services/backend/config';
-import especialidadesData from '@/data/especialidades.json';
-
-const USE_MOCK = false;
+import { API_BASE_URL } from './config';
 
 export const getAllSpecialties = async (): Promise<Specialty[]> => {
-  if (USE_MOCK) {
-    return especialidadesData.map(e => ({
-      id: e.id.toString(),
-      nombre: e.nombre,
-      descripcion: e.descripcion,
-    }));
-  }
   const response = await fetch(`${API_BASE_URL}/especialidades`);
   if (!response.ok) throw new Error('Error al obtener especialidades');
   return response.json();
@@ -36,3 +26,4 @@ export const getAllSpecialtiesGrouped = async (): Promise<{ letter: string; spec
       specialties: grouped[letter].sort()
     }));
 };
+

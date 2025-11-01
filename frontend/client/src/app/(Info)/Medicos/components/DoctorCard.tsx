@@ -1,6 +1,9 @@
 import '@/styles/components/DoctorCard.css';
 import { Medico } from '@/types';
 import { useRouter } from 'next/navigation';
+import Avatar from '@/components/ui/Avatar';
+import { useEffect, useState } from 'react';
+import { getUserData } from '@/services/firebase/authService';
 
 interface DoctorCardProps extends Medico {}
 
@@ -9,10 +12,27 @@ export function DoctorCard({
   nombre,
   apellido,
   matricula,
-  nombreEspecialidad,
+  especialidad,
   userId,
 }: DoctorCardProps) {
   const router = useRouter();
+  const [photoURL, setPhotoURL] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadPhoto = async () => {
+      if (userId) {
+        try {
+          const userData = await getUserData(userId);
+          if (userData?.photoURL) {
+            setPhotoURL(userData.photoURL);
+          }
+        } catch (error) {
+          console.error('Error al cargar foto del médico:', error);
+        }
+      }
+    };
+    loadPhoto();
+  }, [userId]);
 
   const handleChat = async () => {
     if (!userId) {
@@ -27,11 +47,17 @@ export function DoctorCard({
       <div className="doctor-card-content">
         <div className="doctor-card-flex">
           <div className="doctor-card-image-container">
-            <img src="/default-doctor.png" alt={`${nombre} ${apellido}`} className="doctor-card-image" />
+            <Avatar
+              src={photoURL}
+              alt={`${nombre} ${apellido}`}
+              size={80}
+              className="doctor-card-image"
+              fallbackText={`${nombre} ${apellido}`}
+            />
           </div>
           <div className="doctor-card-info">
             <h3 className="doctor-card-name">Dr. {nombre} {apellido}</h3>
-            <p className="doctor-card-specialty">{nombreEspecialidad || 'Sin especialidad'}</p>
+            <p className="doctor-card-specialty">{especialidad?.nombre || 'Sin especialidad'}</p>
             <p className="doctor-card-matricula">Mat. {matricula}</p>
           </div>
         </div>

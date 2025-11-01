@@ -80,7 +80,6 @@ export async function eliminarPaciente(id: number): Promise<void> {
 
 
 export async function crearMedico(medicoData: MedicoRequest): Promise<Medico> {
-console.log(medicoData)
   const response = await fetch(`${API_BASE_URL}/medicos`, {
     method: 'POST',
     headers: {
@@ -88,8 +87,6 @@ console.log(medicoData)
     },
     body: JSON.stringify(medicoData),
   });
-
-  console.log(response)
   
   if (!response.ok) {
     throw new Error('Error al crear médico');

@@ -15,6 +15,7 @@ import com.salud.portalcitas.util.enums.EstadoCita;
 import com.salud.portalcitas.util.mail.EmailService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CitaServiceImpl implements CitaService{
@@ -57,14 +59,32 @@ public class CitaServiceImpl implements CitaService{
 
         //guardar cita
         Cita citaGuardada = citaRepository.save(cita);
+        
+        // Refrescar la cita para asegurar que todas las relaciones estén cargadas
+        citaGuardada = citaRepository.findByIdWithRelations(citaGuardada.getId()).orElseThrow();
 
-        // crear evento en Google Calendar
-        String eventId = calendarService.crearEvento(citaGuardada);
-        citaGuardada.setGoogleEventId(eventId);
-        citaRepository.save(citaGuardada);
+        // crear evento en Google Calendar (manejo de errores)
+        try {
+            String eventId = calendarService.crearEvento(citaGuardada);
+            citaGuardada.setGoogleEventId(eventId);
+            citaRepository.save(citaGuardada);
+            log.info("Evento de Google Calendar creado exitosamente para cita ID: {}", citaGuardada.getId());
+        } catch (Exception e) {
+            // Log del error pero continuar con la creación de la cita
+            log.error("Error al crear evento en Google Calendar para cita ID {}: {}", citaGuardada.getId(), e.getMessage(), e);
+            // La cita se guarda sin Google Event ID
+        }
 
-        // enviar mail de confirmación
-        emailService.enviarConfirmacionCita(citaGuardada);
+        // enviar mail de confirmación (manejo de errores)
+        try {
+            log.info("Enviando email de confirmación para cita ID: {}", citaGuardada.getId());
+            emailService.enviarConfirmacionCita(citaGuardada);
+            log.info("Email de confirmación enviado exitosamente para cita ID: {}", citaGuardada.getId());
+        } catch (Exception e) {
+            // Log del error pero continuar
+            log.error("Error al enviar email de confirmación para cita ID {}: {}", citaGuardada.getId(), e.getMessage(), e);
+            // La cita se crea exitosamente aunque el email falle
+        }
 
         return toResponse(citaGuardada);
     }
@@ -72,22 +92,40 @@ public class CitaServiceImpl implements CitaService{
     @Override
     @Transactional
     public CitaResponse cancelarCita(Long citaId, String motivo) {
-        Cita cita = this.obtenerEntidadPorId(citaId);
+        Cita cita = citaRepository.findByIdWithRelations(citaId)
+                .orElseThrow(() -> new EntityNotFoundException("Cita no encontrada"));
 
         if (cita.getEstado() == EstadoCita.CANCELADA) return toResponse(cita);
 
-        cita.setEstado(EstadoCita.CANCELADA);;
+        cita.setEstado(EstadoCita.CANCELADA);
         cita.setMotivoCancelacion(motivo);
 
         Cita citaGuardada = citaRepository.save(cita);
+        
+        // Refrescar la cita para asegurar que todas las relaciones estén cargadas
+        citaGuardada = citaRepository.findByIdWithRelations(citaGuardada.getId()).orElseThrow();
 
-        // eliminar evento de Google Calendar
+        // eliminar evento de Google Calendar (manejo de errores)
         if (cita.getGoogleEventId() != null) {
-            calendarService.eliminarEvento(cita.getGoogleEventId());
+            try {
+                calendarService.eliminarEvento(cita.getGoogleEventId());
+                log.info("Evento de Google Calendar eliminado exitosamente para cita ID: {}", citaId);
+            } catch (Exception e) {
+                // Log del error pero continuar con la cancelación
+                log.error("Error al eliminar evento en Google Calendar para cita ID {}: {}", citaId, e.getMessage(), e);
+            }
         }
 
-        // enviar email al paciente
-        emailService.enviarCancelacionCita(cita);
+        // enviar email al paciente (manejo de errores)
+        try {
+            log.info("Enviando email de cancelación para cita ID: {}", citaId);
+            emailService.enviarCancelacionCita(citaGuardada);
+            log.info("Email de cancelación enviado exitosamente para cita ID: {}", citaId);
+        } catch (Exception e) {
+            // Log del error pero continuar
+            log.error("Error al enviar email de cancelación para cita ID {}: {}", citaId, e.getMessage(), e);
+            // La cita se cancela exitosamente aunque el email falle
+        }
 
         return toResponse(citaGuardada);
     }
@@ -135,6 +173,24 @@ public class CitaServiceImpl implements CitaService{
     @Transactional(readOnly = true)
     public List<CitaResponse> listarTotalCitasPorMedico(Long medicoId) {
         return citaRepository.findByMedicoId(medicoId).stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CitaResponse> listarCitasDeHoyPorPaciente(Long pacienteId) {
+        LocalDate hoy = LocalDate.now();
+        return citaRepository.findByPacienteIdAndFecha(pacienteId, hoy).stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CitaResponse> listarCitasDeHoyPorMedico(Long medicoId) {
+        LocalDate hoy = LocalDate.now();
+        return citaRepository.findByMedicoIdAndFecha(medicoId, hoy).stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
     }

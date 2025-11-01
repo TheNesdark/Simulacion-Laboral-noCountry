@@ -3,6 +3,21 @@
   overflow: hidden;
 }
 
+.especialidades-loading {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+}
+
+.especialidades-loading-content {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.125rem;
+  color: #6b7280;
+}
+
 .especialidades-decorative-circle-1 {
   position: absolute;
   top: -8rem;
@@ -40,10 +55,7 @@
 }
 
 .especialidades-list {
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 2rem;
-  padding-bottom: 4rem;
+  padding: 1.5rem;
 }
 
 .especialidades-group {

@@ -6,10 +6,10 @@ import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import '@/styles/pages/PedirCita.css';
-import { createAppointment, getCuposDisponibles } from '@/api/appointmentsApi';
+import { createAppointment, getCuposDisponibles } from '@/services/backend/appointmentsService';
 import { CupoDisponible } from '@/types';
 import { useAuth } from '@/context/AuthContext';
-import { getDoctorAvailabilities } from '@/api/availabilityApi';
+import { getDoctorAvailabilities } from '@/services/backend/availabilityService';
 
 interface Hours {
     diaSemana: number; // 0 = domingo
@@ -35,7 +35,7 @@ export default function PedirTurnoPage() {
     const [diasDisponibles, setDiasDisponibles] = useState<number[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const { pacienteId } = useAuth();
+    const { pacienteId, loading: authLoading, user, role } = useAuth();
     const router = useRouter();
     const params = useParams();
     const MedicoId = params?.MedicoId as string;
@@ -47,7 +47,7 @@ export default function PedirTurnoPage() {
                 const disp = await getDoctorAvailabilities(Number(MedicoId));
                 setDiasDisponibles(disp.map(d => d.diaSemana));
             } catch (err) {
-                console.error('Error al cargar disponibilidades');
+                setError('Error al cargar disponibilidades');
             }
         };
         fetchDisponibilidades();
@@ -61,15 +61,12 @@ export default function PedirTurnoPage() {
             setError(null);
             try {
                 const fecha = selectedDate.toISOString().split('T')[0];
-                console.log('Buscando cupos para:', { medicoId: MedicoId, fecha });
                 const cupos = await getCuposDisponibles(Number(MedicoId), fecha);
-                console.log('Cupos recibidos:', cupos);
-                const disponibles = cupos.filter(c => c.disponible);
-                console.log('Cupos disponibles:', disponibles);
-                setCuposDisponibles(disponibles);
-            } catch (err) {
-                console.error('Error al cargar cupos:', err);
-                setError('Error al cargar cupos disponibles');
+                // Los cupos ya vienen transformados con disponible=true/false
+                setCuposDisponibles(cupos.filter(c => c.disponible));
+            } catch (err: any) {
+                const errorMessage = err.message || 'Error al cargar cupos disponibles';
+                setError(errorMessage);
                 setCuposDisponibles([]);
             } finally {
                 setLoading(false);
@@ -81,8 +78,37 @@ export default function PedirTurnoPage() {
     }, [selectedDate, MedicoId]);
 
     const handleOpenConfirm = () => {
-        if (!selectedDate || !selectedCupo || !motivo || !pacienteId) {
-            alert('Por favor, complete todos los campos');
+        // Validaciones más específicas con mensajes claros
+        if (authLoading) {
+            alert('Por favor, espere mientras se carga la información del usuario');
+            return;
+        }
+        
+        if (!user) {
+            alert('Debe iniciar sesión para reservar una cita. Por favor, diríjase a la página de inicio de sesión.');
+            router.push('/Login');
+            return;
+        }
+        
+        if (!pacienteId) {
+            if (role === 'medico') {
+                alert('Debe iniciar sesión como paciente para reservar una cita. Los médicos no pueden reservar citas.');
+            } else {
+                alert('Su cuenta no tiene un paciente asociado. Por favor, contacte al administrador o cree una cuenta de paciente.');
+            }
+            return;
+        }
+        
+        if (!selectedDate) {
+            alert('Por favor, seleccione una fecha');
+            return;
+        }
+        if (!selectedCupo) {
+            alert('Por favor, seleccione un horario disponible');
+            return;
+        }
+        if (!motivo || motivo.trim() === '') {
+            alert('Por favor, ingrese el motivo de la consulta');
             return;
         }
         setOpenConfirm(true);
@@ -110,81 +136,83 @@ export default function PedirTurnoPage() {
     };
 
     return (
-        <div className="flex justify-center items-center p-4">
-            <div className="w-full">
-                <div className="space-y-6 p-6">
-                    <h2 className="text-lg font-semibold text-gray-800">Seleccionar fecha:</h2>
-                    <Calendar
-                        className={'calendar'}
-                        tileClassName={({ date }) => {
-                            const isSelected = selectedDate && date.toDateString() === selectedDate.toDateString();
-                            const isDayAvailable = diasDisponibles.includes(date.getDay());
-                            if (isSelected) return 'selected-date';
-                            if (isDayAvailable && date >= new Date()) return 'available-date';
-                            return '';
-                        }}
-                        onChange={(date) => setSelectedDate(date as Date)}
-                        value={selectedDate}
-                        minDate={new Date()}
-                    />
-                    {error && <p className="text-red-500 text-sm">{error}</p>}
+        <>
+            <div className="pedir-cita-page space-y-6">
+                <h2 className="text-lg font-semibold text-gray-800">Seleccionar fecha:</h2>
+                <Calendar
+                    className={'calendar'}
+                    tileClassName={({ date }) => {
+                        const isSelected = selectedDate && date.toDateString() === selectedDate.toDateString();
+                        const isDayAvailable = diasDisponibles.includes(date.getDay());
+                        if (isSelected) return 'selected-date';
+                        if (isDayAvailable && date >= new Date()) return 'available-date';
+                        return '';
+                    }}
+                    onChange={(date) => setSelectedDate(date as Date)}
+                    value={selectedDate}
+                    minDate={new Date()}
+                />
+                {error && <p className="text-red-500 text-sm">{error}</p>}
 
-                    <div>
-                        <h3 className="text-gray-800 font-semibold mb-2">Horarios disponibles:</h3>
-                        {loading ? (
-                            <p className="text-gray-500">Cargando...</p>
-                        ) : cuposDisponibles.length === 0 ? (
-                            <p className="text-gray-500">No hay cupos disponibles para esta fecha</p>
-                        ) : (
-                            <div className="flex flex-wrap gap-2">
-                                {cuposDisponibles.map((cupo) => (
-                                    <button
-                                        key={cupo.id}
-                                        onClick={() => setSelectedCupo(cupo)}
-                                        className={`px-3 py-2 rounded-full text-sm font-semibold transition-all duration-200 shadow-sm ${
-                                            selectedCupo?.id === cupo.id
-                                                ? 'bg-sky-500 text-white'
-                                                : 'bg-green-400 text-white hover:bg-green-500'
-                                        }`}
-                                    >
-                                        {cupo.horaInicio}
-                                    </button>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-
-                    <div>
-                        <label className="block mb-1 font-semibold text-gray-700">Tipo de consulta:</label>
-                        <select
-                            className="w-full border border-gray-300 rounded-lg p-2 text-gray-700"
-                            value={tipo}
-                            onChange={(e) => setTipo(e.target.value as 'PRESENCIAL' | 'VIRTUAL')}
-                        >
-                            <option value="PRESENCIAL">Presencial</option>
-                            <option value="VIRTUAL">Virtual</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label className="block mb-1 font-semibold text-gray-700">Motivo de consulta:</label>
-                        <input
-                            type="text"
-                            className="w-full border border-gray-300 rounded-lg p-2 text-gray-700"
-                            placeholder="Describa el motivo de su consulta"
-                            value={motivo}
-                            onChange={(e) => setMotivo(e.target.value)}
-                        />
-                    </div>
-
-                    <button
-                        onClick={handleOpenConfirm}
-                        disabled={!selectedDate || !selectedCupo || !motivo || loading}
-                        className="w-full bg-[#00579b] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#003d6b] text-white font-semibold rounded-lg py-2"
-                    >
-                        {loading ? 'Procesando...' : 'Reservar turno'}
-                    </button>
+                <div>
+                    <h3 className="text-gray-800 font-semibold mb-2">Horarios disponibles:</h3>
+                    {!selectedDate ? (
+                        <p className="text-gray-500">Seleccione una fecha para ver los horarios disponibles</p>
+                    ) : loading ? (
+                        <p className="text-gray-500">Cargando...</p>
+                    ) : error ? (
+                        <p className="text-red-500 text-sm">{error}</p>
+                    ) : cuposDisponibles.length === 0 ? (
+                        <p className="text-gray-500">No hay cupos disponibles para esta fecha. El médico puede no tener disponibilidad configurada para este día.</p>
+                    ) : (
+                        <div className="flex flex-wrap gap-2">
+                            {cuposDisponibles.map((cupo) => (
+                                <button
+                                    key={cupo.id}
+                                    onClick={() => setSelectedCupo(cupo)}
+                                    className={`px-3 py-2 rounded-full text-sm font-semibold transition-all duration-200 shadow-sm ${
+                                        selectedCupo?.id === cupo.id
+                                            ? 'bg-sky-500 text-white'
+                                            : 'bg-green-400 text-white hover:bg-green-500'
+                                    }`}
+                                >
+                                    {cupo.horaInicio}
+                                </button>
+                            ))}
+                        </div>
+                    )}
                 </div>
+
+                <div>
+                    <label className="block mb-1 font-semibold text-gray-700">Tipo de consulta:</label>
+                    <select
+                        className="w-full border border-gray-300 rounded-lg p-2 text-gray-700"
+                        value={tipo}
+                        onChange={(e) => setTipo(e.target.value as 'PRESENCIAL' | 'VIRTUAL')}
+                    >
+                        <option value="PRESENCIAL">Presencial</option>
+                        <option value="VIRTUAL">Virtual</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label className="block mb-1 font-semibold text-gray-700">Motivo de consulta:</label>
+                    <input
+                        type="text"
+                        className="w-full border border-gray-300 rounded-lg p-2 text-gray-700"
+                        placeholder="Describa el motivo de su consulta"
+                        value={motivo}
+                        onChange={(e) => setMotivo(e.target.value)}
+                    />
+                </div>
+
+                <button
+                    onClick={handleOpenConfirm}
+                    disabled={!selectedDate || !selectedCupo || !motivo || loading}
+                    className="w-full bg-[#00579b] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#003d6b] text-white font-semibold rounded-lg py-2"
+                >
+                    {loading ? 'Procesando...' : 'Reservar turno'}
+                </button>
             </div>
 
             {/* Modal de confirmación */}
@@ -195,6 +223,6 @@ export default function PedirTurnoPage() {
                 title="Reservar turno"
                 message="¿Deseas reservar el turno?"
             />
-        </div>
+        </>
     );
 }

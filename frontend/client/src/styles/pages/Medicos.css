@@ -2,8 +2,7 @@
   position: relative;
   z-index: 100;
   background-color: #f3f4f6;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding: 0;
 }
 
 .filter-buttons {
@@ -36,11 +35,23 @@
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.medicos-content {
+/* Estilos para el main en la página de médicos */
+main:has(.medicos-content) {
+  min-height: calc(100vh - 60px);
   background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.medicos-content {
+  background-color: transparent;
   position: relative;
-  height: 100%;
-  padding: 1rem;
+  flex: 1;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .medicos-no-doctors {

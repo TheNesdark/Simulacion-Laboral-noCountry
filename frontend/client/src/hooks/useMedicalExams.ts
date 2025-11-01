@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { getAllMedicalExams } from '@/api/medicalExamsApi';
+import { getAllMedicalExams } from '@/services/backend/medicalExamsService';
 import { MedicalExamFilter } from '@/types';
 import { useQuery } from '@tanstack/react-query';
 

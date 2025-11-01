@@ -1,3 +1,11 @@
+.pedir-cita-page {
+  padding: 1.5rem;
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
 .calendar {
   width: 100% !important;
   border: 2px solid #03acf2;

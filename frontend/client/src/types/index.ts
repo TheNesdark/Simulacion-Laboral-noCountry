@@ -11,11 +11,12 @@ export type MedicalExams = MedicalExam[];
 export type MedicalExamFilter = "Disponibles" | "Pendientes";
 
 export interface Clinic {
-  id: string;
+  id: number;
   nombre: string;
   descripcion: string;
   telefono: string;
   direccion: string;
+  email: string;
 }
 export type Clinics = Clinic[];
 
@@ -105,7 +106,7 @@ export interface Doctor {
 export type Doctors = Doctor[];
 
 export interface Specialty {
-  id: string;
+  id: number;
   nombre: string;
   descripcion: string;
 }
@@ -133,7 +134,7 @@ export interface Paciente {
   nombre: string;
   apellido: string;
   telefono: string;
-  genero: "M" | "F" | "O";
+  genero: "MASCULINO" | "FEMENINO" | "OTRO";
   numeroDocumento: string;
   email: string;
   fechaNacimiento: string; // Formato: YYYY-MM-DD
@@ -144,7 +145,7 @@ export interface PacienteRequest {
   nombre: string;
   apellido: string;
   telefono: string;
-  genero: "M" | "F" | "O";
+  genero: "MASCULINO" | "FEMENINO" | "OTRO";
   numeroDocumento: string;
   email: string;
   fechaNacimiento: string; // Formato: YYYY-MM-DD
@@ -157,15 +158,19 @@ export interface Medico {
   nombre: string;
   apellido: string;
   telefono: string;
-  genero: string;
+  genero: "MASCULINO" | "FEMENINO" | "OTRO";
   numeroDocumento: string;
   fechaNacimiento: string;
   matricula: number;
   email: string;
-  clinicaId?: number;
-  nombreClinica?: string;
-  especialidadId?: number;
-  nombreEspecialidad?: string;
+  clinica?: {
+    id: number;
+    nombre: string;
+  };
+  especialidad?: {
+    id: number;
+    nombre: string;
+  };
 }
 
 export interface MedicoRequest {
@@ -173,7 +178,7 @@ export interface MedicoRequest {
   nombre: string;
   apellido: string;
   telefono: string;
-  genero: "M" | "F" | "O";
+  genero: "MASCULINO" | "FEMENINO" | "OTRO";
   numeroDocumento: string;
   fechaNacimiento: string; // Formato: YYYY-MM-DD
   matricula: number;

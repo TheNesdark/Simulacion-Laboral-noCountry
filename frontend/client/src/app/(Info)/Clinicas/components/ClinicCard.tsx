@@ -1,7 +1,7 @@
 import '@/styles/components/ClinicCard.css';
 import { Clinic } from '@/types';
 
-export function ClinicCard({ id, nombre, telefono, direccion, descripcion }: Clinic) {
+export function ClinicCard({ id, nombre, telefono, direccion, descripcion, email }: Clinic) {
   return (
     <div key={id} className='clinic-card'>
       <div className={`clinic-card-image-container`}>
@@ -21,7 +21,7 @@ export function ClinicCard({ id, nombre, telefono, direccion, descripcion }: Cli
           </div>
         </div>
 
-        <button className='clinic-card-button'>Contactar</button>
+        <a href={`mailto:${email}`} className='clinic-card-button'>Contactar</a>
       </div>
     </div>
   );

@@ -1,9 +1,6 @@
-import Header from '@/components/layout/Header';
+'use client';
 
-export const metadata = {
-  title: 'CoordiSalud - Info',
-  description: 'Sistema de gestión médica y coordinación de salud',
-};
+import Header from '@/components/layout/Header';
 
 export default function InfoLayout({
   children,
@@ -13,7 +10,7 @@ export default function InfoLayout({
   return (
     <>
       <Header />
-      {children}
+      <main>{children}</main>
     </>
   );
 }

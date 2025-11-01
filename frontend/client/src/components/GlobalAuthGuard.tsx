@@ -25,34 +25,36 @@ export default function GlobalAuthGuard({ children }: GlobalAuthGuardProps) {
     if (!loading && !user && !isPublicRoute) {
       console.log('Redirecting to login from:', pathname);
       router.push('/Login');
+      return;
     }
 
-    // Si está autenticado y está en login, redirigir al home según rol
-    if (!loading && user && pathname === '/Login') {
+    // Si está autenticado y está en login o register, redirigir al home según rol
+    if (!loading && user && (pathname === '/Login' || pathname === '/Register')) {
       if (isMedico) {
         router.push('/Profesional');
+        return;
       } else if (isPaciente) {
         router.push('/');
-      } else {
-        router.push('/');
+        return;
       }
     }
 
     // Verificar acceso a rutas según rol
     if (!loading && user && role && !isPublicRoute) {
+      // Si es médico, redirigir a /Profesional si está en rutas de paciente o en la raíz
+      if (isMedico) {
+        if (pathname === '/' || pathname.startsWith('/Calendario') || pathname.startsWith('/Examenes')) {
+          console.log('Médico intentando acceder a rutas de paciente, redirigiendo a /Profesional');
+          router.push('/Profesional');
+          return;
+        }
+      }
+      
       // Si es paciente pero está en rutas de médico, redirigir
       if (isPaciente && pathname.startsWith('/Profesional')) {
         console.log('Paciente intentando acceder a rutas de médico, redirigiendo a /');
         router.push('/');
-      }
-      // Si es médico pero está en rutas de paciente (excepto Chat), redirigir
-      if (isMedico && (pathname === '/' || pathname.startsWith('/Calendario') || pathname.startsWith('/Examenes'))) {
-        console.log('Médico intentando acceder a rutas de paciente, redirigiendo a /Profesional');
-        router.push('/Profesional');
-      }
-      // Redirigir médicos de /Profesional/Chat a /Chat
-      if (isMedico && pathname.startsWith('/Profesional/Chat')) {
-        router.push(pathname.replace('/Profesional/Chat', '/Chat'));
+        return;
       }
     }
   }, [user, loading, userData, role, isPublicRoute, pathname, router]);

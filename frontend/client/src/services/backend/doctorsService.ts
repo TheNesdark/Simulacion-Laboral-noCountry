@@ -1,6 +1,5 @@
 import { Medico, MedicoRequest } from '@/types';
-import { API_BASE_URL } from '@/services/backend/config';
-
+import { API_BASE_URL } from './config';
 
 export const getAllDoctors = async (): Promise<Medico[]> => {
   const response = await fetch(`${API_BASE_URL}/medicos`);
@@ -46,3 +45,4 @@ export const getDoctorAvailableSlots = async (medicoId: number, fecha: string) =
   if (!response.ok) throw new Error('Error al obtener cupos disponibles');
   return response.json();
 };
+

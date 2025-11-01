@@ -1,0 +1,201 @@
+/* Lista de turnos */
+.appointments-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  width: 100%;
+  gap: 16px;
+}
+
+.appointments-list h2 {
+  grid-column: 1 / -1;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.appointments-list h3 {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.appointments-list p {
+  font-size: 14px;
+}
+
+.appointments-list div {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.appointments-list time {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 14px;
+  text-align: end;
+}
+
+.appointment-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.appointments-list article,
+.appointment-card {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px;
+  border-radius: 12px 12px 12px 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  position: relative;
+}
+
+.appointment-card:hover {
+  transform: translateY(-2px);
+}
+
+.appointment-card.selected {
+  border-radius: 12px 12px 12px 12px;
+}
+
+.appointment-card.cancelled-card {
+  border: 2px solid #ef4444;
+  background-color: #fee2e2 !important;
+  opacity: 0.9;
+  position: relative;
+}
+
+.appointment-card.cancelled-card:hover {
+  border-color: #dc2626;
+  opacity: 1;
+}
+
+.appointment-card.cancelled-card .appointment-card-content {
+  filter: grayscale(0.3);
+}
+
+.appointment-card.cancelled-card .appointment-motive {
+  color: #991b1b;
+  font-weight: 600;
+}
+
+.appointment-card.cancelled-card .appointment-doctor {
+  color: #991b1b;
+}
+
+.appointment-card.cancelled-card .appointment-date-text,
+.appointment-card.cancelled-card .appointment-time {
+  color: #991b1b;
+}
+
+.appointment-card.cancelled-card .appointment-cancelled {
+  background-color: #ef4444;
+  color: white;
+  font-weight: 700;
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-card-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 16px;
+}
+
+.appointment-card-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.appointment-card-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.appointment-motive {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+.appointment-doctor {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.appointment-date-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.appointment-time {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.appointment-cancelled {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 12px;
+  color: #ef4444;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 4px 8px;
+  border-radius: 4px;
+  z-index: 10;
+}
+
+.appointment-actions-buttons {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.appointment-details-button {
+  flex: 1;
+  background-color: #00579b;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-weight: 500;
+}
+
+.appointment-details-button:hover {
+  background-color: #003d6b;
+}
+
+.appointment-cancel-button {
+  flex: 1;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-weight: 500;
+}
+
+.appointment-cancel-button:hover {
+  background-color: #dc2626;
+}
+

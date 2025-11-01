@@ -10,8 +10,7 @@ export const listenUserChats = (
 ) => {
     const q = query(
         collection(db, "chats"),
-        where("participants", "array-contains", userId),
-        orderBy("lastMessageAt", "desc")
+        where("participants", "array-contains", userId)
     );
 
     return onSnapshot(q, (snapshot) => {
@@ -19,6 +18,14 @@ export const listenUserChats = (
             id: doc.id,
             ...doc.data(),
         })) as Chat[];
+        
+        // Ordenar en el cliente
+        chats.sort((a, b) => {
+            const aTime = a.lastMessageAt?.toMillis() || 0;
+            const bTime = b.lastMessageAt?.toMillis() || 0;
+            return bTime - aTime;
+        });
+        
         callback(chats);
     })
 }

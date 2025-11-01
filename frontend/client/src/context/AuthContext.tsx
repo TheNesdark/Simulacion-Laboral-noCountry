@@ -19,7 +19,7 @@ import type { UserData, RegisterProps, LoginProps } from "@/types";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "@/lib/firebase/firebase";
 import { useRouter } from "next/navigation";
-import { crearPaciente, listarMedicos } from "@/services/backend/UserService";
+import { crearPaciente } from "@/services/backend/UserService";
 
 interface AuthContextType {
   user: User | null;
@@ -86,12 +86,18 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       const user = await registerUser(data);
 
       // Preparar los datos del paciente para el backend
+      const generoMap: Record<string, "MASCULINO" | "FEMENINO" | "OTRO"> = {
+        "M": "MASCULINO",
+        "F": "FEMENINO",
+        "O": "OTRO"
+      };
+      
       const pacienteData = {
         userId: user.uid,
         nombre: data.nombres,
         apellido: data.apellidos,
         telefono: data.telefono,
-        genero: data.genero as "M" | "F" | "O",
+        genero: generoMap[data.genero] || "OTRO",
         numeroDocumento: data.documento,
         email: data.email,
         fechaNacimiento: data.fechaNacimiento,
@@ -153,13 +159,11 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     setError(null);
     try {
       await updateUserDataService(user.uid, data);
-      setUserData((prev) => {
-        if (!prev) return null;
-        return {
-          ...prev,
-          ...data,
-        };
-      });
+      const updatedUserData = await getUserData(user.uid);
+      setUserData(updatedUserData as UserData);
+      setRole(updatedUserData?.role || null);
+      setPacienteId(updatedUserData?.pacienteId || null);
+      setMedicoId(updatedUserData?.medicoId || null);
     } catch (error) {
       console.error("Error al actualizar datos del usuario:", error);
       setError("Error al actualizar datos del usuario.");

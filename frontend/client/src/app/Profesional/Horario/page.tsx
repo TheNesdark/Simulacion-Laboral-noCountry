@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { getDoctorAvailabilities, createAvailability, deleteAvailability, Disponibilidad } from '@/api/availabilityApi';
+import { getDoctorAvailabilities, createAvailability, deleteAvailability, updateAvailability, Disponibilidad } from '@/services/backend/availabilityService';
 import '@/styles/pages/Horario.css';
 
 const DIAS_SEMANA = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
@@ -22,26 +22,32 @@ export default function HorarioPage() {
     if (medicoId) {
       cargarDisponibilidades();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [medicoId]);
 
   const cargarDisponibilidades = async () => {
     if (!medicoId) return;
     try {
       const data = await getDoctorAvailabilities(medicoId);
-      setDisponibilidades(data);
       
-      const diasActivos = data.map(d => d.diaSemana);
+      // El backend ya filtra las eliminadas con findByMedicoIdAndEliminadaFalse
+      // pero por si acaso, filtramos también en el frontend
+      const disponibilidadesActivas = data.filter(disp => disp.activo !== false);
+      
+      setDisponibilidades(disponibilidadesActivas);
+      
+      // Actualizar días seleccionados basándose en las disponibilidades activas del servidor
+      const diasActivos = disponibilidadesActivas.map(d => d.diaSemana);
       setDiasSeleccionados(diasActivos);
       
-      if (data.length > 0) {
-        const horaIni = data[0].horaInicio.substring(0, 5);
-        const horaFn = data[0].horaFin.substring(0, 5);
+      if (disponibilidadesActivas.length > 0) {
+        const horaIni = disponibilidadesActivas[0].horaInicio.substring(0, 5);
+        const horaFn = disponibilidadesActivas[0].horaFin.substring(0, 5);
         setHoraInicio(horaIni);
         setHoraFin(horaFn);
-        setMinutosCupo(data[0].minutosCupo);
+        setMinutosCupo(disponibilidadesActivas[0].minutosCupo);
       }
     } catch (err) {
-      console.error('Error al cargar disponibilidades:', err);
       setError('Error al cargar disponibilidades');
     }
   };
@@ -49,7 +55,6 @@ export default function HorarioPage() {
   const toggleDia = (dia: number) => {
     setDiasSeleccionados(prev => {
       const newDias = prev.includes(dia) ? prev.filter(d => d !== dia) : [...prev, dia];
-      console.log('Días seleccionados:', newDias);
       return newDias;
     });
   };
@@ -60,20 +65,74 @@ export default function HorarioPage() {
     setError(null);
 
     try {
-      console.log('Eliminando disponibilidades:', disponibilidades);
-      for (const disp of disponibilidades) {
-        console.log('Disponibilidad completa:', disp);
-        if (disp.id) {
-          console.log('Eliminando disponibilidad ID:', disp.id);
-          await deleteAvailability(disp.id);
-        } else {
-          console.log('Disponibilidad sin ID, no se puede eliminar');
+      // Obtener las disponibilidades actuales del servidor para asegurar que tenemos los datos más recientes
+      const disponibilidadesActuales = await getDoctorAvailabilities(medicoId);
+      
+      // Determinar qué disponibilidades eliminar (las que existen pero no están en días seleccionados)
+      const diasParaEliminar = disponibilidadesActuales
+        .filter(disp => !diasSeleccionados.includes(disp.diaSemana) && disp.id != null)
+        .map(disp => disp.id)
+        .filter((id): id is number => typeof id === 'number' && !isNaN(id));
+
+      // Determinar qué días crear (los que están seleccionados pero no existen)
+      const diasExistentes = disponibilidadesActuales.map(disp => disp.diaSemana);
+      const diasParaCrear = diasSeleccionados.filter(dia => !diasExistentes.includes(dia));
+
+      // Determinar qué disponibilidades actualizar (las que existen y están seleccionadas pero pueden tener horarios diferentes)
+      // Normalizar horas para comparación (el backend puede devolver "HH:mm:ss" pero usamos "HH:mm")
+      const normalizarHora = (hora: string) => hora.substring(0, 5); // Tomar solo "HH:mm"
+      const disponibilidadesParaActualizar = disponibilidadesActuales.filter(disp => 
+        diasSeleccionados.includes(disp.diaSemana) &&
+        (normalizarHora(disp.horaInicio) !== horaInicio || normalizarHora(disp.horaFin) !== horaFin || disp.minutosCupo !== minutosCupo)
+      );
+
+      // Eliminar disponibilidades que ya no están seleccionadas
+      for (const id of diasParaEliminar) {
+        if (!id || isNaN(id)) {
+          continue;
+        }
+        try {
+          await deleteAvailability(id);
+        } catch (err: any) {
+          // Si hay citas futuras, mostrar un mensaje más claro
+          if (err.message?.includes('citas futuras') || err.message?.includes('citas asociadas')) {
+            setError('No se puede eliminar esta disponibilidad porque tiene citas futuras programadas. Por favor, cancela o completa las citas primero.');
+            setLoading(false);
+            return;
+          }
+          throw err;
+        }
+      }
+      
+      // Esperar un momento para que el backend procese las eliminaciones
+      if (diasParaEliminar.length > 0) {
+        await new Promise(resolve => setTimeout(resolve, 500));
+      }
+
+      // Actualizar disponibilidades existentes con nuevos horarios
+      for (const disp of disponibilidadesParaActualizar) {
+        if (!disp.id || isNaN(disp.id)) {
+          continue;
+        }
+        try {
+          await updateAvailability(disp.id, {
+            diaSemana: disp.diaSemana,
+            horaInicio,
+            horaFin,
+            minutosCupo,
+          });
+        } catch (err: any) {
+          if (err.message?.includes('citas futuras') || err.message?.includes('citas asociadas')) {
+            setError('No se puede modificar esta disponibilidad porque tiene citas futuras programadas.');
+            setLoading(false);
+            return;
+          }
+          throw err;
         }
       }
 
-      console.log('Días a crear:', diasSeleccionados);
-      for (const dia of diasSeleccionados) {
-        console.log('Creando disponibilidad:', { dia, horaInicio, horaFin, minutosCupo });
+      // Crear nuevas disponibilidades para días no existentes
+      for (const dia of diasParaCrear) {
         await createAvailability(medicoId, {
           diaSemana: dia,
           horaInicio,
@@ -82,12 +141,30 @@ export default function HorarioPage() {
         });
       }
 
-      console.log('Recargando disponibilidades...');
-      await cargarDisponibilidades();
+      // Recargar disponibilidades desde el servidor para sincronizar el estado
+      const disponibilidadesActualizadas = await getDoctorAvailabilities(medicoId);
+      
+      // El backend ya filtra las eliminadas, pero por seguridad también filtramos en frontend
+      const disponibilidadesActivas = disponibilidadesActualizadas.filter(disp => disp.activo !== false);
+      
+      // Actualizar estado con los datos frescos del servidor
+      setDisponibilidades(disponibilidadesActivas);
+      const diasActivos = disponibilidadesActivas.map(d => d.diaSemana);
+      setDiasSeleccionados(diasActivos);
+      
+      if (disponibilidadesActivas.length > 0) {
+        const horaIni = disponibilidadesActivas[0].horaInicio.substring(0, 5);
+        const horaFn = disponibilidadesActivas[0].horaFin.substring(0, 5);
+        setHoraInicio(horaIni);
+        setHoraFin(horaFn);
+        setMinutosCupo(disponibilidadesActivas[0].minutosCupo);
+      }
+      
       alert('Horarios guardados exitosamente');
     } catch (err: any) {
-      console.error('Error completo:', err);
-      setError(err.message || 'Error al guardar horarios');
+      const errorMessage = err.message || 'Error al guardar horarios';
+      setError(errorMessage);
+      alert(`Error: ${errorMessage}`);
     } finally {
       setLoading(false);
     }
@@ -95,8 +172,6 @@ export default function HorarioPage() {
 
   return (
     <div className="horario-page">
-      <h1>Modificar horario</h1>
-
       <section className="dias-trabajo">
         <h2>Días de trabajo</h2>
         <div className="dias-grid">

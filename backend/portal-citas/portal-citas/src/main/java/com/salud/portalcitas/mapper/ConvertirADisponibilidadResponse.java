@@ -11,6 +11,7 @@ public class ConvertirADisponibilidadResponse {
 
         DisponibilidadResponse disponibilidadResponse = new DisponibilidadResponse();
 
+        disponibilidadResponse.setId(disponibilidad.getId());
         disponibilidadResponse.setDiaSemana(disponibilidad.getDiaSemana());
         disponibilidadResponse.setHoraInicio(disponibilidad.getHoraInicio());
         disponibilidadResponse.setHoraFin(disponibilidad.getHoraFin());

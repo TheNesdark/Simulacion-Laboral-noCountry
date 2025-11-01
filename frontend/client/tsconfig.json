@@ -28,7 +28,6 @@
       "@hooks/*": ["./src/hooks/*"],
       "@utils/*": ["./src/utils/*"],
       "@types/*": ["./src/types/*"],
-      "@api/*": ["./src/api/*"],
       "@lib/*": ["./src/lib/*"]
     }
   },

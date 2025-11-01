@@ -15,6 +15,7 @@ export default function CalendarPage() {
     isDateHasAppointment,
     isLoading,
     error,
+    refresh,
   } = useCalendar();
 
   if (isLoading) {
@@ -43,6 +44,8 @@ export default function CalendarPage() {
         appointments={monthAppointments}
         isLoading={isLoading}
         error={error}
+        role="medico"
+        onRefresh={refresh}
       />
     </>
   );

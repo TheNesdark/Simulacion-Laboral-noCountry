@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { crearMedico } from '@/services/backend/UserService';
-import { getAllClinics } from '@/api/clinicsApi';
-import { getAllSpecialties } from '@/api/specialtiesApi';
+import { getAllClinics } from '@/services/backend/clinicsService';
+import { getAllSpecialties } from '@/services/backend/specialtiesService';
 import {  Specialty } from '@/types';
 
 export default function useSwitchToProfessional() {
   const { user, userData, updateUserData } = useAuth();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [clinics, setClinics] = useState<any[]>([]);
@@ -94,12 +96,18 @@ export default function useSwitchToProfessional() {
       }
 
       // Preparar los datos en el formato esperado por el backend
+      const generoMap: Record<string, "MASCULINO" | "FEMENINO" | "OTRO"> = {
+        "M": "MASCULINO",
+        "F": "FEMENINO",
+        "O": "OTRO"
+      };
+      
       const medicoData = {
         userId: formData.userId,
         nombre: formData.nombre,
         apellido: formData.apellido,
         telefono: formData.telefono,
-        genero: formData.genero,
+        genero: generoMap[formData.genero] || "OTRO",
         numeroDocumento: formData.numeroDocumento,
         fechaNacimiento: formData.fechaNacimiento,
         matricula: formData.matricula,
@@ -117,6 +125,9 @@ export default function useSwitchToProfessional() {
       alert(
         "¡Felicitaciones! Ahora eres un profesional de la salud en nuestra plataforma.",
       );
+      
+      // Redirigir a la página de profesional
+      router.push('/Profesional');
     } catch (error: any) {
       console.error("Error al cambiar a profesional:", error);
       const errorMessage = error.message || "Error al procesar la solicitud";

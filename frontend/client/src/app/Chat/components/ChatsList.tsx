@@ -6,6 +6,7 @@ import { getUserInfo, getMedicoUsers, getPacienteUsers } from '@/services/fireba
 import { createChatIfNotExists } from '@/services/firebase/chatService';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Avatar from '@/components/ui/Avatar';
 
 interface ChatListItem {
   id: string;
@@ -23,9 +24,7 @@ export default function ChatsList() {
   const [doctors, setDoctors] = useState<any[]>([]);
   const router = useRouter();
 
-  console.log(chats, 'chats')
-  console.log(user, 'users')
-  console.log(chatList, 'chatList')
+
 
   useEffect(() => {
     if (!user) return;
@@ -39,8 +38,8 @@ export default function ChatsList() {
         const otherInfo = await getUserInfo(otherId);
         list.push({
           id: chat.id,
-          name: otherInfo?.name || "Usuario",
-          avatar: otherInfo?.avatarUrl || "https://via.placeholder.com/48",
+          name: `${otherInfo?.nombres || ''} ${otherInfo?.apellidos || ''}`.trim() || "Usuario",
+          avatar: otherInfo?.photoURL || "",
           lastMessage: chat.lastMessage || "",
           time: chat.lastMessageAt?.toDate().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) || "",
         });
@@ -112,10 +111,11 @@ export default function ChatsList() {
               <li key={doctor.uid} onClick={() => handleDoctorSelect(doctor.uid)} style={{ cursor: 'pointer' }}>
                 <div className='chat-item'>
                   <div className='chat-info'>
-                    <img 
-                      src={doctor.photoURL || "/default-doctor.png"} 
-                      alt={`${doctor.nombres} ${doctor.apellidos}`} 
-                      onError={e => { e.currentTarget.src = '/default-doctor.png'; }}
+                    <Avatar 
+                      src={doctor.photoURL}
+                      alt={`${doctor.nombres} ${doctor.apellidos}`}
+                      size={48}
+                      fallbackText={`${doctor.nombres} ${doctor.apellidos}`}
                     />
                     <div className='chat-details'>
                       <h3>{role === 'medico' ? '' : 'Dr. '}{doctor.nombres} {doctor.apellidos}</h3>
@@ -169,12 +169,11 @@ export default function ChatsList() {
             <li key={chat.id} onClick={() => handleChatClick(chat.id)}>
               <div className='chat-item'>
                 <div className='chat-info'>
-                  <img
+                  <Avatar
                     src={chat.avatar}
                     alt={chat.name}
-                    onError={e => {
-                      e.currentTarget.src = 'https://via.placeholder.com/48';
-                    }}
+                    size={48}
+                    fallbackText={chat.name}
                   />
                   <div className='chat-details'>
                     <h3>{chat.name}</h3>

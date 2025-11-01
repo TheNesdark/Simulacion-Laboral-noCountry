@@ -1,4 +1,4 @@
-import { API_BASE_URL } from '@/services/backend/config';
+import { API_BASE_URL } from './config';
 
 export interface Disponibilidad {
   id: number;
@@ -42,7 +42,17 @@ export const updateAvailability = async (disponibilidadId: number, data: Disponi
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   });
-  if (!response.ok) throw new Error('Error al actualizar disponibilidad');
+  if (!response.ok) {
+    const errorText = await response.text();
+    let errorMessage = 'Error al actualizar disponibilidad';
+    try {
+      const errorJson = JSON.parse(errorText);
+      errorMessage = errorJson.message || errorMessage;
+    } catch {
+      errorMessage = errorText || errorMessage;
+    }
+    throw new Error(errorMessage);
+  }
   return response.json();
 };
 
@@ -67,5 +77,18 @@ export const deleteAvailability = async (disponibilidadId: number): Promise<void
   const response = await fetch(`${API_BASE_URL}/disponibilidades/${disponibilidadId}`, {
     method: 'DELETE',
   });
-  if (!response.ok) throw new Error('Error al eliminar disponibilidad');
+  
+  if (!response.ok) {
+    const errorText = await response.text();
+    let errorMessage = 'Error al eliminar disponibilidad';
+    try {
+      const errorJson = JSON.parse(errorText);
+      errorMessage = errorJson.message || errorMessage;
+    } catch {
+      // Si no es JSON, usar el texto del error o el status
+      errorMessage = errorText || `Error ${response.status}: ${response.statusText}`;
+    }
+    throw new Error(errorMessage);
+  }
 };
+

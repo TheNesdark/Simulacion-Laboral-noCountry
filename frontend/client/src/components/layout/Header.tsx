@@ -2,7 +2,7 @@
 
 import '@/styles/components/layout/Header.css';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { getGreeting } from '@/utils';
 import ArrowLeftIcon from '../icons/BackIcon';
@@ -11,6 +11,7 @@ import DropdownUser from '../ui/DropdownUser';
 export default function Header() {
   const { userData } = useAuth();
   const pathname = usePathname();
+  const router = useRouter();
 
   if (pathname === '/') {
     return (
@@ -54,6 +55,58 @@ export default function Header() {
           <ArrowLeftIcon />
         </Link>
         <h1>Especialidades</h1>
+      </header>
+    );
+  }
+
+  // Botón de retroceso para páginas de añadir cita
+  if (pathname?.match(/\/Medicos\/\d+$/)) {
+    return (
+      <header className='header'>
+        <button 
+          onClick={() => router.back()} 
+          className='back-link'
+          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+        >
+          <ArrowLeftIcon />
+        </button>
+        <h1>Reservar Cita</h1>
+        <DropdownUser />
+      </header>
+    );
+  }
+
+  // Botón de retroceso para páginas de perfil
+  if (pathname?.startsWith('/Profesional/Perfil') || pathname?.startsWith('/Profile')) {
+    const backPath = pathname?.includes('/Profesional/Perfil') ? '/Profesional' : '/';
+    return (
+      <header className='header'>
+        <button 
+          onClick={() => router.back()} 
+          className='back-link'
+          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+        >
+          <ArrowLeftIcon />
+        </button>
+        <h1>Perfil</h1>
+        <DropdownUser />
+      </header>
+    );
+  }
+
+  // Botón de retroceso para página de horario profesional
+  if (pathname === '/Profesional/Horario') {
+    return (
+      <header className='header'>
+        <button 
+          onClick={() => router.back()} 
+          className='back-link'
+          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+        >
+          <ArrowLeftIcon />
+        </button>
+        <h1>Modificar horario</h1>
+        <DropdownUser />
       </header>
     );
   }
