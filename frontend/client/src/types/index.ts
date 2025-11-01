@@ -54,6 +54,14 @@ export interface CitaRequest {
   linkVideo?: string;
 }
 
+export interface CupoDisponible {
+  id: number;
+  fecha: string;
+  horaInicio: string;
+  horaFin: string;
+  disponible: boolean;
+}
+
 export interface UserData {
   nombres: string;
   apellidos: string;

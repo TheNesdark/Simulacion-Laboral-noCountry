@@ -1,10 +1,4 @@
-main {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 54px;
-  padding: 24px;
-  gap: 24px;
-}
+
 
 .react-calendar {
   width: 100% !important;

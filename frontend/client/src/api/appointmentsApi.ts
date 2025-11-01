@@ -1,8 +1,8 @@
-import { Cita, CitaRequest } from '@/types';
+import { Cita, CitaRequest, CupoDisponible } from '@/types';
 import { API_BASE_URL } from '@/services/backend/config';
 import citasData from '@/data/citas.json';
 
-const USE_MOCK = true;
+const USE_MOCK = false;
 
 export const createAppointment = async (data: CitaRequest): Promise<Cita> => {
   if (USE_MOCK) {
@@ -115,5 +115,15 @@ export const getAppointmentById = async (citaId: number): Promise<Cita> => {
   }
   const response = await fetch(`${API_BASE_URL}/citas/${citaId}`);
   if (!response.ok) throw new Error('Error al obtener cita');
+  return response.json();
+};
+
+export const getCuposDisponibles = async (medicoId: number, fecha: string): Promise<CupoDisponible[]> => {
+  if (USE_MOCK) {
+    await new Promise(res => setTimeout(res, 100));
+    return [];
+  }
+  const response = await fetch(`${API_BASE_URL}/medicos/${medicoId}/cupos-disponibles?fecha=${fecha}`);
+  if (!response.ok) throw new Error('Error al obtener cupos disponibles');
   return response.json();
 };

@@ -14,7 +14,7 @@ export default function PacienteLayout({
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <main className='profesional-page'>{children}</main>
       <NavBar />
     </>
   );

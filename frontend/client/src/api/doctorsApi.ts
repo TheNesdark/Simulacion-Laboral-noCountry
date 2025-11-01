@@ -1,9 +1,11 @@
 import { Medico, MedicoRequest } from '@/types';
 import { API_BASE_URL } from '@/services/backend/config';
-import medicosData from '@/data/medicos.json';
+
 
 export const getAllDoctors = async (): Promise<Medico[]> => {
-  return medicosData as Medico[];
+  const response = await fetch(`${API_BASE_URL}/medicos`);
+  if (!response.ok) throw new Error('Error al obtener médicos');
+  return response.json();
 };
 
 export const getDoctorById = async (medicoId: number): Promise<Medico> => {

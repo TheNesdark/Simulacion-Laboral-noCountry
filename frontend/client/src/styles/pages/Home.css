@@ -1,11 +1,21 @@
-main {
+.paciente-page {
   display: flex;
   flex-direction: column;
   padding: 24px;
+  width: 100%;
   margin-bottom: 54px;
   gap: 24px;
 }
 
+.profesional-page {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  width: 100%;
+  margin-bottom: 54px;
+  gap: 24px;
+  overflow-x: hidden;
+}
 /* Barra de búsqueda */
 .search-bar {
   display: flex;

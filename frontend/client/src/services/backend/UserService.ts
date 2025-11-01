@@ -6,19 +6,27 @@ import { API_BASE_URL } from './config';
 export async function crearPaciente(
   pacienteData: PacienteRequest,
 ): Promise<Paciente> {
-  const response = await fetch(`${API_BASE_URL}/pacientes`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(pacienteData),
-  });
+  try {
+    const response = await fetch(`${API_BASE_URL}/pacientes`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(pacienteData),
+    });
 
-  if (!response.ok) {
-    throw new Error("Error al crear paciente");
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Error al crear paciente: ${response.status} - ${errorText}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error('Error en crearPaciente:', error);
+    console.error('URL:', `${API_BASE_URL}/pacientes`);
+    console.error('Datos:', pacienteData);
+    throw error;
   }
-
-  return response.json();
 }
 
 export async function obtenerPaciente(id: number): Promise<Paciente> {

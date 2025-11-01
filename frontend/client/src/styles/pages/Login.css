@@ -1,12 +1,10 @@
-.body{
-  height: 100dvh;
-  width: 100dvw;
-}
-
 .login-page{
   position: relative;
   display: flex;
   justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
   overflow: hidden;
 }
 
@@ -68,8 +66,7 @@
 .login {
   display: flex;
   width: 90%;
-  margin-top: 300px;
-  align-content: center;
+  padding-top: 20rem;
 }
 
 .initial-options {
@@ -223,12 +220,13 @@
 
 /* Estilos responsivos en computador */
 @media (min-width: 768px) {
-  .login-page main {
+  .login-page {
     display: block;
+    align-content: center;
   }
 
   /* Círculo azul */
-  .login-page main::before {
+  .login-page::before {
     top: auto;
     bottom: 0;
     left: 30%;
@@ -237,7 +235,7 @@
   }
 
   /* Círculo azul */
-  .login-page main::after {
+  .login-page::after {
     left: 40%;
     bottom: auto;
     top: 0;
@@ -281,6 +279,7 @@
     float: right;
     align-content: center;
     margin: 32px 16px;
+    padding-top: 0;
   }
 
   /* Barra de navegacion */

@@ -6,7 +6,7 @@ import { useAuth } from '@/context/AuthContext';
 import { UserPhoto } from '@components/icons';
 
 export default function DropdownUser() {
-  const { user, logout } = useAuth();
+  const { user, logout, role } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
 
@@ -43,9 +43,14 @@ export default function DropdownUser() {
 
       {isOpen && (
         <div className='dropdown-menu' role='menu'>
-          <Link href='/Profile' className='dropdown-item' role='menuitem'>
+          <Link href={role === 'medico' ? '/Profesional/Perfil' : '/Profile'} className='dropdown-item' role='menuitem'>
             <span className='dropdown-item-profile'>Perfil</span>
           </Link>
+          {role === 'medico' && (
+            <Link href='/Profesional/Horario' className='dropdown-item' role='menuitem'>
+              <span className='dropdown-item-profile'>Modificar horario</span>
+            </Link>
+          )}
           <button className='dropdown-item' role='menuitem' onClick={logout}>
             <span className='dropdown-item-logout'>Cerrar sesión</span>
           </button>

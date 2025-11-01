@@ -1,1 +1,1 @@
-export const API_BASE_URL ="https://8000-firebase-simulacion-laboral-1761941582291.cluster-gizzoza7hzhfyxzo5d76y3flkw.cloudworkstations.dev/api";
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";

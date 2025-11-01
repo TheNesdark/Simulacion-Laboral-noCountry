@@ -29,13 +29,11 @@ export default function GlobalAuthGuard({ children }: GlobalAuthGuardProps) {
 
     // Si está autenticado y está en login, redirigir al home según rol
     if (!loading && user && pathname === '/Login') {
-      console.log('User already authenticated, redirecting to home');
       if (isMedico) {
         router.push('/Profesional');
       } else if (isPaciente) {
         router.push('/');
       } else {
-        // Si no tiene rol definido, redirigir a página principal
         router.push('/');
       }
     }
@@ -82,7 +80,27 @@ export default function GlobalAuthGuard({ children }: GlobalAuthGuardProps) {
     );
   }
 
-  // Si no hay usuario y no es una ruta pública, mostrar mensaje de redirección
+  // Si está autenticado y está en login, no renderizar el login
+  if (user && pathname === '/Login') {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          fontSize: '18px',
+          color: '#666',
+          flexDirection: 'column',
+          gap: '10px',
+        }}
+      >
+        <div>Redirigiendo...</div>
+      </div>
+    );
+  }
+
+  // Si no hay usuario y no es una ruta pública, no renderizar contenido
   if (!user && !isPublicRoute) {
     return (
       <div
@@ -97,10 +115,7 @@ export default function GlobalAuthGuard({ children }: GlobalAuthGuardProps) {
           gap: '10px',
         }}
       >
-        <div>Redirigiendo al login...</div>
-        <div style={{ fontSize: '14px', color: '#999' }}>
-          Debes iniciar sesión para acceder a esta página
-        </div>
+        <div>Redirigiendo...</div>
       </div>
     );
   }

@@ -1,0 +1,32 @@
+.calendar {
+  width: 100% !important;
+  border: 2px solid #03acf2;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.calendar .react-calendar__tile {
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.calendar .available-date abbr {
+  background-color: #03acf2;
+  color: white;
+  border-radius: 50%;
+  padding: 8px;
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  line-height: 16px;
+}
+
+.calendar .selected-date {
+  background-color: #00579b !important;
+  color: white !important;
+  border-radius: 8px;
+}
+
+.calendar .selected-date abbr {
+  color: white !important;
+}

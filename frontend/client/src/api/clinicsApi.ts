@@ -2,7 +2,7 @@ import { Clinic } from '@/types';
 import { API_BASE_URL } from '@/services/backend/config';
 import clinicasData from '@/data/clinicas.json';
 
-const USE_MOCK = true;
+const USE_MOCK = false;
 
 export const getAllClinics = async (): Promise<Clinic[]> => {
   if (USE_MOCK) {

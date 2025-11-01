@@ -35,7 +35,7 @@ export default function AppointmentsList({
 
   if (!appointments.length) {
     return (
-      <section className='appointments-list'>
+      <section className='appointments-list-empty'>
         <h2>{title}</h2>
         <div className='flex items-center justify-center p-4 text-blue-500 m-auto gap-4'>
           <span className='ml-2'>No hay citas programadas.</span>

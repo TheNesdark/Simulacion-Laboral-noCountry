@@ -2,7 +2,7 @@ import { Specialty } from "@/types";
 import { API_BASE_URL } from '@/services/backend/config';
 import especialidadesData from '@/data/especialidades.json';
 
-const USE_MOCK = true;
+const USE_MOCK = false;
 
 export const getAllSpecialties = async (): Promise<Specialty[]> => {
   if (USE_MOCK) {
