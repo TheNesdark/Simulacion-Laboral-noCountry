@@ -4,8 +4,10 @@ import '@/styles/pages/Profile.css';
 import React from 'react';
 import EditIcon from '@/components/icons/EditIcon';
 import useEditProfile from '@/hooks/useEditProfile';
+import { useNotifications } from '@/utils/notifications';
 
 export default function EditProfilePage() {
+  const notifications = useNotifications();
   const {
     formData,
     photoPreview,
@@ -23,19 +25,18 @@ export default function EditProfilePage() {
       const result = await handleSubmit(e);
       if (result?.success) {
         if (result.photoUploadSuccess || !fileInputRef.current?.files?.[0]) {
-          alert('Cambios guardados exitosamente');
+          notifications.success('Cambios guardados exitosamente');
         } else {
-          alert(
+          notifications.warning(
             'Cambios guardados, pero hubo un error al subir la foto. Puedes intentar subirla nuevamente.'
           );
         }
       }
-    } catch (error: any) {
-      if (error.message) {
-        alert(error.message);
-      } else {
-        alert('Error al guardar los cambios. Por favor, inténtalo de nuevo.');
-      }
+    } catch (error: unknown) {
+      const errorMessage = error && typeof error === 'object' && 'message' in error
+        ? String(error.message)
+        : 'Error al guardar los cambios. Por favor, inténtalo de nuevo.';
+      notifications.error(errorMessage);
     }
   };
 

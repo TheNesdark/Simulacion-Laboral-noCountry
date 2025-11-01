@@ -55,7 +55,6 @@ export default function Login({ onBack, onChange }: SignInProps) {
       await login({ email, password });
     } catch (error) {
       // El error ya se maneja en el contexto, solo necesitamos capturarlo
-      console.error('Error en login:', error);
     } finally {
       setLoading(false);
     }

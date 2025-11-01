@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { getDoctorAvailabilities, createAvailability, deleteAvailability, updateAvailability, Disponibilidad } from '@/services/backend/availabilityService';
+import { useNotifications } from '@/utils/notifications';
 import '@/styles/pages/Horario.css';
 
 const DIAS_SEMANA = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
@@ -10,6 +11,7 @@ const HORAS = ['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '1
 
 export default function HorarioPage() {
   const { medicoId } = useAuth();
+  const notifications = useNotifications();
   const [disponibilidades, setDisponibilidades] = useState<Disponibilidad[]>([]);
   const [diasSeleccionados, setDiasSeleccionados] = useState<number[]>([]);
   const [horaInicio, setHoraInicio] = useState('09:00');
@@ -18,14 +20,7 @@ export default function HorarioPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (medicoId) {
-      cargarDisponibilidades();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [medicoId]);
-
-  const cargarDisponibilidades = async () => {
+  const cargarDisponibilidades = useCallback(async () => {
     if (!medicoId) return;
     try {
       const data = await getDoctorAvailabilities(medicoId);
@@ -50,7 +45,13 @@ export default function HorarioPage() {
     } catch (err) {
       setError('Error al cargar disponibilidades');
     }
-  };
+  }, [medicoId]);
+
+  useEffect(() => {
+    if (medicoId) {
+      cargarDisponibilidades();
+    }
+  }, [medicoId, cargarDisponibilidades]);
 
   const toggleDia = (dia: number) => {
     setDiasSeleccionados(prev => {
@@ -93,9 +94,12 @@ export default function HorarioPage() {
         }
         try {
           await deleteAvailability(id);
-        } catch (err: any) {
+        } catch (err: unknown) {
+          const errorMessage = err && typeof err === 'object' && 'message' in err
+            ? String(err.message)
+            : '';
           // Si hay citas futuras, mostrar un mensaje más claro
-          if (err.message?.includes('citas futuras') || err.message?.includes('citas asociadas')) {
+          if (errorMessage.includes('citas futuras') || errorMessage.includes('citas asociadas')) {
             setError('No se puede eliminar esta disponibilidad porque tiene citas futuras programadas. Por favor, cancela o completa las citas primero.');
             setLoading(false);
             return;
@@ -121,8 +125,11 @@ export default function HorarioPage() {
             horaFin,
             minutosCupo,
           });
-        } catch (err: any) {
-          if (err.message?.includes('citas futuras') || err.message?.includes('citas asociadas')) {
+        } catch (err: unknown) {
+          const errorMessage = err && typeof err === 'object' && 'message' in err
+            ? String(err.message)
+            : '';
+          if (errorMessage.includes('citas futuras') || errorMessage.includes('citas asociadas')) {
             setError('No se puede modificar esta disponibilidad porque tiene citas futuras programadas.');
             setLoading(false);
             return;
@@ -160,11 +167,13 @@ export default function HorarioPage() {
         setMinutosCupo(disponibilidadesActivas[0].minutosCupo);
       }
       
-      alert('Horarios guardados exitosamente');
-    } catch (err: any) {
-      const errorMessage = err.message || 'Error al guardar horarios';
+      notifications.success('Horarios guardados exitosamente');
+    } catch (err: unknown) {
+      const errorMessage = err && typeof err === 'object' && 'message' in err
+        ? String(err.message)
+        : 'Error al guardar horarios';
       setError(errorMessage);
-      alert(`Error: ${errorMessage}`);
+      notifications.error(`Error: ${errorMessage}`);
     } finally {
       setLoading(false);
     }

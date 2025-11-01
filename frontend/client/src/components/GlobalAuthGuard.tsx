@@ -3,6 +3,7 @@
 import { useAuth } from '@/context/AuthContext';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
+import { logger } from '@/utils/logger';
 
 interface GlobalAuthGuardProps {
   children: React.ReactNode;
@@ -23,7 +24,7 @@ export default function GlobalAuthGuard({ children }: GlobalAuthGuardProps) {
     
     // Solo redirigir si no está cargando y no es una ruta pública
     if (!loading && !user && !isPublicRoute) {
-      console.log('Redirecting to login from:', pathname);
+      logger.debug('Redirecting to login from:', pathname);
       router.push('/Login');
       return;
     }
@@ -44,7 +45,7 @@ export default function GlobalAuthGuard({ children }: GlobalAuthGuardProps) {
       // Si es médico, redirigir a /Profesional si está en rutas de paciente o en la raíz
       if (isMedico) {
         if (pathname === '/' || pathname.startsWith('/Calendario') || pathname.startsWith('/Examenes')) {
-          console.log('Médico intentando acceder a rutas de paciente, redirigiendo a /Profesional');
+          logger.debug('Médico intentando acceder a rutas de paciente, redirigiendo a /Profesional');
           router.push('/Profesional');
           return;
         }
@@ -52,7 +53,7 @@ export default function GlobalAuthGuard({ children }: GlobalAuthGuardProps) {
       
       // Si es paciente pero está en rutas de médico, redirigir
       if (isPaciente && pathname.startsWith('/Profesional')) {
-        console.log('Paciente intentando acceder a rutas de médico, redirigiendo a /');
+        logger.debug('Paciente intentando acceder a rutas de médico, redirigiendo a /');
         router.push('/');
         return;
       }

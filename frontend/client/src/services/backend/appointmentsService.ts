@@ -76,14 +76,17 @@ export const getCuposDisponibles = async (medicoId: number, fecha: string): Prom
     throw new Error(`Error al obtener cupos disponibles: ${errorText}`);
   }
   const data = await response.json();
-  // El backend ya devuelve solo cupos disponibles (reservado = false)
-  // Transformar reservado (Boolean) a disponible (boolean), manejando null
-  return data.map((cupo: any) => ({
-    id: cupo.id,
-    fecha: cupo.fecha,
-    horaInicio: cupo.horaInicio,
-    horaFin: cupo.horaFin,
-    disponible: cupo.reservado === false || cupo.reservado === null, // Si reservado es false o null, está disponible
-  }));
+  // El backend ya devuelve solo cupos disponibles
+  // Mapear directamente los datos recibidos
+  return data.map((cupo: unknown) => {
+    const cupoData = cupo as Record<string, unknown>;
+    return {
+      id: cupoData.id as number,
+      fecha: cupoData.fecha as string,
+      horaInicio: cupoData.horaInicio as string,
+      horaFin: cupoData.horaFin as string,
+      disponible: cupoData.disponible !== false && cupoData.disponible !== null,
+    };
+  }) as CupoDisponible[];
 };
 

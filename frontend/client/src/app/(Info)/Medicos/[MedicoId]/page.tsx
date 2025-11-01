@@ -64,8 +64,10 @@ export default function PedirTurnoPage() {
                 const cupos = await getCuposDisponibles(Number(MedicoId), fecha);
                 // Los cupos ya vienen transformados con disponible=true/false
                 setCuposDisponibles(cupos.filter(c => c.disponible));
-            } catch (err: any) {
-                const errorMessage = err.message || 'Error al cargar cupos disponibles';
+            } catch (err: unknown) {
+                const errorMessage = err && typeof err === 'object' && 'message' in err
+                  ? String(err.message)
+                  : 'Error al cargar cupos disponibles';
                 setError(errorMessage);
                 setCuposDisponibles([]);
             } finally {

@@ -7,6 +7,8 @@ import { createChatIfNotExists } from '@/services/firebase/chatService';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Avatar from '@/components/ui/Avatar';
+import { logger } from '@/utils/logger';
+import { useNotifications } from '@/utils/notifications';
 
 interface ChatListItem {
   id: string;
@@ -16,12 +18,21 @@ interface ChatListItem {
   time: string;
 }
 
+interface UserInfo {
+  uid: string;
+  nombres: string;
+  apellidos: string;
+  email: string;
+  photoURL?: string;
+}
+
 export default function ChatsList() {
   const { chats, setSelectedChatId } = useChat();
   const { user, userData, role } = useAuth();
+  const notifications = useNotifications();
   const [chatList, setChatList] = useState<ChatListItem[]>([]);
   const [showDoctors, setShowDoctors] = useState(false);
-  const [doctors, setDoctors] = useState<any[]>([]);
+  const [doctors, setDoctors] = useState<UserInfo[]>([]);
   const router = useRouter();
 
 
@@ -51,23 +62,43 @@ export default function ChatsList() {
 
   const handleNewChat = async () => {
     try {
-      let usersList;
+      let usersList: UserInfo[];
       if (role === 'medico') {
-        usersList = await getPacienteUsers();
+        const pacientes = await getPacienteUsers();
+        usersList = pacientes.map((p: unknown) => {
+          const user = p as Record<string, unknown>;
+          return {
+            uid: (user.uid as string) || '',
+            nombres: (user.nombres as string) || '',
+            apellidos: (user.apellidos as string) || '',
+            email: (user.email as string) || '',
+            photoURL: user.photoURL as string | undefined,
+          };
+        });
       } else {
-        usersList = await getMedicoUsers();
+        const medicos = await getMedicoUsers();
+        usersList = medicos.map((m: unknown) => {
+          const user = m as Record<string, unknown>;
+          return {
+            uid: (user.uid as string) || '',
+            nombres: (user.nombres as string) || '',
+            apellidos: (user.apellidos as string) || '',
+            email: (user.email as string) || '',
+            photoURL: user.photoURL as string | undefined,
+          };
+        });
       }
       setDoctors(usersList);
       setShowDoctors(true);
     } catch (error) {
-      console.error('Error al cargar usuarios:', error);
-      alert('Error al cargar la lista de usuarios');
+      logger.error('Error al cargar usuarios:', error);
+      notifications.error('Error al cargar la lista de usuarios');
     }
   };
 
   const handleDoctorSelect = async (medicoUid: string) => {
     if (!medicoUid || !user) {
-      alert('No se puede iniciar chat con este médico');
+      notifications.error('No se puede iniciar chat con este médico');
       return;
     }
     try {
@@ -76,8 +107,8 @@ export default function ChatsList() {
       setShowDoctors(false);
       router.push(`/Chat/${chatId}`);
     } catch (error) {
-      console.error('Error al crear chat:', error);
-      alert('Error al iniciar conversación');
+      logger.error('Error al crear chat:', error);
+      notifications.error('Error al iniciar conversación');
     }
   };
 

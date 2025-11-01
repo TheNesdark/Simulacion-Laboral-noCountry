@@ -8,9 +8,11 @@ import { getDoctorById, updateDoctor } from '@/services/backend/doctorsService';
 import { Medico } from '@/types';
 import { useRef } from 'react';
 import { uploadPhotoToFirebase } from '@/services/firebase/storageService';
+import { useNotifications } from '@/utils/notifications';
 
 export default function EditProfilePage() {
   const { medicoId, user, updateUserData } = useAuth();
+  const notifications = useNotifications();
   const [medico, setMedico] = useState<Medico | null>(null);
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
@@ -51,13 +53,13 @@ export default function EditProfilePage() {
 
     // Validar tipo de archivo
     if (!file.type.startsWith('image/')) {
-      alert('Por favor, selecciona un archivo de imagen válido');
+      notifications.warning('Por favor, selecciona un archivo de imagen válido');
       return;
     }
 
     // Validar tamaño (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      alert('La imagen es demasiado grande. Por favor, selecciona una imagen menor a 5MB');
+      notifications.warning('La imagen es demasiado grande. Por favor, selecciona una imagen menor a 5MB');
       return;
     }
 
@@ -92,20 +94,22 @@ export default function EditProfilePage() {
           const photoURL = await uploadPhotoToFirebase(file, user.uid);
           await updateUserData({ photoURL });
         } catch (photoError) {
-          console.error('Error al subir foto:', photoError);
+          // Error al subir foto
           // No fallar toda la operación si solo falla la foto
         }
       }
 
-      alert('Perfil actualizado exitosamente');
+      notifications.success('Perfil actualizado exitosamente');
       await cargarMedico();
       setPhotoPreview(null);
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
-    } catch (err: any) {
-      setError(err.message || 'Error al actualizar perfil');
-      alert('Error al actualizar perfil');
+    } catch (err: unknown) {
+      const errorMessage = err && typeof err === 'object' && 'message' in err
+        ? String(err.message)
+        : 'Error al actualizar perfil';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

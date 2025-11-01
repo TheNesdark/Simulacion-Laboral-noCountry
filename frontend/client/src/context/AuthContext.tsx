@@ -28,7 +28,7 @@ interface AuthContextType {
   pacienteId: number | null;
   medicoId: number | null;
   loading: boolean;
-  register: (pacienteData: any) => Promise<void | undefined>;
+  register: (pacienteData: RegisterProps) => Promise<void | undefined>;
   login: (data: LoginProps) => Promise<void | undefined>;
   logout: () => Promise<void>;
   updateUserData: (data: Partial<UserData>) => Promise<void | null>;
@@ -54,12 +54,14 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         setUser(user);
         try {
           const data = await getUserData(user.uid);
-          setUserData(data as UserData);
-          setRole(data?.role || null);
-          setPacienteId(data?.pacienteId || null);
-          setMedicoId(data?.medicoId || null);
+          if (data) {
+            setUserData(data);
+            setRole(data.role || null);
+            setPacienteId(data.pacienteId || null);
+            setMedicoId(data.medicoId || null);
+          }
         } catch (error) {
-          console.error("Error al obtener datos del usuario:", error);
+          // Error al obtener datos del usuario
           setError("Error al obtener datos del usuario.");
         }
       } else {
@@ -77,7 +79,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const register = async (data: any) => {
+  const register = async (data: RegisterProps) => {
     setLoading(true);
     setError(null);
     try {
@@ -111,9 +113,10 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 
       router.push("/");
 
-    } catch (error: any) {
-      console.error("Error en el registro:", error);
-      const errorMessage = getErrorMessage(error.code) || "Error al registrar paciente";
+    } catch (error: unknown) {
+      const errorMessage = error && typeof error === 'object' && 'code' in error 
+        ? getErrorMessage(error.code as string) || "Error al registrar paciente"
+        : "Error al registrar paciente";
       setError(errorMessage);
       return undefined;
       
@@ -135,8 +138,11 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       } else {
         router.push("/");
       }
-    } catch (error: any) {
-      setError(getErrorMessage(error.code));
+    } catch (error: unknown) {
+      const errorCode = error && typeof error === 'object' && 'code' in error 
+        ? error.code as string 
+        : '';
+      setError(getErrorMessage(errorCode));
       return undefined;
     } finally {
       setLoading(false);
@@ -160,12 +166,13 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await updateUserDataService(user.uid, data);
       const updatedUserData = await getUserData(user.uid);
-      setUserData(updatedUserData as UserData);
-      setRole(updatedUserData?.role || null);
-      setPacienteId(updatedUserData?.pacienteId || null);
-      setMedicoId(updatedUserData?.medicoId || null);
+      if (updatedUserData) {
+        setUserData(updatedUserData);
+        setRole(updatedUserData.role || null);
+        setPacienteId(updatedUserData.pacienteId || null);
+        setMedicoId(updatedUserData.medicoId || null);
+      }
     } catch (error) {
-      console.error("Error al actualizar datos del usuario:", error);
       setError("Error al actualizar datos del usuario.");
     }
   };

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import '@styles/globals.css';
 import Providers from '@/components/providers';
 import GlobalAuthGuard from '@/components/GlobalAuthGuard';
+import NotificationContainer from '@/components/ui/NotificationContainer';
 import { roboto } from '@/lib/fonts';
 
 export const metadata: Metadata = {
@@ -18,7 +19,10 @@ export default function RootLayout({
     <html lang='es'>
       <body className={roboto.className}>
         <Providers>
-          <GlobalAuthGuard>{children}</GlobalAuthGuard>
+          <GlobalAuthGuard>
+            <NotificationContainer />
+            {children}
+          </GlobalAuthGuard>
         </Providers>
       </body>
     </html>

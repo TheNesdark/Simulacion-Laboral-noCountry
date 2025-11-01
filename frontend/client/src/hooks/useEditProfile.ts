@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { uploadPhotoToFirebase, validateImageFile } from '@/services/firebase';
+import { logger } from '@/utils/logger';
 
 export default function useEditProfile() {
   const { userData, updateUserData, user } = useAuth();
@@ -29,7 +30,7 @@ export default function useEditProfile() {
         };
         reader.readAsDataURL(file);
       } catch (error) {
-        console.error('Error al validar la imagen:', error);
+        logger.error('Error al validar la imagen:', error);
       }
     }
   };
@@ -81,7 +82,7 @@ export default function useEditProfile() {
 
       return { success: true, photoUploadSuccess };
     } catch (error) {
-      console.error('Error al guardar cambios:', error);
+      logger.error('Error al guardar cambios:', error);
       throw error;
     }
   };

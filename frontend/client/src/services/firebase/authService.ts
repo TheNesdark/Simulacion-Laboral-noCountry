@@ -7,6 +7,7 @@ import {
 import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
 import { RegisterProps, LoginProps, UserData } from '@/types';
 import { auth, db } from '@/lib/firebase/firebase';
+import { logger } from '@/utils/logger';
 
 /**
  * Registra un nuevo usuario con email y contraseña
@@ -38,7 +39,7 @@ export const registerUser = async (data: RegisterProps): Promise<User> => {
 
     return user;
   } catch (error) {
-    console.error('Error en registerUser:', error);
+    logger.error('Error en registerUser:', error);
     throw error;
   }
 };
@@ -54,7 +55,7 @@ export const loginUser = async (data: LoginProps): Promise<User> => {
     const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
     return userCredential.user;
   } catch (error) {
-    console.error('Error en loginUser:', error);
+    logger.error('Error en loginUser:', error);
     throw error;
   }
 };
@@ -66,7 +67,7 @@ export const logoutUser = async (): Promise<void> => {
   try {
     await signOut(auth);
   } catch (error) {
-    console.error('Error en logoutUser:', error);
+    logger.error('Error en logoutUser:', error);
     throw error;
   }
 };
@@ -84,7 +85,7 @@ export const updateUserData = async (
     const userRef = doc(db, 'users', userId);
     await updateDoc(userRef, data as Partial<UserData>);
   } catch (error) {
-    console.error('Error en updateUserData:', error);
+    logger.error('Error en updateUserData:', error);
     throw error;
   }
 };
@@ -103,7 +104,7 @@ export const getUserData = async (userId: string): Promise<UserData | null> => {
     }
     return null;
   } catch (error) {
-    console.error('Error en getUserData:', error);
+    logger.error('Error en getUserData:', error);
     throw error;
   }
 };

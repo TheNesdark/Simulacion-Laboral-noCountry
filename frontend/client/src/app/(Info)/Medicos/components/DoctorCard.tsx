@@ -27,7 +27,7 @@ export function DoctorCard({
             setPhotoURL(userData.photoURL);
           }
         } catch (error) {
-          console.error('Error al cargar foto del médico:', error);
+          // Error al cargar foto del médico
         }
       }
     };

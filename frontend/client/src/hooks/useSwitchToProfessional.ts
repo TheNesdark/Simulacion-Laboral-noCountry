@@ -4,14 +4,16 @@ import { useAuth } from '@/context/AuthContext';
 import { crearMedico } from '@/services/backend/UserService';
 import { getAllClinics } from '@/services/backend/clinicsService';
 import { getAllSpecialties } from '@/services/backend/specialtiesService';
-import {  Specialty } from '@/types';
+import { Specialty, Clinic } from '@/types';
+import { useNotifications } from '@/utils/notifications';
 
 export default function useSwitchToProfessional() {
   const { user, userData, updateUserData } = useAuth();
   const router = useRouter();
+  const notifications = useNotifications();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [clinics, setClinics] = useState<any[]>([]);
+  const [clinics, setClinics] = useState<Clinic[]>([]);
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [formData, setFormData] = useState({
     userId: "",
@@ -57,7 +59,6 @@ export default function useSwitchToProfessional() {
         setClinics(clinicsData);
         setSpecialties(specialtiesData);
       } catch (err) {
-        console.error("Error cargando datos:", err);
         setError("Error al cargar datos de clínicas y especialidades");
       }
     };
@@ -122,17 +123,18 @@ export default function useSwitchToProfessional() {
       // Actualizar el rol y medicoId del usuario en Firebase
       await updateUserData({ role: "medico", medicoId: medicoCreado.id });
       
-      alert(
-        "¡Felicitaciones! Ahora eres un profesional de la salud en nuestra plataforma.",
+      notifications.success(
+        "¡Felicitaciones! Ahora eres un profesional de la salud en nuestra plataforma."
       );
       
       // Redirigir a la página de profesional
       router.push('/Profesional');
-    } catch (error: any) {
-      console.error("Error al cambiar a profesional:", error);
-      const errorMessage = error.message || "Error al procesar la solicitud";
+    } catch (error: unknown) {
+      const errorMessage = error && typeof error === 'object' && 'message' in error
+        ? String(error.message)
+        : "Error al procesar la solicitud";
       setError(errorMessage);
-      alert(errorMessage);
+      notifications.error(errorMessage);
     } finally {
       setLoading(false);
     }

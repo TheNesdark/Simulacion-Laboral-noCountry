@@ -72,8 +72,11 @@ export default function useRegister() {
 
     try {
       await register(formData);
-    } catch (error: any) {
-      setError(error.message);
+    } catch (error: unknown) {
+      const errorMessage = error && typeof error === 'object' && 'message' in error
+        ? String(error.message)
+        : "Error al registrar usuario";
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

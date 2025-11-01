@@ -15,6 +15,7 @@ import Avatar from '@/components/ui/Avatar';
 import { getDoctorById } from '@/services/backend/doctorsService';
 import { getUserData } from '@/services/firebase/authService';
 import { Medico } from '@/types';
+import { useNotifications } from '@/utils/notifications';
 
 const profileOptions = [
   {
@@ -49,6 +50,7 @@ const profileOptions = [
 
 export default function PerfilPage() {
   const { medicoId, user, pacienteId, updateUserData } = useAuth();
+  const notifications = useNotifications();
   const router = useRouter();
   const [medico, setMedico] = useState<Medico | null>(null);
   const [photoURL, setPhotoURL] = useState<string | null>(null);
@@ -102,11 +104,10 @@ export default function PerfilPage() {
       // Los datos en el backend (tablas medicos y pacientes) se mantienen intactos
       await updateUserData({ role: 'paciente' });
       setSwitchDialogOpen(false);
-      alert('Ha vuelto a ser paciente exitosamente. Sus datos profesionales se mantienen guardados y podrá volver a ser médico cuando lo desee.');
+      notifications.success('Ha vuelto a ser paciente exitosamente. Sus datos profesionales se mantienen guardados y podrá volver a ser médico cuando lo desee.');
       router.push('/');
     } catch (error) {
-      console.error('Error al cambiar a paciente:', error);
-      alert('Error al cambiar a paciente. Por favor, intente nuevamente.');
+      notifications.error('Error al cambiar a paciente. Por favor, intente nuevamente.');
     } finally {
       setIsSwitching(false);
     }

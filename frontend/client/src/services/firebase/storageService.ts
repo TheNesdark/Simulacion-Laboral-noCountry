@@ -1,5 +1,6 @@
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '@/lib/firebase/firebase';
+import { logger } from '@/utils/logger';
 
 /**
  * Sube una foto a Firebase Storage y retorna la URL de descarga
@@ -26,7 +27,7 @@ export const uploadPhotoToFirebase = async (
 
     return downloadURL;
   } catch (error) {
-    console.error('Error al subir la foto a Firebase:', error);
+    logger.error('Error al subir la foto a Firebase:', error);
     throw new Error('No se pudo subir la foto. Por favor, intente nuevamente.');
   }
 };
@@ -39,9 +40,9 @@ export const deletePhotoFromFirebase = async (
   photoUrl: string
 ): Promise<void> => {
   try {
-    console.log('Función de eliminación de fotos no implementada aún');
+    logger.debug('Función de eliminación de fotos no implementada aún');
   } catch (error) {
-    console.error('Error al eliminar la foto de Firebase:', error);
+    logger.error('Error al eliminar la foto de Firebase:', error);
     throw new Error('No se pudo eliminar la foto.');
   }
 };

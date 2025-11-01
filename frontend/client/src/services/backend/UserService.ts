@@ -1,6 +1,7 @@
 import { Paciente, Medico, PacienteRequest, MedicoRequest } from "../../types";
 
 import { API_BASE_URL } from './config';
+import { logger } from '@/utils/logger';
 
 // Paciente CRUD
 export async function crearPaciente(
@@ -22,9 +23,7 @@ export async function crearPaciente(
 
     return response.json();
   } catch (error) {
-    console.error('Error en crearPaciente:', error);
-    console.error('URL:', `${API_BASE_URL}/pacientes`);
-    console.error('Datos:', pacienteData);
+    logger.error('Error en crearPaciente:', error);
     throw error;
   }
 }

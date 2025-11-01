@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 import { getDoctorById } from '@/services/backend/doctorsService';
 import { obtenerPaciente } from '@/services/backend/UserService';
 import { Medico } from '@/types';
+import { logger } from '@/utils/logger';
+import { useNotifications } from '@/utils/notifications';
 import '@/styles/components/AppointmentsList.css';
 
 const backgroundColors = [
@@ -34,6 +36,7 @@ export default function AppointmentsList({
   role,
   onRefresh,
 }: AppointmentsListProps) {
+  const notifications = useNotifications();
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const [rescheduleDialogOpen, setRescheduleDialogOpen] = useState(false);
   const [statusDialogOpen, setStatusDialogOpen] = useState(false);
@@ -59,7 +62,7 @@ export default function AppointmentsList({
             const doctor = await getDoctorById(medicoId);
             doctors[medicoId] = doctor;
           } catch (error) {
-            console.error(`Error al cargar médico ${medicoId}:`, error);
+            logger.error(`Error al cargar médico ${medicoId}:`, error);
           }
         })
       );
@@ -86,7 +89,7 @@ export default function AppointmentsList({
             const patient = await obtenerPaciente(pacienteId);
             patients[pacienteId] = patient;
           } catch (error) {
-            console.error(`Error al cargar paciente ${pacienteId}:`, error);
+            logger.error(`Error al cargar paciente ${pacienteId}:`, error);
           }
         })
       );
@@ -166,10 +169,10 @@ export default function AppointmentsList({
       setMotivoCancelacion('');
       setSelectedCita(null);
       if (onRefresh) onRefresh();
-      alert('Cita cancelada exitosamente');
+      notifications.success('Cita cancelada exitosamente');
     } catch (error) {
-      console.error('Error al cancelar cita:', error);
-      alert('Error al cancelar la cita. Por favor, intente nuevamente.');
+      logger.error('Error al cancelar cita:', error);
+      notifications.error('Error al cancelar la cita. Por favor, intente nuevamente.');
     } finally {
       setIsProcessing(false);
     }
@@ -185,10 +188,10 @@ export default function AppointmentsList({
       setRescheduleDialogOpen(false);
       setSelectedCita(null);
       if (onRefresh) onRefresh();
-      alert('La cita ha sido cancelada. El paciente recibirá una notificación por email para que pueda reprogramarla.');
+      notifications.success('La cita ha sido cancelada. El paciente recibirá una notificación por email para que pueda reprogramarla.');
     } catch (error) {
-      console.error('Error al reprogramar cita:', error);
-      alert('Error al cancelar la cita. Por favor, intente nuevamente.');
+      logger.error('Error al reprogramar cita:', error);
+      notifications.error('Error al cancelar la cita. Por favor, intente nuevamente.');
     } finally {
       setIsProcessing(false);
     }
