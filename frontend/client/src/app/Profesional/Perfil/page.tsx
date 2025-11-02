@@ -154,9 +154,9 @@ export default function PerfilPage() {
           {medico && (
             <div className='profile-name-display'>
               <h2>{medico.nombre} {medico.apellido}</h2>
-              {medico.especialidad?.nombre && (
+              {(medico.especialidad?.nombre || medico.nombreEspecialidad) && (
                 <p style={{ color: '#666', fontSize: '14px', marginTop: '4px' }}>
-                  {medico.especialidad.nombre}
+                  {medico.nombreEspecialidad || medico.especialidad?.nombre}
                 </p>
               )}
             </div>

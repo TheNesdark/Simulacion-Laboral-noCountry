@@ -171,6 +171,11 @@ export interface Medico {
     id: number;
     nombre: string;
   };
+  // Campos del backend directamente
+  clinicaId?: number;
+  nombreClinica?: string;
+  especialidadId?: number;
+  nombreEspecialidad?: string;
 }
 
 export interface MedicoRequest {

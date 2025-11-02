@@ -13,6 +13,7 @@ export function DoctorCard({
   apellido,
   matricula,
   especialidad,
+  nombreEspecialidad,
   userId,
 }: DoctorCardProps) {
   const router = useRouter();
@@ -57,7 +58,7 @@ export function DoctorCard({
           </div>
           <div className="doctor-card-info">
             <h3 className="doctor-card-name">Dr. {nombre} {apellido}</h3>
-            <p className="doctor-card-specialty">{especialidad?.nombre || 'Sin especialidad'}</p>
+            <p className="doctor-card-specialty">{nombreEspecialidad || especialidad?.nombre || 'Sin especialidad'}</p>
             <p className="doctor-card-matricula">Mat. {matricula}</p>
           </div>
         </div>
