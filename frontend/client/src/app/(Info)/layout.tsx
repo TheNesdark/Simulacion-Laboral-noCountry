@@ -21,6 +21,9 @@ export default function InfoLayout({
   } else if (pathname === '/Especialidades') {
     headerType = 'pages';
     headerTitle = 'Especialidades';
+  } else if (pathname === '/Clinicas') {
+    headerType = 'pages';
+    headerTitle = 'Clínicas';
   } else if (pathname?.match(/\/Medicos\/\d+$/)) {
     headerType = 'pages';
     headerTitle = 'Reservar Cita';
