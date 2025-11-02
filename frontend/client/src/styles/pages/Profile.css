@@ -110,16 +110,12 @@ main:has(.profile-page) {
 .edit-profile-page {
   display: flex;
   flex-direction: column;
-  padding: 1.5rem;
   min-height: 100vh;
-  background-color: #f5f5f5;
-
 }
 
 .edit-profile-page .edit-banner {
   background: transparent !important;
   padding-bottom: 20px;
-  padding: 20px;
 }
 
 .edit-profile-page .profile-name-display {

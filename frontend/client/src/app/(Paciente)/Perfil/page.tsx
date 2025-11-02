@@ -16,13 +16,13 @@ const profileOptions = [
     id: 'edit-profile',
     icon: EditIcon,
     label: 'Editar perfil',
-    href: '/Profile/edit',
+    href: '/Perfil/edit',
   },
   {
     id: 'switch-professional',
     icon: MonitorIcon,
     label: 'Cambiar a Profesional',
-    href: '/Profile/professional',
+    href: '/Perfil/professional',
   },
   {
     id: 'privacy',
@@ -37,7 +37,6 @@ const profileOptions = [
 ];
 
 export default function ProfilePage() {
-  const { userData } = useAuth();
 
   return (
     <div className='profile-page'>

@@ -43,7 +43,7 @@ export default function DropdownUser() {
 
       {isOpen && (
         <div className='dropdown-menu' role='menu'>
-          <Link href={role === 'medico' ? '/Profesional/Perfil' : '/Profile'} className='dropdown-item' role='menuitem'>
+          <Link href={role === 'medico' ? '/Profesional/Perfil' : '/Perfil'} className='dropdown-item' role='menuitem'>
             <span className='dropdown-item-profile'>Perfil</span>
           </Link>
           <button className='dropdown-item' role='menuitem' onClick={logout}>
